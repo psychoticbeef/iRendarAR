@@ -13,7 +13,6 @@
 #import <CoreLocation/CoreLocation.h>
 
 
-
 @interface Graph : NSObject <NSXMLParserDelegate> {
     
 }

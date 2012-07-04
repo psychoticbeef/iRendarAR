@@ -12,7 +12,6 @@
 #import "GraphRoot.h"
 #import <CoreLocation/CoreLocation.h>
 
-
 @interface Graph : NSObject <NSXMLParserDelegate> {
     
 }

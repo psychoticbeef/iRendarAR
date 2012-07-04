@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<gpsrallye name="test" schemaversion="1.0">
+	<stations>
+		<station id="1" name="lolstation" type="annotation">
+			<gpspos longitude="1.0" latitude="1.0" radius="1.0" />
+			<conditions/>
+		</station>
+		<station id="2" name="roflstation" type="story">
+			<gpspos longtitude="1.0" latitude="1.0" radius="1.0" />
+			<conditions/>
+                        <media>
+                                <image id="1" src="media/pimmel.png" />
+                                <text src="media/pimmel.txt" />
+                        </media>
+			<questions>
+				<question>
+					<query>Wat? Wer bist Du denn?</query>
+					<answer id="1" points="9001" valid_answer="true">Horst</answer>
+					<answer id="2" points="-1000000000000" valid_answer="true">Weiss nicht</answer>
+				</question>
+			</questions>
+		</station>
+	</stations>
+
+	<connections>
+		<connection station_start_id="1" station_end_id="2">
+			<json><![CDATA[ beliebiger Text]]></json>
+		</connection>
+	</connections>
+</gpsrallye>

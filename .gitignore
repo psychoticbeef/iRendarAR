@@ -1,4 +1,7 @@
 # Xcode
+.DS_Store
+UserInterface.xcuserstate
+*.xcuserdatad
 build/*
 *.pbxuser
 !default.pbxuser

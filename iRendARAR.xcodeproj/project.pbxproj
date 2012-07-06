@@ -246,7 +246,6 @@
 				034F93661510945D00866103 /* ZipArchive */,
 				037A590D14D005A400C358BC /* Route Graph */,
 				03D0D54814D0404300D1D2F7 /* ARlol */,
-				037A58DC14CFFC3B00C358BC /* MainStoryboard_iPhone.storyboard */,
 				03BDED2D15A2F3220045D5B3 /* Maps */,
 				03BDED2E15A2F6280045D5B3 /* Reachablity */,
 				03889CE914D019FA008C0343 /* CurrentRouteViewController.h */,
@@ -283,6 +282,7 @@
 		037A58FE14CFFE9D00C358BC /* ressources */ = {
 			isa = PBXGroup;
 			children = (
+				037A58DC14CFFC3B00C358BC /* MainStoryboard_iPhone.storyboard */,
 				032EFE5D15A345D4005D96CE /* a.png */,
 				032EFE5E15A345D4005D96CE /* b.png */,
 				032EFE5F15A345D4005D96CE /* c.png */,

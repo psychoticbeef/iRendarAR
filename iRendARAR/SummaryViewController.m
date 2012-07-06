@@ -12,8 +12,8 @@
 @interface SummaryViewController ()
 
 @property (strong, nonatomic) NSMutableArray* finishedParts;
-@property (strong, nonatomic) IBOutlet UITableView* tv;
-@property (strong, nonatomic) IBOutlet UILabel* scoreLabel;
+@property (weak, nonatomic) IBOutlet UITableView* tv;
+@property (weak, nonatomic) IBOutlet UILabel* scoreLabel;
 
 @end
 

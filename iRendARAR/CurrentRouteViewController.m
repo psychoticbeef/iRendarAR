@@ -13,8 +13,8 @@
 @property (readwrite, atomic) AppState appState;
 
 @property (strong, nonatomic) UIAccelerometer* accelerometer;
-@property (strong, nonatomic) IBOutlet UILabel* label;
-@property (strong, nonatomic) IBOutlet MKMapView* mapView;
+@property (weak, nonatomic) IBOutlet UILabel* label;
+@property (weak, nonatomic) IBOutlet MKMapView* mapView;
 @property (strong, nonatomic) ARDemoViewController* arViewController;
 @property (strong, nonatomic) Graph* graph;
 @property (strong, nonatomic) StationViewController* stationDetailViewController;

@@ -14,10 +14,10 @@
 @property (atomic, readwrite) BOOL routeListDownloaded;
 
 @property (strong, nonatomic) NSArray* routes;
-@property (strong, nonatomic) IBOutlet UIView* downloadPopup;
-@property (strong, nonatomic) IBOutlet UIProgressView* progressView;
-@property (strong, nonatomic) IBOutlet UIActivityIndicatorView* activity;
-@property (strong, nonatomic) IBOutlet UITableView* tv;
+@property (weak, nonatomic) IBOutlet UIView* downloadPopup;
+@property (weak, nonatomic) IBOutlet UIProgressView* progressView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView* activity;
+@property (weak, nonatomic) IBOutlet UITableView* tv;
 @property (strong, nonatomic) RouteLoader* routeLoader;
 @property (strong, nonatomic) GPSManager* gpsManager;
 @property (readwrite) int routeSelected;

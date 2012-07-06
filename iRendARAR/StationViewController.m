@@ -14,8 +14,8 @@
 @property (strong, nonatomic) NSString* text;
 @property (strong, nonatomic) NSMutableArray* multipleChoice;
 
-@property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
-@property (strong, nonatomic) IBOutlet UITextView* textView;
+@property (weak, nonatomic) IBOutlet UIPageControl* pageControl;
+@property (weak, nonatomic) IBOutlet UITextView* textView;
 
 @property (strong, nonatomic) MultipleChoiceViewController* multipleChoiceViewController;
 

@@ -10,12 +10,22 @@
 
 
 @interface GraphRoot ()
-@property (readwrite, copy) NSString *schemaVersion;
-@property (readwrite, copy) NSString *name;
+@property (readwrite, retain) NSString *schemaVersion;
+@property (readwrite, retain) NSString *name;
 @end
 
 
 @implementation GraphRoot
+
+-(id) copyWithZone: (NSZone *) zone {
+    GraphRoot *newGraphRoot = [[GraphRoot allocWithZone:zone] init];
+    NSLog(@"_copy: %@", [newGraphRoot self]);
+	newGraphRoot.name = self.name;
+	newGraphRoot.schemaVersion = self.schemaVersion;
+	
+    return(newGraphRoot);
+}
+
 
 -(id)initWithName:(NSString *)name version:(NSString *)schemaVersion {
     if (self = [super init]) {

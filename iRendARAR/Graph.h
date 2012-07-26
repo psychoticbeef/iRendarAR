@@ -16,7 +16,7 @@
     
 }
 
-@property (readonly, copy) GraphRoot* graphRoot;
+@property (readonly, retain) GraphRoot* graphRoot;
 
 
 

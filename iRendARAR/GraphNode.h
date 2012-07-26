@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 
 // if this is extended, please check the implementation file and method + (NSArray*)names
@@ -21,14 +22,16 @@ typedef NS_ENUM(NSUInteger, StationType) {
 
 @interface GraphNode : NSObject
 
--(void)addOutgoingNode:(GraphNode* )node;
--(id)initWithName:(NSString*)stationName withType:(NSString*)stationType identifier:(NSString*)stationID;
+-(void)addOutgoingNode:(GraphNode* )node withJSON:(NSString*)json;
+-(id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius;
 
 @property (readonly, nonatomic) StationType type;
 @property (readonly, nonatomic) NSString* identifier;
 @property (readonly, nonatomic) NSString* name;
-@property (readonly, copy) NSMutableSet* output;    // GraphNode, Trigger
-
+@property (readonly, nonatomic) NSMutableArray* outputNode;    // GraphNode, json
+@property (readonly, nonatomic) NSMutableArray* outputJSON;    // GraphNode, json
+@property (readonly) CLLocationCoordinate2D location;
+@property (readonly) double radius;
 
 
 @end

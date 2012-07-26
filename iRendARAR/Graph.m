@@ -15,8 +15,7 @@
 @property (strong, nonatomic) NSMutableDictionary* temporaryNodeMapping;       // object => id
 @property (strong, nonatomic) NSMutableArray* annotationStations;
 
-@property (readwrite, copy) GraphRoot* graphRoot;
-@property (nonatomic, retain) GraphNode* node;
+@property (readwrite, retain) GraphRoot* graphRoot;
 @property (nonatomic, retain) NSMutableArray* nodes;
 
 @property (nonatomic) double radius;
@@ -25,6 +24,8 @@
 @property (nonatomic, retain) NSString* stationName;
 @property (nonatomic, retain) NSString* stationType;
 
+@property (nonatomic, retain) NSString* json;
+
 @end
 
 
@@ -32,7 +33,6 @@
 
 -(id)init {
     if ((self = [super init])) {
-        _temporaryNodeMapping = [[NSMutableDictionary alloc] init];
         _temporaryNodeConnections = [[NSMutableDictionary alloc] init];
         
         _annotationStations = [[NSMutableArray alloc] init];
@@ -43,15 +43,46 @@
     return self;
 }
 
+- (void)handleElement_connections:(NSDictionary *)attributeDict {
+	self.temporaryNodeConnections = [[NSMutableDictionary alloc] init];
+}
+
+- (void)handleElement_connection:(NSDictionary *)attributeDict {
+	GraphNode* start = [self nodeForID:attributeDict[@"station_start_id"]];
+	GraphNode* end = [self nodeForID:attributeDict[@"station_end_id"]];
+	
+	if (!start) {
+		NSLog(@"Error: StationID %@ not found.", attributeDict[@"station_start_id"]);
+	}
+	if (!end) {
+		NSLog(@"Error: StationID %@ not found.", attributeDict[@"station_end_id"]);
+	}
+	
+	[start addOutgoingNode:end withJSON:attributeDict[@"json"]];
+	[end addOutgoingNode:start withJSON:attributeDict[@"json"]];
+}
+			 
+			 
+- (GraphNode*)nodeForID:(NSString*)identifier {
+	for (GraphNode* node in self.nodes) {
+		if ([node.identifier isEqualToString:identifier]) {
+			return node;
+		}
+	}
+	
+	return nil;
+}
+
 // to make this thing uber, a handler could be created based on the gpsrallye schemaversion (factory)
 // the result would be an easily extendable set of handlers, with easy compliance with older schema versions
 // => laziness ftl
 - (void)handleElement_gpsrallye:(NSDictionary *)attributeDict {
     NSString* name = attributeDict[@"name"];
     NSString* schemaVersion = attributeDict[@"schemaversion"];
-    
+	
     if (!self.graphRoot) {
-        self.graphRoot = [[GraphRoot alloc] initWithName:name version:schemaVersion];
+//        self.graphRoot = [[GraphRoot alloc] init];
+		self.graphRoot = [[GraphRoot alloc] initWithName:name version:schemaVersion];
     } else {
         NSLog(@"Error: Multiple document roots (element: gpsrallye) found.");
     }
@@ -62,24 +93,23 @@
 }
 
 - (void)handleElement_station:(NSDictionary *)attributeDict {
-
     self.stationID = attributeDict[@"id"];
     self.stationName = attributeDict[@"name"];
     self.stationType = attributeDict[@"type"];
-
 }
 
 -(void)handleElementDone_station {
-    // node alloc init bla bla bla. seomthing liek dat, but moer kthx :3
-    //    self.node = [[GraphNode alloc] initWithName:stationName withType:stationType identifier:stationID];
+	GraphNode* node = [[GraphNode alloc] initWithName:self.stationName withType:self.stationType withIdentifier:self.stationID withLocation:self.coordinate withRadius:self.radius];
+	
+//	NSLog(@"%@", self.node.identifier);
     
-    if (self.node.type == ANNOTATION) {
-        [self.annotationStations addObject:self.node];
+    if (node.type == ANNOTATION) {
+        [self.annotationStations addObject:node];
     } else {
-        [self.nodes addObject:self.node];
+        [self.nodes addObject:node];
     }
     
-    self.node = NULL;
+    node = NULL;
 }
 
 -(void)handleElement_gpspos:(NSDictionary *)attributeDict {
@@ -91,8 +121,10 @@
 
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict {
-    
-    SEL sel = NSSelectorFromString([@"handleElement_" stringByAppendingString:[elementName lowercaseString]]);
+	
+	NSString* selector = [NSString stringWithFormat:@"handleElement_%@:", [elementName lowercaseString]];
+	
+    SEL sel = NSSelectorFromString(selector);
     if ([self respondsToSelector:sel]) {
         [self performSelector:sel withObject:attributeDict];
     } else {
@@ -102,18 +134,23 @@
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
     
-    SEL sel = NSSelectorFromString([@"handleElementDone_" stringByAppendingString:[elementName lowercaseString]]);
+	NSString* selector = [NSString stringWithFormat:@"handleElementDone_%@", [elementName lowercaseString]];
+    SEL sel = NSSelectorFromString(selector);
     if ([self respondsToSelector:sel]) {
         [self performSelector:sel];
     } else {
-        DebugLog(@"Debug: Tag %@ is not handled. Don't worry.", elementName); // only a "debuglog" (for logging in debugmode), because doing something when an element ends is NOT required.
+        DebugLog(@"Debug: Closing tag %@ is not handled. Don't worry.", elementName); // only a "debuglog" (for logging in debugmode), because doing something when an element ends is NOT required.
     }
 
 }
 
+- (void)generateGraph {
+	DebugLog(@"Annotation Count: %i\nStation Count %i", self.annotationStations.count, self.nodes.count);
+}
+
     
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-//    [self generateGraph];
+	[self generateGraph];
 }
 
 

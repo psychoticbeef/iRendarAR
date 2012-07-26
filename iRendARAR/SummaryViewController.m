@@ -39,22 +39,22 @@
 #pragma mark - View lifecycle
 
 /*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
+ // Implement loadView to create a view hierarchy programmatically, without using a nib.
+ - (void)loadView
+ {
+ }
+ */
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+	
     self.finishedParts = [[NSMutableArray alloc] init];
     [self.finishedParts addObject:@"Durch die Mosel schwimmen"];
     [self.finishedParts addObject:@"Passanten mit Steinen bewerfen"];
     [self.finishedParts addObject:@"Auf die Seilbahn klettern"];
-
+	
     [[NSNotificationCenter defaultCenter] addObserver:self selector:(@selector(scoreChanged)) name:@"scoreChanged" object:nil];
     
 }
@@ -63,7 +63,7 @@
 
 -(void)scoreChanged:(NSNotification*)notification {
     if ([[notification object] isKindOfClass:[NSNumber class]]) {
-        self.scoreLabel.text = [NSString stringWithFormat:@"%d Punkte", [[notification object] intValue]];
+		self.scoreLabel.text = [NSString stringWithFormat:@"%d Punkte", [[notification object] intValue]];
     }
 }
 
@@ -94,7 +94,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }   
+    }
     
     cell.textLabel.text = self.finishedParts[indexPath.row];
     
@@ -105,7 +105,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES]; 
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

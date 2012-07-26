@@ -10,8 +10,8 @@
 
 @interface GraphRoot : NSObject
 
-@property (readonly, copy) NSString *schemaVersion;
-@property (readonly, copy) NSString *name;
+@property (readonly, retain) NSString *schemaVersion;
+@property (readonly, retain) NSString *name;
 
 -(id)initWithName:(NSString *)name version:(NSString *)schemaVersion;
 

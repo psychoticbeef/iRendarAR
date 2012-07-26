@@ -123,6 +123,7 @@
 
 - (void)loadXML {
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[NSData dataWithContentsOfFile:[[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/test.xml"]]];
+	NSLog(@"%@", [NSBundle.mainBundle.bundlePath stringByAppendingString:@"/test.xml"]);
     self.graph = [[Graph alloc] init];
     [parser setDelegate:self.graph];
     

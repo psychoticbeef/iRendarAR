@@ -46,6 +46,8 @@
 		03BDED3115A2FCBE0045D5B3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED3015A2F6510045D5B3 /* Reachability.m */; };
 		03C415751517730A004B2AE7 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C415741517730A004B2AE7 /* Graph.m */; };
 		03C4157815177319004B2AE7 /* GraphNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C4157715177319004B2AE7 /* GraphNode.m */; };
+		03C8940915AD6D3D003E05A1 /* Blueprint - iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 03C8940715AD6D3D003E05A1 /* Blueprint - iPhone.png */; };
+		03C8940A15AD6D3D003E05A1 /* Blueprint - iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03C8940815AD6D3D003E05A1 /* Blueprint - iPhone@2x.png */; };
 		03D072F8159B008A0028701F /* GraphRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D072F7159B008A0028701F /* GraphRoot.m */; };
 		03D0D54A14D0420400D1D2F7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D0D54914D0420400D1D2F7 /* AVFoundation.framework */; };
 		03D0D54C14D0420C00D1D2F7 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D0D54B14D0420C00D1D2F7 /* CoreVideo.framework */; };
@@ -119,6 +121,8 @@
 		03C415741517730A004B2AE7 /* Graph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Graph.m; sourceTree = "<group>"; };
 		03C4157615177319004B2AE7 /* GraphNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphNode.h; sourceTree = "<group>"; };
 		03C4157715177319004B2AE7 /* GraphNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphNode.m; sourceTree = "<group>"; };
+		03C8940715AD6D3D003E05A1 /* Blueprint - iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blueprint - iPhone.png"; sourceTree = "<group>"; };
+		03C8940815AD6D3D003E05A1 /* Blueprint - iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blueprint - iPhone@2x.png"; sourceTree = "<group>"; };
 		03D072F6159B008A0028701F /* GraphRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphRoot.h; sourceTree = "<group>"; };
 		03D072F7159B008A0028701F /* GraphRoot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphRoot.m; sourceTree = "<group>"; };
 		03D0D54114D0392500D1D2F7 /* ARDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARDemoViewController.h; sourceTree = "<group>"; };
@@ -248,8 +252,6 @@
 				03D0D54814D0404300D1D2F7 /* ARlol */,
 				03BDED2D15A2F3220045D5B3 /* Maps */,
 				03BDED2E15A2F6280045D5B3 /* Reachablity */,
-				03889CE914D019FA008C0343 /* CurrentRouteViewController.h */,
-				03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */,
 				03FD87F515625B96001DE1C6 /* Score.h */,
 				03FD87F615625B96001DE1C6 /* Score.m */,
 				032EFE5615A329AE005D96CE /* GPS */,
@@ -282,6 +284,7 @@
 		037A58FE14CFFE9D00C358BC /* ressources */ = {
 			isa = PBXGroup;
 			children = (
+				03C8940515AD6D31003E05A1 /* backgrounds */,
 				037A58DC14CFFC3B00C358BC /* MainStoryboard_iPhone.storyboard */,
 				032EFE5D15A345D4005D96CE /* a.png */,
 				032EFE5E15A345D4005D96CE /* b.png */,
@@ -325,6 +328,8 @@
 			children = (
 				03FD87FC15626668001DE1C6 /* Annotation.h */,
 				03FD87FD15626668001DE1C6 /* Annotation.m */,
+				03889CE914D019FA008C0343 /* CurrentRouteViewController.h */,
+				03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */,
 				036522EA152DCE7300B51E8B /* StationViewController.h */,
 				036522EB152DCE7300B51E8B /* StationViewController.m */,
 			);
@@ -338,6 +343,15 @@
 				03BDED3015A2F6510045D5B3 /* Reachability.m */,
 			);
 			name = Reachablity;
+			sourceTree = "<group>";
+		};
+		03C8940515AD6D31003E05A1 /* backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				03C8940715AD6D3D003E05A1 /* Blueprint - iPhone.png */,
+				03C8940815AD6D3D003E05A1 /* Blueprint - iPhone@2x.png */,
+			);
+			name = backgrounds;
 			sourceTree = "<group>";
 		};
 		03D0D54814D0404300D1D2F7 /* ARlol */ = {
@@ -429,6 +443,8 @@
 				032EFE6015A345D4005D96CE /* a.png in Resources */,
 				032EFE6115A345D4005D96CE /* b.png in Resources */,
 				032EFE6215A345D4005D96CE /* c.png in Resources */,
+				03C8940915AD6D3D003E05A1 /* Blueprint - iPhone.png in Resources */,
+				03C8940A15AD6D3D003E05A1 /* Blueprint - iPhone@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

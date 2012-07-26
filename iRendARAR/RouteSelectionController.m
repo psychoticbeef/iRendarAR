@@ -23,38 +23,23 @@
 @property (readwrite) int routeSelected;
 @property (strong, nonatomic) CurrentRouteViewController* currentRoute;
 
-
 @end
 
 @implementation RouteSelectionController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
-    }
+	}
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
-/*
- // Implement loadView to create a view hierarchy programmatically, without using a nib.
- - (void)loadView
- {
- }
- */
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -77,7 +62,7 @@
     self.downloadPopup.layer.cornerRadius = 5;
     
     // get the correct URL to check for reachability. fucking magic.
-    NSString* bundlePath = [[NSBundle mainBundle] resourcePath]; 
+    NSString* bundlePath = [[NSBundle mainBundle] resourcePath];
     NSString* urlSettingsFile = [bundlePath stringByAppendingPathComponent:@"url_settings.plist"];
     NSMutableDictionary* urlSettings = [[NSMutableDictionary alloc] initWithContentsOfFile:urlSettingsFile];
     NSString* base_url = [urlSettings valueForKey:@"base_url"];
@@ -97,23 +82,18 @@
     [reach startNotifier];
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 
 #pragma mark tableview shit
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {    
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.routes count];
 }
 
@@ -126,7 +106,7 @@
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }   
+    }
     
     NSString* distance;
     CGFloat fdistance = [[GPSManager sharedInstance] distanceFromCurrentPosititionToRoute:self.routes[indexPath.row]];
@@ -163,9 +143,11 @@
 - (void)locationDidChange {
     if (self.routes) {
         [self.tv reloadData];
-        DebugLog(@"The GPS receiver informed us about a new location. Also, Routes are already loaded.");
+        DebugLog(@"The GPS receiver informed us about a new location."
+				 @"Also, Routes are already loaded.");
     } else {
-        DebugLog(@"The GPS receiver informed us about a new location. The route list was not yet loaded.");
+        DebugLog(@"The GPS receiver informed us about a new location."
+				 @"The route list was not yet loaded.");
     }
 }
 
@@ -174,9 +156,6 @@
     self.routes = routeList;
     [self.tv reloadData];
 }
-
-//- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-//}
 
 - (IBAction)cancelDownload:(id)sender {
     // TODO:
@@ -191,17 +170,17 @@
     [self.activity stopAnimating];
     self.downloadPopup.alpha = 0.0;
     if (self.filesize == -1) {
-        NSLog(@"Downloaded -1 Bytes, which means there was an error concerning the NSURLConnection downloading route content.");
+        NSLog(@"Downloaded -1 Bytes, which means there was an error concerning"
+			  @"the NSURLConnection downloading route content.");
     }
     
     NSArray* cachePathArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* cachePath = [cachePathArray lastObject];
     
-    // deprecated
-    //            NSDictionary *fileAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:[cachePath stringByAppendingPathComponent:[downloader._route filename]] traverseLink:YES];
-    
     NSError* error = NULL;
-    NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[cachePath stringByAppendingPathComponent:[route filename]] error:&error];
+    NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:
+									[cachePath stringByAppendingPathComponent:[route filename]]
+																					error:&error];
     
     NSString* filepath = [cachePath stringByAppendingPathComponent:[route filename]];
     
@@ -232,7 +211,9 @@
     
     NSError* filePathCreationError = nil;
     
-    [[NSFileManager defaultManager] createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:&filePathCreationError];
+    [[NSFileManager defaultManager] createDirectoryAtPath:cachePath
+							  withIntermediateDirectories:YES attributes:nil
+													error:&filePathCreationError];
     if (filePathCreationError) {
         NSLog(@"Download file path is invalid: %@", cachePath);
     }

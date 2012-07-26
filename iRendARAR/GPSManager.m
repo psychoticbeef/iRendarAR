@@ -22,10 +22,10 @@
 
 const CGFloat d2r = M_PI / 180.0;
 
-+(id)sharedInstance { 
++(id)sharedInstance {
     static id sharedInstance = nil;
     static dispatch_once_t once = 0;
-    dispatch_once(&once, ^ { sharedInstance = [[self alloc] init]; }); 
+    dispatch_once(&once, ^ { sharedInstance = [[self alloc] init]; });
     return sharedInstance;
 }
 
@@ -35,7 +35,7 @@ const CGFloat d2r = M_PI / 180.0;
             DebugLog(@"location services turned off. cannot acquire GPS signal.");
             return self;
         }
-        _locationManager = [[CLLocationManager alloc] init];
+		_locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         [_locationManager startUpdatingLocation];
@@ -48,7 +48,7 @@ const CGFloat d2r = M_PI / 180.0;
 -(CGFloat)distanceFromLatitude:(CGFloat)fromLatitude fromLongitude:(CGFloat)fromLongitude toLatitude:(CGFloat)toLatitude toLongitude:(CGFloat)toLongitude {
     CGFloat dlong = (toLongitude - fromLongitude) * d2r;
     CGFloat dlat = (toLatitude - fromLatitude) * d2r;
-    CGFloat a1 = sin(dlat/2.0); 
+    CGFloat a1 = sin(dlat/2.0);
     CGFloat a2 = sin(dlong/2.0);
     CGFloat a = a1*a1 + cos(fromLatitude*d2r) * cos(toLatitude*d2r) * a2*a2;
     CGFloat c = 2 * atan2(sqrt(a), sqrt(1-a));
@@ -66,9 +66,9 @@ const CGFloat d2r = M_PI / 180.0;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-
+	
     self.coordinate = CLLocationCoordinate2DMake([newLocation coordinate].latitude, [newLocation coordinate].longitude);
-
+	
     if (([newLocation coordinate].latitude != [oldLocation coordinate].latitude) && ([newLocation coordinate].longitude != [oldLocation coordinate].longitude)) {
         [self.delegate locationDidChange];
     }

@@ -72,6 +72,8 @@
 - (void)drawPolygonForNode {
 	GraphNode* node = self.graph.nodes[0];
 	
+	NSLog(@"%i", node.questions.count);
+	
 	NSLog(@"%@", node);
 	
 	for (unsigned int i = 0; i < [node numberOfPossibleNextRoutes]; i++) {

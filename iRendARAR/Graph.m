@@ -8,6 +8,8 @@
 
 #import "Graph.h"
 #import "GraphNode.h"
+#import "Question.h"
+#import "Answer.h"
 
 @interface Graph ()
 
@@ -20,6 +22,8 @@
 @property (nonatomic, retain) NSString* stationID;
 @property (nonatomic, retain) NSString* stationName;
 @property (nonatomic, retain) NSString* stationType;
+@property (readwrite, retain) NSMutableArray* questions;
+@property (readwrite, retain) Question* question;
 
 @end
 
@@ -64,6 +68,28 @@
 	return nil;
 }
 
+- (void)handleElement_questions:(NSDictionary*)attributeDict {
+	self.questions = [[NSMutableArray alloc] init];
+}
+
+- (void)handleElement_question:(NSDictionary*)attributeDict {
+	self.question = [[Question alloc] init];
+	[self.questions addObject:self.questions];
+	self.question.questionText = attributeDict[@"query"];
+}
+
+- (void)handleElement_answer:(NSDictionary*)attributeDict {
+	Answer* answer = [[Answer alloc] init];
+	answer.points = [attributeDict[@"points"] intValue];
+	answer.identifier = attributeDict[@"id"];
+	answer.answerText = attributeDict[@"answertext"];
+	answer.isCorrect = [attributeDict[@"valid_answer"] boolValue];
+	if (!self.question.answers) {
+		self.question.answers = [[NSMutableArray alloc] init];
+	}
+	[self.question.answers addObject:answer];
+}
+
 // to make this thing uber, a handler could be created based on the gpsrallye schemaversion (factory)
 // the result would be an easily extendable set of handlers, with easy compliance with older schema versions
 // => laziness ftl
@@ -90,7 +116,7 @@
 }
 
 -(void)handleElementDone_station {
-	GraphNode* node = [[GraphNode alloc] initWithName:self.stationName withType:self.stationType withIdentifier:self.stationID withLocation:self.coordinate withRadius:self.radius];
+	GraphNode* node = [[GraphNode alloc] initWithName:self.stationName withType:self.stationType withIdentifier:self.stationID withLocation:self.coordinate withRadius:self.radius withQuestions:self.questions];
 	
 //	NSLog(@"%@", self.node.identifier);
     

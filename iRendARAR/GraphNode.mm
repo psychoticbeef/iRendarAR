@@ -18,6 +18,7 @@
 @property (readwrite) double radius;
 @property (readwrite, nonatomic) NSMutableArray* outputNode;    // GraphNode, json
 @property (readwrite, nonatomic) NSMutableArray* outputJSON;    // GraphNode, json
+@property (readwrite, nonatomic) NSMutableArray* questions;
 @end
 
 
@@ -58,7 +59,7 @@ CLLocationCoordinate2D* coordinateCollection = nil;
 	return lolJSON.count;
 }
 
-- (id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius {
+- (id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius withQuestions:(NSMutableArray*) questions {
     self = [super init];
     if (self) {
 		_outputJSON = [[NSMutableArray alloc] init];
@@ -68,6 +69,7 @@ CLLocationCoordinate2D* coordinateCollection = nil;
         _identifier = stationID;
 		_location = location;
 		_radius = radius;
+		_questions = questions;
     }
     
     return self;

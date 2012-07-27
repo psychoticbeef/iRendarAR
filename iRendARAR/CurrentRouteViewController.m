@@ -62,63 +62,60 @@
     
     self.arViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"arview"];
     
-    Annotation* annotation1 = [[Annotation alloc] init];
-    annotation1.title = @"Dominiks Buero";
-    annotation1.subtitle = @"Er tut so, als sei er nicht anwesend";
-    CLLocationCoordinate2D coordinate1;
-    coordinate1.latitude = 50.3;
-    coordinate1.longitude = 7.6;
-    annotation1.coordinate = coordinate1;
     
     
 #pragma mark overlay test
     
-    CLLocationCoordinate2D a, b, c, d;
-    a.latitude = 50.3;
-    a.longitude = 7.6;
-    b.latitude = 50.4;
-    b.longitude = 7.7;
-    c.latitude = 50.2;
-    c.longitude = 8.1;
-    d.latitude = 50.3;
-    d.longitude = 7.6;
-    
-    CLLocationCoordinate2D coordinates[4];
-    coordinates[0] = a;
-    coordinates[1] = b;
-    coordinates[2] = c;
-    coordinates[3] = d;
-    
-    MKPolyline *route = [MKPolyline polylineWithCoordinates: coordinates count: 4];
-    [self.mapView addOverlay:route];
-    
-
-    
-    MKMapRect flyTo = MKMapRectNull;
-//	for (id  annotation in annotations) {
-//		NSLog(@"fly to on");
-//        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
-//        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
-//        if (MKMapRectIsNull(flyTo)) {
-//            flyTo = pointRect;
-//        } else {
-//            flyTo = MKMapRectUnion(flyTo, pointRect);
-//        }
-//    }
-    
-    MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation1.coordinate);
-    MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
-    if (MKMapRectIsNull(flyTo)) {
-        flyTo = pointRect;
-    } else {
-        flyTo = MKMapRectUnion(flyTo, pointRect);
-    }
-    
-    [self.mapView addAnnotation:annotation1];
-    
-    // Position the map so that all overlays and annotations are visible on screen.
-    self.mapView.visibleMapRect = flyTo;
     self.mapView.delegate = self;
+}
+
+- (void)drawPolygonForNode {
+	GraphNode* node = self.graph.nodes[0];
+	
+	NSLog(@"%@", node);
+	
+	for (unsigned int i = 0; i < [node numberOfPossibleNextRoutes]; i++) {
+		MKPolyline *route = [MKPolyline polylineWithCoordinates:[node getLocationCoordinateCollection:i] count:[node getLocationCoordinateCollectionCount:i]];
+		[self.mapView addOverlay:route];
+	}
+}
+
+MKMapRect flyTo;
+
+- (void)drawAnnotations {
+	flyTo = MKMapRectNull;
+	
+	GraphNode* node = self.graph.nodes[0];
+
+	
+	for (int i = 0; i < node.outputNode.count; i++) {
+		GraphNode* successorNode = node.outputNode[i];
+		Annotation* annotation = [self addAnnotationAndSetRect:successorNode];
+		[self.mapView addAnnotation:annotation];
+	}
+	
+	Annotation* annotation = [self addAnnotationAndSetRect:node];
+	[self.mapView addAnnotation:annotation];
+
+    self.mapView.visibleMapRect = flyTo;
+}
+
+- (Annotation*)addAnnotationAndSetRect:(GraphNode*)successorNode {
+	Annotation* annotation = [[Annotation alloc] init];
+	annotation.title = successorNode.name;
+	annotation.subtitle = @"";
+	annotation.coordinate = successorNode.location;
+	
+	MKMapPoint annotationPoint = MKMapPointForCoordinate(successorNode.location);
+	MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
+	
+	if (MKMapRectIsNull(flyTo)) {
+		flyTo = pointRect;
+	} else {
+		flyTo = MKMapRectUnion(flyTo, pointRect);
+	}
+	
+	return annotation;
 }
 
 - (void)loadXML {
@@ -130,7 +127,10 @@
     bool wtf = ![parser parse];
     if (wtf) {
         DebugLog(@"XML parsing failed: %@", [parser parserError]);
-    }
+    } else {
+		[self drawPolygonForNode];
+		[self drawAnnotations];
+	}
 }
 
 - (void)viewDidAppear:(BOOL)animated {

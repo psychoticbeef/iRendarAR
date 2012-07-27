@@ -17,6 +17,7 @@
 }
 
 @property (readonly, retain) GraphRoot* graphRoot;
+@property (nonatomic, retain) NSMutableArray* nodes;
 
 
 

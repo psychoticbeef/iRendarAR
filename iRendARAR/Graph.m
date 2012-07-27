@@ -11,20 +11,15 @@
 
 @interface Graph ()
 
-@property (strong, nonatomic) NSMutableDictionary* temporaryNodeConnections;   // id => id
-@property (strong, nonatomic) NSMutableDictionary* temporaryNodeMapping;       // object => id
 @property (strong, nonatomic) NSMutableArray* annotationStations;
 
 @property (readwrite, retain) GraphRoot* graphRoot;
-@property (nonatomic, retain) NSMutableArray* nodes;
 
 @property (nonatomic) double radius;
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic, retain) NSString* stationID;
 @property (nonatomic, retain) NSString* stationName;
 @property (nonatomic, retain) NSString* stationType;
-
-@property (nonatomic, retain) NSString* json;
 
 @end
 
@@ -33,10 +28,7 @@
 
 -(id)init {
     if ((self = [super init])) {
-        _temporaryNodeConnections = [[NSMutableDictionary alloc] init];
-        
         _annotationStations = [[NSMutableArray alloc] init];
-        
         _graphRoot = NULL;
     }
     
@@ -44,7 +36,6 @@
 }
 
 - (void)handleElement_connections:(NSDictionary *)attributeDict {
-	self.temporaryNodeConnections = [[NSMutableDictionary alloc] init];
 }
 
 - (void)handleElement_connection:(NSDictionary *)attributeDict {

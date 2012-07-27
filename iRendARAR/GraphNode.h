@@ -24,6 +24,9 @@ typedef NS_ENUM(NSUInteger, StationType) {
 
 -(void)addOutgoingNode:(GraphNode* )node withJSON:(NSString*)json;
 -(id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius;
+- (CLLocationCoordinate2D*)getLocationCoordinateCollection:(int)index;
+- (NSUInteger)getLocationCoordinateCollectionCount:(int)index;
+- (NSUInteger)numberOfPossibleNextRoutes;
 
 @property (readonly, nonatomic) StationType type;
 @property (readonly, nonatomic) NSString* identifier;

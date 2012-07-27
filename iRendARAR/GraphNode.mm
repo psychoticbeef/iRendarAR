@@ -7,7 +7,8 @@
 //
 
 #import "GraphNode.h"
-
+#import <CoreLocation/CoreLocation.h>
+#import <vector>
 
 @interface GraphNode ()
 @property (readwrite, nonatomic) StationType type;
@@ -22,10 +23,42 @@
 
 @implementation GraphNode
 
-//self.node = [[GraphNode alloc] initWithName:self.stationName withType:self.stationType withIdentifier:self.stationID withLocation:self.coordinate withRadius:self.radius];
+std::vector<CLLocationCoordinate2D*> coordinateCollectionArray;
+CLLocationCoordinate2D* coordinateCollection = nil;
 
+- (CLLocationCoordinate2D*)getLocationCoordinateCollection:(int)index {
+	
+	if (coordinateCollectionArray.size() > 0)
+		return coordinateCollectionArray[index];
+	
+	for (NSMutableArray* lolJSON in self.outputJSON) {
+//		NSMutableArray* lolJSON = jsonRoute[0];
 
--(id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius {
+		coordinateCollection = (CLLocationCoordinate2D*)malloc(lolJSON.count * sizeof(CLLocationCoordinate2D));
+		coordinateCollectionArray.push_back(coordinateCollection);
+		
+		int i = 0;
+		for (NSMutableDictionary* coordinatePairs in lolJSON) {
+			CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([coordinatePairs[@"$a"] floatValue], [coordinatePairs[@"ab"] floatValue]);
+			coordinateCollection[i++] = coordinate;
+		}
+		
+	}
+	
+	
+	return coordinateCollectionArray[index];
+}
+
+- (NSUInteger)numberOfPossibleNextRoutes {
+	return self.outputJSON.count;
+}
+
+- (NSUInteger)getLocationCoordinateCollectionCount:(int)index {
+	NSMutableArray* lolJSON = self.outputJSON[index];
+	return lolJSON.count;
+}
+
+- (id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius {
     self = [super init];
     if (self) {
 		_outputJSON = [[NSMutableArray alloc] init];
@@ -40,7 +73,7 @@
     return self;
 }
 
--(void)addOutgoingNode:(GraphNode* )node withJSON:(NSString*)json {
+- (void)addOutgoingNode:(GraphNode* )node withJSON:(NSString*)json {
 	[self.outputNode addObject:node];
 	
 	NSError* error = nil;
@@ -51,10 +84,15 @@
 	
 	// anyone wants to do error checking? not me!
 	NSMutableDictionary* routes = ser[@"routes"][0];
-	routes = routes[@"legs"][0];
-	routes = routes[@"steps"][0];
+	
+//	routes = routes[@"legs"];
+//	routes = routes[@"steps"][0];
+//	routes = routes[@"overviewpath"][0];
 
-	[self.outputJSON addObject:[routes[@"path"] copy]];
+//	[self.outputJSON addObject:[routes[@"path"] copy]];
+//	NSLog(@"legs %@", routes);
+//	NSLog(@"overview_path %@", routes[@"overview_path"]);
+	[self.outputJSON addObject:[routes[@"overview_path"] copy]];
 }
 
 + (NSArray *)names {
@@ -82,6 +120,12 @@
     }
     
     return result;
+}
+
+- (void)dealloc {
+//	if (coordinateCollection) {
+//		free(coordinateCollection);
+//	}
 }
 
 @end

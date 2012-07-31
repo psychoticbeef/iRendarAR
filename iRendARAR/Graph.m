@@ -13,8 +13,7 @@
 
 @interface Graph ()
 
-@property (strong, nonatomic) NSMutableArray* annotationStations;
-
+@property (readwrite, nonatomic) NSMutableArray* annotationStations;
 @property (readwrite, retain) GraphRoot* graphRoot;
 
 @property (nonatomic) double radius;

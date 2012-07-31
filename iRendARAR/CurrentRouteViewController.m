@@ -92,29 +92,38 @@ MKMapRect flyTo;
 	
 	for (int i = 0; i < node.outputNode.count; i++) {
 		GraphNode* successorNode = node.outputNode[i];
-		Annotation* annotation = [self addAnnotationAndSetRect:successorNode];
+		Annotation* annotation = [self addAnnotation:successorNode addToRect:YES];
 		[self.mapView addAnnotation:annotation];
 	}
 	
-	Annotation* annotation = [self addAnnotationAndSetRect:node];
+	Annotation* annotation = [self addAnnotation:node addToRect:YES];
 	[self.mapView addAnnotation:annotation];
 
     self.mapView.visibleMapRect = flyTo;
 }
 
-- (Annotation*)addAnnotationAndSetRect:(GraphNode*)successorNode {
+- (void)drawAnnotationStations {
+	for (GraphNode* node in self.graph.annotationStations) {
+		Annotation* annotation = [self addAnnotation:node addToRect:NO];
+		[self.mapView addAnnotation:annotation];
+	}
+}
+
+- (Annotation*)addAnnotation:(GraphNode*)successorNode addToRect:(BOOL)add {
 	Annotation* annotation = [[Annotation alloc] init];
 	annotation.title = successorNode.name;
 	annotation.subtitle = @"";
 	annotation.coordinate = successorNode.location;
 	
-	MKMapPoint annotationPoint = MKMapPointForCoordinate(successorNode.location);
-	MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
-	
-	if (MKMapRectIsNull(flyTo)) {
-		flyTo = pointRect;
-	} else {
-		flyTo = MKMapRectUnion(flyTo, pointRect);
+	if (add) {
+		MKMapPoint annotationPoint = MKMapPointForCoordinate(successorNode.location);
+		MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
+		
+		if (MKMapRectIsNull(flyTo)) {
+			flyTo = pointRect;
+		} else {
+			flyTo = MKMapRectUnion(flyTo, pointRect);
+		}
 	}
 	
 	return annotation;
@@ -132,6 +141,7 @@ MKMapRect flyTo;
     } else {
 		[self drawPolygonForNode];
 		[self drawAnnotations];
+		[self drawAnnotationStations];
 	}
 }
 

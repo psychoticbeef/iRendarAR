@@ -21,6 +21,9 @@
 		034F93771510945D00866103 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 034F93721510945D00866103 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		035704B3156FBF340049AC68 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F7427E15628D6A00498962 /* TableViewCell.m */; };
 		035704B5156FBF340049AC68 /* UITableViewCell+CustomFrameModification.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F7428015628D6A00498962 /* UITableViewCell+CustomFrameModification.m */; };
+		035D18FF15C45517003DB030 /* test.xml in Resources */ = {isa = PBXBuildFile; fileRef = 035D18FE15C45517003DB030 /* test.xml */; };
+		035D194615C52ED9003DB030 /* Chalkboard - iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 035D194415C52ED9003DB030 /* Chalkboard - iPhone.png */; };
+		035D194715C52ED9003DB030 /* Chalkboard - iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 035D194515C52ED9003DB030 /* Chalkboard - iPhone@2x.png */; };
 		036522EC152DCE7300B51E8B /* StationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 036522EB152DCE7300B51E8B /* StationViewController.m */; };
 		03744159150DFEB600189C4C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03744158150DFEB600189C4C /* CFNetwork.framework */; };
 		0374415B150DFEBD00189C4C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0374415A150DFEBD00189C4C /* SystemConfiguration.framework */; };
@@ -86,6 +89,9 @@
 		034F93701510945D00866103 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		034F93711510945D00866103 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		034F93721510945D00866103 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
+		035D18FE15C45517003DB030 /* test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test.xml; sourceTree = "<group>"; };
+		035D194415C52ED9003DB030 /* Chalkboard - iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Chalkboard - iPhone.png"; sourceTree = "<group>"; };
+		035D194515C52ED9003DB030 /* Chalkboard - iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Chalkboard - iPhone@2x.png"; sourceTree = "<group>"; };
 		036522EA152DCE7300B51E8B /* StationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationViewController.h; sourceTree = "<group>"; };
 		036522EB152DCE7300B51E8B /* StationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationViewController.m; sourceTree = "<group>"; };
 		03744158150DFEB600189C4C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -263,6 +269,7 @@
 		037A58D014CFFC3B00C358BC /* iRendARAR */ = {
 			isa = PBXGroup;
 			children = (
+				035D18FE15C45517003DB030 /* test.xml */,
 				031B111F15C2AA5500F5BC54 /* Questions */,
 				03BDED2915A2DA810045D5B3 /* Download */,
 				03F7427C15628D4F00498962 /* TableView Style */,
@@ -367,6 +374,8 @@
 		03C8940515AD6D31003E05A1 /* backgrounds */ = {
 			isa = PBXGroup;
 			children = (
+				035D194415C52ED9003DB030 /* Chalkboard - iPhone.png */,
+				035D194515C52ED9003DB030 /* Chalkboard - iPhone@2x.png */,
 				03C8940715AD6D3D003E05A1 /* Blueprint - iPhone.png */,
 				03C8940815AD6D3D003E05A1 /* Blueprint - iPhone@2x.png */,
 			);
@@ -464,6 +473,9 @@
 				032EFE6215A345D4005D96CE /* c.png in Resources */,
 				03C8940915AD6D3D003E05A1 /* Blueprint - iPhone.png in Resources */,
 				03C8940A15AD6D3D003E05A1 /* Blueprint - iPhone@2x.png in Resources */,
+				035D18FF15C45517003DB030 /* test.xml in Resources */,
+				035D194615C52ED9003DB030 /* Chalkboard - iPhone.png in Resources */,
+				035D194715C52ED9003DB030 /* Chalkboard - iPhone@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

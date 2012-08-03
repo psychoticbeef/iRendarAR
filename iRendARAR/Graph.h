@@ -12,9 +12,7 @@
 #import "GraphRoot.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface Graph : NSObject <NSXMLParserDelegate> {
-    
-}
+@interface Graph : NSObject <NSXMLParserDelegate>
 
 @property (readonly, retain) GraphRoot* graphRoot;
 @property (nonatomic, retain) NSMutableArray* nodes;

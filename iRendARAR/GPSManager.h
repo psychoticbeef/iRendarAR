@@ -14,6 +14,10 @@
 - (void)locationDidChange;
 @end
 
+@protocol GPSManagerNotificationDelegate
+- (void)didArriveAtLocation:(NSString*)identifer;
+@end
+
 @interface GPSManager : NSObject <CLLocationManagerDelegate>
 
 +(id)sharedInstance;
@@ -25,6 +29,9 @@
 -(CGFloat)distanceFromCurrentPosititionToRoute:(Route* )route;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
+
+- (void)notifyWhenAtLocation:(CLLocationCoordinate2D)location withRadius:(int)radius identifier:(NSString*)identifier delegate:(id<GPSManagerNotificationDelegate>)delegate;
+- (void)clearNotifications;
 
 @property (weak) id<GPSManagerDelegate> delegate;
 

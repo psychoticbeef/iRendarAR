@@ -18,6 +18,8 @@
 @property (strong, nonatomic) ARDemoViewController* arViewController;
 @property (strong, nonatomic) Graph* graph;
 @property (strong, nonatomic) StationViewController* stationDetailViewController;
+@property (nonatomic) MKMapRect flyTo;
+@property (nonatomic) bool playerHasArrived;
 
 @end
 
@@ -61,45 +63,85 @@
     self.appState = NONE;
     
     self.arViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"arview"];
-    
-    
-    
-#pragma mark overlay test
-    
+
     self.mapView.delegate = self;
 }
 
-- (void)drawPolygonForNode {
-	GraphNode* node = self.graph.nodes[0];
+
+- (void)progressedToNextStation {
+//	[self.mapView removeOverlays:self.mapView.overlays];
+	for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) { // in the beginning our graph is undirected
+		int index = [node.outputNode indexOfObject:self.graph.graphRoot.currentNode];
+		[node.outputNode removeObjectAtIndex:index];	// it BECOMES the cup.
+		[node.outputJSON removeObjectAtIndex:index];	// the app can crash. or it can flow.
+	}
+	[self drawRoutes];
+	[self drawAnnotationsForFollowupStation];
+	[self setupLocationListener];
+}
+
+- (void)didArriveAtLocation:(NSString*)identifer {
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if (self.graph.graphRoot.currentNode) {
+			self.playerHasArrived = YES;
+		}
+		for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) {
+			if ([node.identifier isEqualToString:identifer]) {
+				self.graph.graphRoot.currentNode = node;
+				
+				UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+				localNotif.alertAction = @"HELLO";
+				localNotif.alertBody = @"HELLO";
+				localNotif.fireDate = [NSDate date];
+				
+				break;
+			}
+		}
+		[self progressedToNextStation];
+	});
+}
+
+- (void)drawRoutes {
+	GraphNode* node = self.graph.graphRoot.currentNode;
 	
-	NSLog(@"%i", node.questions.count);
-	
-	NSLog(@"%@", node);
-	
-	for (unsigned int i = 0; i < [node numberOfPossibleNextRoutes]; i++) {
-		MKPolyline *route = [MKPolyline polylineWithCoordinates:[node getLocationCoordinateCollection:i] count:[node getLocationCoordinateCollectionCount:i]];
-		[self.mapView addOverlay:route];
+	if (!node.isStartStation || self.playerHasArrived) {
+		for (unsigned int i = 0; i < [node numberOfPossibleNextRoutes]; i++) {
+			NSLog(@"%i", i);
+			MKPolyline *route = [MKPolyline polylineWithCoordinates:[node getLocationCoordinateCollection:i] count:[node	getLocationCoordinateCollectionCount:i]];
+			[self.mapView addOverlay:route];
+		}
 	}
 }
 
-MKMapRect flyTo;
+- (void)setupLocationListener {
+	[[GPSManager sharedInstance] clearNotifications];
+	GraphNode* node = self.graph.graphRoot.currentNode;
+	if ((node.isStartStation || node.isEndStation) && !self.playerHasArrived) {
+		[[GPSManager sharedInstance] notifyWhenAtLocation:node.location withRadius:(int)node.radius identifier:node.identifier delegate:self];
+	} else {
+		for (GraphNode* followupNode in node.outputNode) {
+			[[GPSManager sharedInstance] notifyWhenAtLocation:followupNode.location withRadius:(int)followupNode.radius identifier:followupNode.identifier delegate:self];
+		}
+	}
+}
 
-- (void)drawAnnotations {
-	flyTo = MKMapRectNull;
+- (void)drawAnnotationsForFollowupStation {
+	self.flyTo = MKMapRectNull;
 	
-	GraphNode* node = self.graph.nodes[0];
+	GraphNode* node = self.graph.graphRoot.currentNode;
 
-	
-	for (int i = 0; i < node.outputNode.count; i++) {
-		GraphNode* successorNode = node.outputNode[i];
-		Annotation* annotation = [self addAnnotation:successorNode addToRect:YES];
+	if (!node.isStartStation) {
+		for (int i = 0; i < node.outputNode.count; i++) {
+			GraphNode* successorNode = node.outputNode[i];
+			Annotation* annotation = [self addAnnotation:successorNode addToRect:YES];
+			[self.mapView addAnnotation:annotation];
+		}
+	} else {
+		Annotation* annotation = [self addAnnotation:node addToRect:YES];
 		[self.mapView addAnnotation:annotation];
 	}
 	
-	Annotation* annotation = [self addAnnotation:node addToRect:YES];
-	[self.mapView addAnnotation:annotation];
-
-    self.mapView.visibleMapRect = flyTo;
+    self.mapView.visibleMapRect = self.flyTo;
 }
 
 - (void)drawAnnotationStations {
@@ -119,10 +161,10 @@ MKMapRect flyTo;
 		MKMapPoint annotationPoint = MKMapPointForCoordinate(successorNode.location);
 		MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
 		
-		if (MKMapRectIsNull(flyTo)) {
-			flyTo = pointRect;
+		if (MKMapRectIsNull(self.flyTo)) {
+			self.flyTo = pointRect;
 		} else {
-			flyTo = MKMapRectUnion(flyTo, pointRect);
+			self.flyTo = MKMapRectUnion(self.flyTo, pointRect);
 		}
 	}
 	
@@ -139,8 +181,7 @@ MKMapRect flyTo;
     if (wtf) {
         DebugLog(@"XML parsing failed: %@", [parser parserError]);
     } else {
-		[self drawPolygonForNode];
-		[self drawAnnotations];
+		[self progressedToNextStation];
 		[self drawAnnotationStations];
 	}
 }
@@ -200,12 +241,12 @@ MKMapRect flyTo;
     [rightButton setTitle:annotation.title forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
     pinView.rightCalloutAccessoryView = rightButton;
-    pinView.leftCalloutAccessoryView = rightButton;
+//    pinView.leftCalloutAccessoryView = rightButton;
     
     // to add an image to the left side of an annotation thingie
     
-    UIImageView* profileIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dominik.png"]];
-    pinView.leftCalloutAccessoryView = profileIcon;
+//    UIImageView* profileIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dominik.png"]];
+//    pinView.leftCalloutAccessoryView = profileIcon;
     
     return pinView;
 }
@@ -214,7 +255,6 @@ MKMapRect flyTo;
 //    StationDetailView
     self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
     [self.navigationController pushViewController:self.stationDetailViewController animated:YES];
-
 }
 
 

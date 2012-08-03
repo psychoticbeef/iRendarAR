@@ -20,6 +20,7 @@
 @property (strong, nonatomic) StationViewController* stationDetailViewController;
 @property (nonatomic) MKMapRect flyTo;
 @property (nonatomic) bool playerHasArrived;
+@property (nonatomic) bool gameOver;
 
 @end
 
@@ -65,15 +66,19 @@
     self.arViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"arview"];
 
     self.mapView.delegate = self;
+	
+	self.flyTo = MKMapRectNull;
 }
 
 
 - (void)progressedToNextStation {
 //	[self.mapView removeOverlays:self.mapView.overlays];
 	for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) { // in the beginning our graph is undirected
-		int index = [node.outputNode indexOfObject:self.graph.graphRoot.currentNode];
-		[node.outputNode removeObjectAtIndex:index];	// it BECOMES the cup.
-		[node.outputJSON removeObjectAtIndex:index];	// the app can crash. or it can flow.
+		unsigned int index = [node.outputNode indexOfObject:self.graph.graphRoot.currentNode];
+		if (index != NSNotFound) {
+			[node.outputNode removeObjectAtIndex:index];	// it BECOMES the cup.
+			[node.outputJSON removeObjectAtIndex:index];	// the app can crash. or it can flow.
+		}
 	}
 	[self drawRoutes];
 	[self drawAnnotationsForFollowupStation];
@@ -82,18 +87,22 @@
 
 - (void)didArriveAtLocation:(NSString*)identifer {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		if (self.graph.graphRoot.currentNode) {
+		if (self.graph.graphRoot.currentNode.isStartStation) {
 			self.playerHasArrived = YES;
+		}
+		if (self.graph.graphRoot.currentNode.isEndStation) {
+			self.gameOver = YES;
+			[[GPSManager sharedInstance] clearNotifications];
 		}
 		for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) {
 			if ([node.identifier isEqualToString:identifer]) {
 				self.graph.graphRoot.currentNode = node;
 				
-				UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-				localNotif.alertAction = @"HELLO";
-				localNotif.alertBody = @"HELLO";
-				localNotif.fireDate = [NSDate date];
-				
+//				UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+//				localNotif.alertAction = @"HELLO";
+//				localNotif.alertBody = @"HELLO";
+//				localNotif.fireDate = [NSDate date];
+//				
 				break;
 			}
 		}
@@ -104,9 +113,8 @@
 - (void)drawRoutes {
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	
-	if (!node.isStartStation || self.playerHasArrived) {
+	if (self.playerHasArrived) {
 		for (unsigned int i = 0; i < [node numberOfPossibleNextRoutes]; i++) {
-			NSLog(@"%i", i);
 			MKPolyline *route = [MKPolyline polylineWithCoordinates:[node getLocationCoordinateCollection:i] count:[node	getLocationCoordinateCollectionCount:i]];
 			[self.mapView addOverlay:route];
 		}
@@ -116,7 +124,7 @@
 - (void)setupLocationListener {
 	[[GPSManager sharedInstance] clearNotifications];
 	GraphNode* node = self.graph.graphRoot.currentNode;
-	if ((node.isStartStation || node.isEndStation) && !self.playerHasArrived) {
+	if (!self.playerHasArrived) {
 		[[GPSManager sharedInstance] notifyWhenAtLocation:node.location withRadius:(int)node.radius identifier:node.identifier delegate:self];
 	} else {
 		for (GraphNode* followupNode in node.outputNode) {
@@ -129,8 +137,10 @@
 	self.flyTo = MKMapRectNull;
 	
 	GraphNode* node = self.graph.graphRoot.currentNode;
+	self.flyTo = MKMapRectUnion(self.flyTo, node.pointRect);
 
-	if (!node.isStartStation) {
+
+	if (self.playerHasArrived) {
 		for (int i = 0; i < node.outputNode.count; i++) {
 			GraphNode* successorNode = node.outputNode[i];
 			Annotation* annotation = [self addAnnotation:successorNode addToRect:YES];
@@ -141,7 +151,7 @@
 		[self.mapView addAnnotation:annotation];
 	}
 	
-    self.mapView.visibleMapRect = self.flyTo;
+	if (!self.gameOver) self.mapView.visibleMapRect = self.flyTo;
 }
 
 - (void)drawAnnotationStations {
@@ -173,7 +183,6 @@
 
 - (void)loadXML {
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[NSData dataWithContentsOfFile:[[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/test.xml"]]];
-	NSLog(@"%@", [NSBundle.mainBundle.bundlePath stringByAppendingString:@"/test.xml"]);
     self.graph = [[Graph alloc] init];
     [parser setDelegate:self.graph];
     

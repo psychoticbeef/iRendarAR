@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
 
 // if this is extended, please check the implementation file and method + (NSArray*)names
@@ -37,5 +38,7 @@ typedef NS_ENUM(NSUInteger, StationType) {
 @property (readonly, nonatomic) NSMutableArray* questions;
 @property (readonly, nonatomic) bool isStartStation;
 @property (readonly, nonatomic) bool isEndStation;
+@property (readonly, nonatomic) MKMapRect pointRect;
+
 
 @end

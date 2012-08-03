@@ -21,6 +21,7 @@
 @property (readwrite, nonatomic) NSMutableArray* questions;
 @property (readwrite, nonatomic) bool isStartStation;
 @property (readwrite, nonatomic) bool isEndStation;
+@property (readwrite, nonatomic) MKMapRect pointRect;
 @end
 
 
@@ -31,12 +32,16 @@ CLLocationCoordinate2D* coordinateCollection = nil;
 
 - (CLLocationCoordinate2D*)getLocationCoordinateCollection:(int)index {
 	
+	NSLog(@"I am: %@. ", self.identifier);
+	
 	if (coordinateCollectionArray.size() > 0)
 		return coordinateCollectionArray[index];
 	
 	for (NSMutableArray* lolJSON in self.outputJSON) {
 //		NSMutableArray* lolJSON = jsonRoute[0];
-
+		
+		NSLog(@"%@", lolJSON);
+		
 		coordinateCollection = (CLLocationCoordinate2D*)malloc(lolJSON.count * sizeof(CLLocationCoordinate2D));
 		coordinateCollectionArray.push_back(coordinateCollection);
 		
@@ -44,6 +49,8 @@ CLLocationCoordinate2D* coordinateCollection = nil;
 		for (NSMutableDictionary* coordinatePairs in lolJSON) {
 			CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([coordinatePairs[@"$a"] floatValue], [coordinatePairs[@"ab"] floatValue]);
 			coordinateCollection[i++] = coordinate;
+			
+			NSLog(@"%f %f", coordinate.longitude, coordinate.latitude);
 		}
 		
 	}
@@ -53,6 +60,7 @@ CLLocationCoordinate2D* coordinateCollection = nil;
 }
 
 - (NSUInteger)numberOfPossibleNextRoutes {
+	NSLog(@"I am: %@. I have %i routes.", self.identifier, self.outputJSON.count);
 	return self.outputJSON.count;
 }
 
@@ -74,6 +82,9 @@ CLLocationCoordinate2D* coordinateCollection = nil;
 		_questions = questions;
 		_isStartStation = isStartStation;
 		_isEndStation = isEndStation;
+		
+		MKMapPoint annotationPoint = MKMapPointForCoordinate(self.location);
+		self.pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
     }
     
     return self;

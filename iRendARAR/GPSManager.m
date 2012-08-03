@@ -111,13 +111,9 @@ const CGFloat d2r = M_PI / 180.0;
 
 - (void)notify:(CLLocation *) currentLocation {
 	int i = 0;
-	NSLog(@"yo");
 	for (CLLocation* location in self.notifierCoordinate) {
-		NSLog(@"%f", [currentLocation distanceFromLocation:location]);
-		NSLog(@"%@", self.notifierRadius);
 		if ([currentLocation distanceFromLocation:location] < [self.notifierRadius[i] doubleValue]) {
 			[self.notifierDelegate[i] didArriveAtLocation:self.notifierIdentifier[i]];
-			NSLog(@"sup");
 		}
 		i++;
 	}

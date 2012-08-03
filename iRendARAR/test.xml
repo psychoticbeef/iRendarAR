@@ -2,7 +2,7 @@
 <gpsrallye name="" schemaversion="0.1">
     <stations>
         <station is_end_station="0" type="story" id="-1" name="default" is_start_station="1">
-            <gpspos radius="30" longitude="7.440746135330187" latitude="50.44895137145995"/>
+            <gpspos radius="300" longitude="7.440746135330187" latitude="50.44895137145995"/>
             <questions>
                 <question query="default">
                     <answer points="100" id="0" answertext="Ich bin die richtige Antwort!" valid_answer="1"/>
@@ -15,35 +15,35 @@
             </questions>
         </station>
         <station is_end_station="0" type="story" id="-2" name="default" is_start_station="0">
-            <gpspos radius="30" longitude="7.440727359867083" latitude="50.44894112383049"/>
+            <gpspos radius="300" longitude="7.440727359867083" latitude="50.44894112383049"/>
             <questions/>
         </station>
         <station is_end_station="0" type="story" id="-3" name="default" is_start_station="0">
-            <gpspos radius="30" longitude="7.440622753715502" latitude="50.44882669181759"/>
+            <gpspos radius="300" longitude="7.440622753715502" latitude="50.44882669181759"/>
             <questions/>
         </station>
         <station is_end_station="0" type="story" id="-4" name="default" is_start_station="0">
-            <gpspos radius="30" longitude="7.44053424081801" latitude="50.44872848501876"/>
+            <gpspos radius="300" longitude="7.44053424081801" latitude="50.44872848501876"/>
             <questions/>
         </station>
         <station is_end_station="0" type="story" id="-5" name="default" is_start_station="0">
-            <gpspos radius="30" longitude="7.440526194190966" latitude="50.44871994528748"/>
+            <gpspos radius="300" longitude="7.440526194190966" latitude="50.44871994528748"/>
             <questions/>
         </station>
         <station is_end_station="0" type="story" id="-6" name="default" is_start_station="0">
-            <gpspos radius="30" longitude="7.440351850604998" latitude="50.44853377876265"/>
+            <gpspos radius="300" longitude="7.440351850604998" latitude="50.44853377876265"/>
             <questions/>
         </station>
         <station is_end_station="0" type="story" id="-7" name="default" is_start_station="0">
-            <gpspos radius="30" longitude="7.440386719322191" latitude="50.44852523899623"/>
+            <gpspos radius="300" longitude="7.440386719322191" latitude="50.44852523899623"/>
             <questions/>
         </station>
         <station is_end_station="0" type="story" id="-8" name="default" is_start_station="0">
-            <gpspos radius="30" longitude="7.440488643264757" latitude="50.44863454788994"/>
+            <gpspos radius="300" longitude="7.440488643264757" latitude="50.44863454788994"/>
             <questions/>
         </station>
         <station is_end_station="1" type="story" id="-9" name="default" is_start_station="0">
-            <gpspos radius="30" longitude="7.440772957420336" latitude="50.44894880955285"/>
+            <gpspos radius="300" longitude="7.440772957420336" latitude="50.44894880955285"/>
             <questions>
                 <question query="default">
                     <answer points="100" id="0" answertext="Ich bin die richtige Antwort!" valid_answer="1"/>

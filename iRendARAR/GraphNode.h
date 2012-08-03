@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, StationType) {
 @interface GraphNode : NSObject
 
 -(void)addOutgoingNode:(GraphNode* )node withJSON:(NSString*)json;
--(id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius withQuestions:(NSMutableArray*) questions;
+- (id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius withQuestions:(NSMutableArray*)questions isStartStation:(bool)isStartStation isEndStation:(bool)isEndStation;
 - (CLLocationCoordinate2D*)getLocationCoordinateCollection:(int)index;
 - (NSUInteger)getLocationCoordinateCollectionCount:(int)index;
 - (NSUInteger)numberOfPossibleNextRoutes;
@@ -35,5 +35,7 @@ typedef NS_ENUM(NSUInteger, StationType) {
 @property (readonly) CLLocationCoordinate2D location;
 @property (readonly) double radius;
 @property (readonly, nonatomic) NSMutableArray* questions;
+@property (readonly, nonatomic) bool isStartStation;
+@property (readonly, nonatomic) bool isEndStation;
 
 @end

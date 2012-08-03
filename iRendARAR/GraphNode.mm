@@ -19,6 +19,8 @@
 @property (readwrite, nonatomic) NSMutableArray* outputNode;    // GraphNode, json
 @property (readwrite, nonatomic) NSMutableArray* outputJSON;    // GraphNode, json
 @property (readwrite, nonatomic) NSMutableArray* questions;
+@property (readwrite, nonatomic) bool isStartStation;
+@property (readwrite, nonatomic) bool isEndStation;
 @end
 
 
@@ -59,7 +61,7 @@ CLLocationCoordinate2D* coordinateCollection = nil;
 	return lolJSON.count;
 }
 
-- (id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius withQuestions:(NSMutableArray*) questions {
+- (id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius withQuestions:(NSMutableArray*)questions isStartStation:(bool)isStartStation isEndStation:(bool)isEndStation {
     self = [super init];
     if (self) {
 		_outputJSON = [[NSMutableArray alloc] init];
@@ -70,6 +72,8 @@ CLLocationCoordinate2D* coordinateCollection = nil;
 		_location = location;
 		_radius = radius;
 		_questions = questions;
+		_isStartStation = isStartStation;
+		_isEndStation = isEndStation;
     }
     
     return self;
@@ -107,7 +111,7 @@ CLLocationCoordinate2D* coordinateCollection = nil;
         [_names insertObject:@"ANNOTATION" atIndex:ANNOTATION];
         [_names insertObject:@"GEO" atIndex:GEO];
     });
-    
+	
     return _names;
 }
 

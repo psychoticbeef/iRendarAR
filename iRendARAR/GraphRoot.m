@@ -8,7 +8,6 @@
 
 #import "GraphRoot.h"
 
-
 @interface GraphRoot ()
 @property (readwrite, retain) NSString *schemaVersion;
 @property (readwrite, retain) NSString *name;

@@ -23,6 +23,8 @@
 @property (nonatomic, retain) NSString* stationType;
 @property (readwrite, retain) NSMutableArray* questions;
 @property (readwrite, retain) Question* question;
+@property (nonatomic) bool isStartStation;
+@property (nonatomic) bool isEndStation;
 
 @end
 
@@ -112,20 +114,18 @@
     self.stationID = attributeDict[@"id"];
     self.stationName = attributeDict[@"name"];
     self.stationType = attributeDict[@"type"];
+	self.isStartStation = [attributeDict[@"is_start_station"] boolValue];
+	self.isEndStation = [attributeDict[@"is_end_station"] boolValue];
+	NSLog(@"%i %i", self.isStartStation, self.isEndStation);
 }
 
 -(void)handleElementDone_station {
-	GraphNode* node = [[GraphNode alloc] initWithName:self.stationName withType:self.stationType withIdentifier:self.stationID withLocation:self.coordinate withRadius:self.radius withQuestions:self.questions];
+	GraphNode* node = [[GraphNode alloc] initWithName:self.stationName withType:self.stationType withIdentifier:self.stationID withLocation:self.coordinate withRadius:self.radius withQuestions:self.questions isStartStation:self.isStartStation isEndStation:self.isEndStation];
 	
-//	NSLog(@"%@", self.node.identifier);
-    
-    if (node.type == ANNOTATION) {
-        [self.annotationStations addObject:node];
-    } else {
-        [self.nodes addObject:node];
-    }
-    
-    node = NULL;
+	if (node.isStartStation) self.graphRoot.currentNode = node;
+	
+    if (node.type == ANNOTATION) [self.annotationStations addObject:node];
+    else [self.nodes addObject:node];
 }
 
 -(void)handleElement_gpspos:(NSDictionary *)attributeDict {

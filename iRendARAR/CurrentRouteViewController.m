@@ -7,6 +7,7 @@
 //
 
 #import "CurrentRouteViewController.h"
+#import "MKPolyline+EncodedString.h"
 
 @interface CurrentRouteViewController ()
 
@@ -114,9 +115,12 @@
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	
 	if (self.playerHasArrived) {
-		for (unsigned int i = 0; i < [node numberOfPossibleNextRoutes]; i++) {
-			MKPolyline *route = [MKPolyline polylineWithCoordinates:[node getLocationCoordinateCollection:i] count:[node	getLocationCoordinateCollectionCount:i]];
-			[self.mapView addOverlay:route];
+//		for (unsigned int i = 0; i < [node numberOfPossibleNextRoutes]; i++) {
+//			MKPolyline *route = [MKPolyline polylineWithCoordinates:[node getLocationCoordinateCollection:i] count:[node	getLocationCoordinateCollectionCount:i]];
+//			[self.mapView addOverlay:route];
+//		}
+		for (NSString* json in node.outputJSON) {
+			[self.mapView addOverlay:[MKPolyline polylineWithEncodedString:json]];
 		}
 	}
 }

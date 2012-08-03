@@ -47,6 +47,7 @@
 		03889CE614D014E8008C0343 /* SummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03889CE514D014E8008C0343 /* SummaryViewController.m */; };
 		03889CE814D0156F008C0343 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03889CE714D0156F008C0343 /* MapKit.framework */; };
 		03889CEB14D019FA008C0343 /* CurrentRouteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */; };
+		03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */; };
 		03BDED2C15A2DAE80045D5B3 /* URLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		03BDED3115A2FCBE0045D5B3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED3015A2F6510045D5B3 /* Reachability.m */; };
 		03C415751517730A004B2AE7 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C415741517730A004B2AE7 /* Graph.m */; };
@@ -125,6 +126,8 @@
 		03889CE714D0156F008C0343 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		03889CE914D019FA008C0343 /* CurrentRouteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentRouteViewController.h; sourceTree = "<group>"; };
 		03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentRouteViewController.m; sourceTree = "<group>"; };
+		03A0C24E15CC6A0600576EB7 /* MKPolyline+EncodedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolyline+EncodedString.h"; sourceTree = "<group>"; };
+		03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+EncodedString.m"; sourceTree = "<group>"; };
 		03BDED2A15A2DA8F0045D5B3 /* URLConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLConnection.h; sourceTree = "<group>"; };
 		03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URLConnection.m; sourceTree = "<group>"; };
 		03BDED2F15A2F6510045D5B3 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -334,6 +337,8 @@
 				03D072F7159B008A0028701F /* GraphRoot.m */,
 				03C4157615177319004B2AE7 /* GraphNode.h */,
 				03C4157715177319004B2AE7 /* GraphNode.mm */,
+				03A0C24E15CC6A0600576EB7 /* MKPolyline+EncodedString.h */,
+				03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */,
 				037EEC6614D2D0E700CC2BDF /* Route.h */,
 				037EEC6714D2D0E700CC2BDF /* Route.m */,
 			);
@@ -515,6 +520,7 @@
 				03D072F8159B008A0028701F /* GraphRoot.m in Sources */,
 				031B111E15C29B8300F5BC54 /* Question.m in Sources */,
 				031B112215C2AA7E00F5BC54 /* Answer.m in Sources */,
+				03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

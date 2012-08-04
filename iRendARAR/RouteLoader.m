@@ -53,6 +53,7 @@
                     NSArray* routeArray = [line componentsSeparatedByString:@"\t"];
                     if ([routeArray count] != 5) {
                         NSLog(@"Routelist Error: %@ broken in line: %@", self.list_file, line);
+						NSLog(@"Got %i lines: %@", routeArray.count, routeArray);
                         continue;
                     }
                     

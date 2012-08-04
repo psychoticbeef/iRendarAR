@@ -138,12 +138,18 @@
 }
 
 - (void)drawAnnotationsForFollowupStation {
-	self.flyTo = MKMapRectNull;
+	self.flyTo = MKMapRectNull;	// zooms the map around bounding box of these coordinates
 	
-	GraphNode* node = self.graph.graphRoot.currentNode;
+	GraphNode* node = self.graph.graphRoot.currentNode;	// add last visited node as bounding box thing
 	self.flyTo = MKMapRectUnion(self.flyTo, node.pointRect);
+	
+	// add the current location of the user to the box
+	MKMapPoint annotationPoint = MKMapPointForCoordinate(self.mapView.userLocation.location.coordinate);
+	MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
+	self.flyTo = MKMapRectUnion(self.flyTo, pointRect);
 
 
+	// add all possible follow-up nodes as box
 	if (self.playerHasArrived) {
 		for (int i = 0; i < node.outputNode.count; i++) {
 			GraphNode* successorNode = node.outputNode[i];
@@ -154,7 +160,8 @@
 		Annotation* annotation = [self addAnnotation:node addToRect:YES];
 		[self.mapView addAnnotation:annotation];
 	}
-	
+
+	// when we're done, we're done.
 	if (!self.gameOver) self.mapView.visibleMapRect = self.flyTo;
 }
 
@@ -186,7 +193,22 @@
 }
 
 - (void)loadXML {
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[NSData dataWithContentsOfFile:[[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/test.xml"]]];
+	// remove overlays ("routes")
+	[self.mapView removeOverlays:self.mapView.overlays];
+	// remove all annotations
+	id userAnnotation = self.mapView.userLocation;
+    NSMutableArray *annotations = [NSMutableArray arrayWithArray:self.mapView.annotations];
+    [annotations removeObject:userAnnotation];
+	// remove all annotations, except the user position, which we removed from the removal list. so smart.
+	// no blinking :o
+    [self.mapView removeAnnotations:annotations];
+
+	NSArray* cachePathArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString* cachePath = [cachePathArray lastObject];
+
+    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[NSData dataWithContentsOfFile:[cachePath stringByAppendingPathComponent:@"/route/index.xml"]]];
+	
+	NSLog(@"%@", [NSBundle mainBundle].bundlePath);
     self.graph = [[Graph alloc] init];
     [parser setDelegate:self.graph];
     
@@ -239,9 +261,9 @@
 #pragma mark MKMapViewDelegate
 
 -(MKAnnotationView* )mapView:(MKMapView* )mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-//    if ([annotation isKindOfClass:[MKUserLocation class]]) {
-//        return nil;
-//    }
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil;
+    }
 
     static NSString* AnnotationIdentifier = @"AnnotationIdentifier";
     MKPinAnnotationView* pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationIdentifier];

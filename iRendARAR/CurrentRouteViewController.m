@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+// TODO: Remove annotations AND paths we did not visit.
+
 #import "CurrentRouteViewController.h"
 #import "MKPolyline+EncodedString.h"
 
@@ -77,8 +79,8 @@
 	for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) { // in the beginning our graph is undirected
 		unsigned int index = [node.outputNode indexOfObject:self.graph.graphRoot.currentNode];
 		if (index != NSNotFound) {
-			[node.outputNode removeObjectAtIndex:index];	// it BECOMES the cup.
-			[node.outputJSON removeObjectAtIndex:index];	// the app can crash. or it can flow.
+			[node.outputNode removeObjectAtIndex:index];	// it BECOMES the cup. err directed.
+			[node.outputJSON removeObjectAtIndex:index];	// the app can flow. or it can crash.
 		}
 	}
 	[self drawRoutes];
@@ -150,15 +152,17 @@
 
 
 	// add all possible follow-up nodes as box
-	if (self.playerHasArrived) {
-		for (int i = 0; i < node.outputNode.count; i++) {
-			GraphNode* successorNode = node.outputNode[i];
-			Annotation* annotation = [self addAnnotation:successorNode addToRect:YES];
+	if (!self.gameOver) {
+		if (self.playerHasArrived) {
+			for (int i = 0; i < node.outputNode.count; i++) {
+				GraphNode* successorNode = node.outputNode[i];
+				Annotation* annotation = [self addAnnotation:successorNode addToRect:YES];
+				[self.mapView addAnnotation:annotation];
+			}
+		} else {
+			Annotation* annotation = [self addAnnotation:node addToRect:YES];
 			[self.mapView addAnnotation:annotation];
 		}
-	} else {
-		Annotation* annotation = [self addAnnotation:node addToRect:YES];
-		[self.mapView addAnnotation:annotation];
 	}
 
 	// when we're done, we're done.
@@ -197,7 +201,7 @@
 	[self.mapView removeOverlays:self.mapView.overlays];
 	// remove all annotations
 	id userAnnotation = self.mapView.userLocation;
-    NSMutableArray *annotations = [NSMutableArray arrayWithArray:self.mapView.annotations];
+    NSMutableArray *annotations = [self.mapView.annotations mutableCopy];
     [annotations removeObject:userAnnotation];
 	// remove all annotations, except the user position, which we removed from the removal list. so smart.
 	// no blinking :o

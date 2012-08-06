@@ -14,7 +14,7 @@ message GPSRallye {
 			message Answer {
 				required string id = 1;
 				required string text = 2;
-				optional int32 points = 3 [default = 100];
+				optional int32 points = 3 [default = -100];
 				optional bool is_correct = 4 [default = false];
 			}
 			
@@ -37,31 +37,39 @@ message GPSRallye {
 		
 		}
 		
-		message coordinate {
+		message Coordinate {
+		
 			required float radius = 1;
 			required float latitude = 2;
 			required float longitude = 3;
+			
+		}
+		
+		message Connection {
+	
+			required string to_id = 1;
+			required string path_id = 2;
+		
 		}
 		
 		required string id = 1;
 		required string name = 2;
 		required StationType type = 3;
-		required coordinate location = 4;
+		required Coordinate coordinate = 4;
 		
 		optional bool is_start = 5 [default = false];
 		optional bool is_end = 6 [default = false];
 		
 		repeated Question questions = 7;
 		repeated Media media = 8;
-		repeated string connected_to_id = 9;	// minimal redundancy for way easier handling
+		repeated Connection connections = 9;
 
 	}
 	
 	message Path {
 
-		required string from_id = 1;
-		required string to_id = 2;
-		required string encoded_path = 3;
+		required string path_id = 1;
+		required bytes encoded_path = 2;	// base 64 already decoded
 		
 	}
 	

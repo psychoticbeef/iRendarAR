@@ -9,7 +9,6 @@ message GPSRallye {
 			GEO = 3;
 		}
 		
-		
 		message Question {
 		
 			message Answer {
@@ -27,7 +26,6 @@ message GPSRallye {
 		message Media {
 		
 			enum MediaType {
-				
 				AUDIO = 0;
 				VIDEO = 1;
 				IMAGE = 2;
@@ -35,39 +33,41 @@ message GPSRallye {
 			}
 			
 			required MediaType type = 1;
-			required string path = 2;
+			required string uri = 2;
 		
 		}
 		
-		repeated Question questions = 1;
+		message coordinate {
+			required float radius = 1;
+			required float latitude = 2;
+			required float longitude = 3;
+		}
+		
+		required string id = 1;
+		required string name = 2;
+		optional StationType type = 6;
+		required coordinate location = 4;
+		
+		optional bool is_start = 5 [default = false];
+		optional bool is_end = 6 [default = false];
+		
+		repeated Question questions = 7;
+		repeated Media media = 8;
+		repeated string connected_to_id = 9;	// minimal redundancy for way easier handling
 
-		required string id = 2;
-		required string name = 3;
-		
-		optional float radius = 4 [default = 50];
-		required float longitude = 5;
-		required float latitude = 6;
-		
-		optional bool is_start = 7 [default = false];
-		optional bool is_end = 8 [default = false];
-		optional StationType type = 9 [default = STORY];
-		
-		repeated Media media = 10;
+	}
+	
+	message Path {
+
+		required string from_id = 1;
+		required string to_id = 2;
+		required string encoded_path = 3;
 		
 	}
 	
-	repeated Station stations = 1;
-	
-	message Connection {
-
-		required string start = 1;
-		required string end = 2;
-		required string path = 3;
-	}
-	
-	repeated Connection connections = 2;
-
-	required string name = 3;
-	required string schemaversion = 4;
+	required string schemaversion = 1;
+	required string name = 2;
+	repeated Station stations = 3;
+	repeated Path pathes = 4;
 	
 }

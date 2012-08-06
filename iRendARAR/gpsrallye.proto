@@ -1,0 +1,56 @@
+message GPSRallye {
+
+	message Station {
+
+		enum StationType {
+			STORY = 0;
+			TRIGGER = 1;
+			ANNOTATION = 2;
+			GEO = 3;
+		}
+		
+		
+		message Question {
+		
+			message Answer {
+				required string id = 1;
+				required string text = 2;
+				optional int32 points = 3 [default = 100];
+				optional bool is_correct = 4 [default = false];
+			}
+			
+			required string query = 1;
+			repeated Answer answers = 2;
+			
+		}
+		
+		repeated Question questions = 1;
+
+		required string id = 2;
+		required string name = 3;
+		
+		optional float radius = 4 [default = 50];
+		required float longitude = 5;
+		required float lattitude = 6;
+		
+		optional bool is_start = 7 [default = false];
+		optional bool is_end = 8 [default = false];
+		optional StationType type = 9 [default = STORY];
+		
+	}
+	
+	repeated Station stations = 1;
+	
+	message Connection {
+
+		required string start = 1;
+		required string end = 2;
+		required string path = 3;
+	}
+	
+	repeated Connection connections = 2;
+
+	required string name = 3;
+	required string schemaversion = 4;
+	
+}

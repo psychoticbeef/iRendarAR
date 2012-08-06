@@ -48,6 +48,7 @@
 		03889CE814D0156F008C0343 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03889CE714D0156F008C0343 /* MapKit.framework */; };
 		03889CEB14D019FA008C0343 /* CurrentRouteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */; };
 		03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */; };
+		03A3954915CFCC4900FE34DE /* gpsrallye.proto in Resources */ = {isa = PBXBuildFile; fileRef = 03A3954815CFCC4900FE34DE /* gpsrallye.proto */; };
 		03BDED2C15A2DAE80045D5B3 /* URLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		03BDED3115A2FCBE0045D5B3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED3015A2F6510045D5B3 /* Reachability.m */; };
 		03C415751517730A004B2AE7 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C415741517730A004B2AE7 /* Graph.m */; };
@@ -128,6 +129,7 @@
 		03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentRouteViewController.m; sourceTree = "<group>"; };
 		03A0C24E15CC6A0600576EB7 /* MKPolyline+EncodedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolyline+EncodedString.h"; sourceTree = "<group>"; };
 		03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+EncodedString.m"; sourceTree = "<group>"; };
+		03A3954815CFCC4900FE34DE /* gpsrallye.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gpsrallye.proto; sourceTree = "<group>"; };
 		03BDED2A15A2DA8F0045D5B3 /* URLConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLConnection.h; sourceTree = "<group>"; };
 		03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URLConnection.m; sourceTree = "<group>"; };
 		03BDED2F15A2F6510045D5B3 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 		037A58D114CFFC3B00C358BC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				03A3954815CFCC4900FE34DE /* gpsrallye.proto */,
 				037A58D914CFFC3B00C358BC /* DDAAppDelegate.h */,
 				037A58DA14CFFC3B00C358BC /* DDAAppDelegate.m */,
 				037A58F814CFFDFD00C358BC /* url_settings.plist */,
@@ -481,6 +484,7 @@
 				035D18FF15C45517003DB030 /* test.xml in Resources */,
 				035D194615C52ED9003DB030 /* Chalkboard - iPhone.png in Resources */,
 				035D194715C52ED9003DB030 /* Chalkboard - iPhone@2x.png in Resources */,
+				03A3954915CFCC4900FE34DE /* gpsrallye.proto in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

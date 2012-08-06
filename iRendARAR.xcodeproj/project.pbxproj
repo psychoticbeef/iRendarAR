@@ -49,6 +49,7 @@
 		03889CEB14D019FA008C0343 /* CurrentRouteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */; };
 		03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */; };
 		03A3954915CFCC4900FE34DE /* gpsrallye.proto in Resources */ = {isa = PBXBuildFile; fileRef = 03A3954815CFCC4900FE34DE /* gpsrallye.proto */; };
+		03A3954E15CFCD9E00FE34DE /* gpsrallye.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03A3954C15CFCD9E00FE34DE /* gpsrallye.pb.cc */; };
 		03BDED2C15A2DAE80045D5B3 /* URLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		03BDED3115A2FCBE0045D5B3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED3015A2F6510045D5B3 /* Reachability.m */; };
 		03C415751517730A004B2AE7 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C415741517730A004B2AE7 /* Graph.m */; };
@@ -130,6 +131,8 @@
 		03A0C24E15CC6A0600576EB7 /* MKPolyline+EncodedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolyline+EncodedString.h"; sourceTree = "<group>"; };
 		03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+EncodedString.m"; sourceTree = "<group>"; };
 		03A3954815CFCC4900FE34DE /* gpsrallye.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gpsrallye.proto; sourceTree = "<group>"; };
+		03A3954C15CFCD9E00FE34DE /* gpsrallye.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpsrallye.pb.cc; sourceTree = "<group>"; };
+		03A3954D15CFCD9E00FE34DE /* gpsrallye.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gpsrallye.pb.h; sourceTree = "<group>"; };
 		03BDED2A15A2DA8F0045D5B3 /* URLConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLConnection.h; sourceTree = "<group>"; };
 		03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URLConnection.m; sourceTree = "<group>"; };
 		03BDED2F15A2F6510045D5B3 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -301,6 +304,7 @@
 		037A58D114CFFC3B00C358BC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				03A3954B15CFCD9E00FE34DE /* proto */,
 				03A3954815CFCC4900FE34DE /* gpsrallye.proto */,
 				037A58D914CFFC3B00C358BC /* DDAAppDelegate.h */,
 				037A58DA14CFFC3B00C358BC /* DDAAppDelegate.m */,
@@ -346,6 +350,15 @@
 				037EEC6714D2D0E700CC2BDF /* Route.m */,
 			);
 			name = "Route Graph";
+			sourceTree = "<group>";
+		};
+		03A3954B15CFCD9E00FE34DE /* proto */ = {
+			isa = PBXGroup;
+			children = (
+				03A3954C15CFCD9E00FE34DE /* gpsrallye.pb.cc */,
+				03A3954D15CFCD9E00FE34DE /* gpsrallye.pb.h */,
+			);
+			path = proto;
 			sourceTree = "<group>";
 		};
 		03BDED2915A2DA810045D5B3 /* Download */ = {
@@ -525,6 +538,7 @@
 				031B111E15C29B8300F5BC54 /* Question.m in Sources */,
 				031B112215C2AA7E00F5BC54 /* Answer.m in Sources */,
 				03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */,
+				03A3954E15CFCD9E00FE34DE /* gpsrallye.pb.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

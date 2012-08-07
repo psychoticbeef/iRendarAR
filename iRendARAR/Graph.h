@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSMutableArray* nodes;
 @property (readonly, nonatomic) NSMutableArray* annotationStations;
 
-
+-(void)save;
+-(void)load;
 
 @end

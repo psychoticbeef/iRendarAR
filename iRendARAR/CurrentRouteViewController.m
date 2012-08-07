@@ -95,37 +95,45 @@
 	if (!self.isRestoringSavedState) {
 		[self setupLocationListener];
 	}
+	
+	[self.graph save];
 }
 
 - (void)didArriveAtLocation:(NSString*)identifer {
 	NSLog(@"did arrive at: %@", identifer);
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
-		if (self.graph.graphRoot.currentNode.isStartStation) {
-			self.playerHasArrived = YES;
-			GraphNode* node = self.graph.graphRoot.currentNode;
-			for (NSString* json in node.outputJSON) {
-				[self.mapView addOverlay:[MKPolyline polylineWithEncodedString:json]];
-			}
+		if (!self.playerHasArrived) {
+			Annotation* annotation = [self.temporaryAnnotations objectAtIndex:0];
+			annotation.type = VISITED;
+
+			[self.temporaryOverlays removeAllObjects];
+			[self.temporaryAnnotations removeAllObjects];
+			
+			[self.mapView removeAnnotation:annotation];
+			[self.mapView addAnnotation:annotation];
 		}
+		
 		if (self.graph.graphRoot.currentNode.isEndStation) {
 			self.gameOver = YES;
 			[[GPSManager sharedInstance] clearNotifications];
 		}
+
 		for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) {
 			if ([node.identifier isEqualToString:identifer]) {
 				NSUInteger index = [self.graph.graphRoot.currentNode.outputNode indexOfObject:node];
 
 				if (self.temporaryAnnotations.count > 0) {
-					NSLog(@"Keeping Index: %i. Name: %@.", index, node.identifier);
+					NSLog(@"Keeping Index: %i. Name: %@. Overlaycount: %i", index, node.identifier, self.temporaryOverlays.count);
 					
 					Annotation* annotation = [self.temporaryAnnotations objectAtIndex:index];
 					annotation.type = VISITED;
-
+					NSLog(@"%@ %@", annotation, annotation.title);
+					
 					[self.temporaryOverlays removeObjectAtIndex:index];
 					[self.mapView removeOverlays:self.temporaryOverlays];
 					[self.temporaryOverlays removeAllObjects];
-					
+
 					[self.mapView removeAnnotations:self.temporaryAnnotations];
 					[self.temporaryAnnotations removeAllObjects];
 					
@@ -135,6 +143,7 @@
 				[self.graph.graphRoot setNodeAsCurrentNode:node];
 				
 				
+
 //				UILocalNotification *localNotif = [[UILocalNotification alloc] init];
 //				localNotif.alertAction = @"HELLO";
 //				localNotif.alertBody = @"HELLO";
@@ -143,6 +152,13 @@
 				break;
 			}
 		}
+		
+		if (self.graph.graphRoot.currentNode.isStartStation) {
+			self.playerHasArrived = YES;
+		}
+		
+
+
 		[self progressedToNextStation];
 	});
 }
@@ -191,6 +207,8 @@
 				Annotation* annotation = [self addAnnotation:successorNode addToRect:YES annotationType:CURRENT];
 				[self.temporaryAnnotations addObject:annotation];
 				[self.mapView addAnnotation:annotation];
+				NSLog(@"%@", annotation);
+				NSLog(@"%@", self.mapView.annotations);
 			}
 		} else {
 			Annotation* annotation = [self addAnnotation:node addToRect:YES annotationType:CURRENT];
@@ -200,7 +218,7 @@
 	}
 
 	// when we're done, we're done.
-	if (!self.gameOver) self.mapView.visibleMapRect = self.flyTo;
+	if (!self.gameOver) [self.mapView setVisibleMapRect:self.flyTo edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
 }
 
 - (void)drawAnnotationStations {
@@ -233,6 +251,7 @@
 
 - (void)load {
 	self.isRestoringSavedState = YES;
+	[self.graph load];
 	for (GraphNode* node in self.graph.graphRoot.visitedNodes) {
 		[self didArriveAtLocation:node.identifier];
 	}
@@ -332,20 +351,22 @@
     static NSString* AnnotationIdentifier = @"AnnotationIdentifier";
     MKPinAnnotationView* pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationIdentifier];
     
-    pinView.animatesDrop = YES;
     pinView.canShowCallout = YES;
 	
 	Annotation* cast = (Annotation*) annotation;
 	switch (cast.type) {
 		case STATIC:
+			pinView.animatesDrop = NO;
 			pinView.pinColor = MKPinAnnotationColorGreen;
 			break;
 			
 		case CURRENT:
+			pinView.animatesDrop = YES;
 			pinView.pinColor = MKPinAnnotationColorRed;
 			break;
 			
 		case VISITED:
+			pinView.animatesDrop = NO;
 			pinView.pinColor = MKPinAnnotationColorPurple;
 			break;
 			

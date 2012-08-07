@@ -119,7 +119,7 @@
 
 	
 //	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"overview_polyline\".*?\"points\":.*?\"(.*?)\"" options:0 error:NULL];
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"polyline\".*?\"points\":.*?\"(.*?)\"" options:0 error:NULL];
+	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"overview_polyline\".*?\"points\":.*?\"(.*?)\"" options:0 error:NULL];
 	NSTextCheckingResult *match = [regex firstMatchInString:json options:0 range:NSMakeRange(0, json.length)];
 	NSRange r = [match rangeAtIndex:1];
 	[self.outputJSON addObject:[json substringWithRange:r]];

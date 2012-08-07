@@ -11,6 +11,8 @@
 @implementation MKPolyline (EncodedString)
 
 + (MKPolyline *)polylineWithEncodedString:(NSString *)encodedString {
+	NSLog(@"%@", encodedString);
+	
     const char *bytes = [encodedString UTF8String];
     NSUInteger length = [encodedString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
     NSUInteger idx = 0;

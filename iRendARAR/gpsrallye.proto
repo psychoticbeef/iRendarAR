@@ -3,22 +3,21 @@ message GPSRallye {
 	message Station {
 
 		enum StationType {
-			STORY = 0;
-			TRIGGER = 1;
+			STORY      = 0;
+			TRIGGER    = 1;
 			ANNOTATION = 2;
-			GEO = 3;
+			GEO        = 3;
 		}
 		
 		message Question {
 		
 			message Answer {
-				required string id = 1;
-				required string text = 2;
-				optional int32 points = 3 [default = -100];
-				optional bool is_correct = 4 [default = false];
+				required string text     = 1;
+				optional int32 points    = 2 [default = -100];
+				optional bool is_correct = 3 [default = false];
 			}
 			
-			required string query = 1;
+			required string query   = 1;
 			repeated Answer answers = 2;
 			
 		}
@@ -29,53 +28,55 @@ message GPSRallye {
 				AUDIO = 0;
 				VIDEO = 1;
 				IMAGE = 2;
-				TEXT = 3;
+				TEXT  = 3;
 			}
 			
 			required MediaType type = 1;
-			required string uri = 2;
+			required string uri     = 2;
 		
 		}
 		
 		message Coordinate {
 		
-			required float radius = 1;
-			required float latitude = 2;
-			required float longitude = 3;
+			required float latitude  = 1;
+			required float longitude = 2;
+			required float radius    = 3;
 			
 		}
 		
 		message Connection {
 	
-			required string to_id = 1;
-			required string path_id = 2;
+			required int32 to_id   = 1;
+			required int32 path_id = 2;		// by reference? dat possibru?
+
+//			required string encoded_path = 3 [reference = true];
 		
 		}
 		
-		required string id = 1;
-		required string name = 2;
-		required StationType type = 3;
+		required int32 id              = 1;
+		required string name           = 2;
+		required StationType type      = 3;
 		required Coordinate coordinate = 4;
 		
 		optional bool is_start = 5 [default = false];
-		optional bool is_end = 6 [default = false];
+		optional bool is_end   = 6 [default = false];
 		
-		repeated Question questions = 7;
-		repeated Media media = 8;
+		repeated Question questions     = 7;
+		repeated Media media            = 8;
 		repeated Connection connections = 9;
 
 	}
 	
 	message Path {
 
-		required string path_id = 1;
-		required bytes encoded_path = 2;	// base 64 already decoded
+		required int32 path_id       = 1;
+		required string encoded_path = 2;
 		
 	}
 	
 	required string schemaversion = 1;
-	required string name = 2;
-	repeated Station stations = 3;
-	repeated Path pathes = 4;
+	required string name          = 2;
+	repeated Station stations     = 3;
+	repeated Path pathes          = 4;
 	
 }

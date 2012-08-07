@@ -89,9 +89,17 @@
 }
 
 - (void)didArriveAtLocation:(NSString*)identifer {
+	NSLog(@"did arrive at: %@", identifer);
+	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		if (self.graph.graphRoot.currentNode.isStartStation) {
 			self.playerHasArrived = YES;
+			GraphNode* node = self.graph.graphRoot.currentNode;
+			for (NSString* json in node.outputJSON) {
+				NSLog(@"node.id %@", node.identifier);
+				NSLog(@"%@", [MKPolyline polylineWithEncodedString:json]);
+				[self.mapView addOverlay:[MKPolyline polylineWithEncodedString:json]];
+			}
 		}
 		if (self.graph.graphRoot.currentNode.isEndStation) {
 			self.gameOver = YES;
@@ -117,11 +125,9 @@
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	
 	if (self.playerHasArrived) {
-//		for (unsigned int i = 0; i < [node numberOfPossibleNextRoutes]; i++) {
-//			MKPolyline *route = [MKPolyline polylineWithCoordinates:[node getLocationCoordinateCollection:i] count:[node	getLocationCoordinateCollectionCount:i]];
-//			[self.mapView addOverlay:route];
-//		}
 		for (NSString* json in node.outputJSON) {
+			NSLog(@"node.id %@", node.identifier);
+			NSLog(@"%@", [MKPolyline polylineWithEncodedString:json]);
 			[self.mapView addOverlay:[MKPolyline polylineWithEncodedString:json]];
 		}
 	}
@@ -212,7 +218,7 @@
 
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[NSData dataWithContentsOfFile:[cachePath stringByAppendingPathComponent:@"/route/index.xml"]]];
 	
-	NSLog(@"%@", [NSBundle mainBundle].bundlePath);
+	NSLog(@"%@", cachePath);
     self.graph = [[Graph alloc] init];
     [parser setDelegate:self.graph];
     
@@ -292,8 +298,16 @@
 
 -(IBAction)showDetails:(id)sender {
 //    StationDetailView
-    self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
-    [self.navigationController pushViewController:self.stationDetailViewController animated:YES];
+//    self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
+//    [self.navigationController pushViewController:self.stationDetailViewController animated:YES];
+	
+	GraphNode* node = self.graph.graphRoot.currentNode;
+	if (node.outputNode.count > 0) {
+		if (self.playerHasArrived) {
+			node = node.outputNode[0];
+		}
+		[self didArriveAtLocation:node.identifier];
+	}
 }
 
 

@@ -69,6 +69,32 @@
 	return nil;
 }
 
+-(void)save {
+	[[NSUserDefaults standardUserDefaults] setObject:self.graphRoot.currentNode.identifier forKey:[self.graphRoot.name stringByAppendingString:@"current_node"]];
+	NSMutableArray* visitedNodes = [[NSMutableArray alloc] initWithCapacity:self.graphRoot.visitedNodes.count];
+	for (GraphNode* node in self.graphRoot.visitedNodes) {
+		[visitedNodes addObject:node.identifier];
+	}
+	[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:visitedNodes] forKey:[self.graphRoot.name stringByAppendingString:@"visited_nodes"]];
+}
+
+
+-(void)load {
+	[self.graphRoot setNodeAsCurrentNode:[self nodeForID:[[NSUserDefaults standardUserDefaults] objectForKey:[self.graphRoot.name stringByAppendingString:@"current_node"]]]];
+	NSData *dataRepresentingSavedArray = [[NSUserDefaults standardUserDefaults] objectForKey:[self.graphRoot.name stringByAppendingString:@"visited_nodes"]];
+	if (dataRepresentingSavedArray != nil)
+	{
+		NSArray *savedArray = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
+		if (savedArray != nil) {
+			for (NSString* identifier in savedArray) {
+				[self.graphRoot setNodeAsCurrentNode:[self nodeForID:identifier]];
+			}
+		}
+	}
+}
+
+
+
 - (void)handleElement_questions:(NSDictionary*)attributeDict {
 	self.questions = [[NSMutableArray alloc] init];
 }
@@ -122,7 +148,7 @@
 -(void)handleElementDone_station {
 	GraphNode* node = [[GraphNode alloc] initWithName:self.stationName withType:self.stationType withIdentifier:self.stationID withLocation:self.coordinate withRadius:self.radius withQuestions:self.questions isStartStation:self.isStartStation isEndStation:self.isEndStation];
 	
-	if (node.isStartStation) self.graphRoot.currentNode = node;
+	if (node.isStartStation) [self.graphRoot setNodeAsCurrentNode:node];
 	
     if (node.type == ANNOTATION) [self.annotationStations addObject:node];
     else [self.nodes addObject:node];

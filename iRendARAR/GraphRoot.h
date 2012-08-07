@@ -13,8 +13,10 @@
 
 @property (readonly, retain) NSString *schemaVersion;
 @property (readonly, retain) NSString *name;
-@property (readwrite, retain) GraphNode* currentNode;
+@property (readonly, retain) GraphNode* currentNode;
+@property (readonly, copy) NSMutableArray* visitedNodes;
 
 -(id)initWithName:(NSString *)name version:(NSString *)schemaVersion;
+-(void)setNodeAsCurrentNode:(GraphNode*)node;
 
 @end

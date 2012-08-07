@@ -107,7 +107,7 @@
 		}
 		for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) {
 			if ([node.identifier isEqualToString:identifer]) {
-				self.graph.graphRoot.currentNode = node;
+				[self.graph.graphRoot setNodeAsCurrentNode:node];
 				
 //				UILocalNotification *localNotif = [[UILocalNotification alloc] init];
 //				localNotif.alertAction = @"HELLO";
@@ -202,6 +202,10 @@
 	return annotation;
 }
 
+- (void)load {
+	
+}
+
 - (void)loadXML {
 	// remove overlays ("routes")
 	[self.mapView removeOverlays:self.mapView.overlays];
@@ -226,6 +230,7 @@
     if (wtf) {
         DebugLog(@"XML parsing failed: %@", [parser parserError]);
     } else {
+		
 		[self progressedToNextStation];
 		[self drawAnnotationStations];
 	}

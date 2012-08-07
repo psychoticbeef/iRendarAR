@@ -26,6 +26,9 @@
 @property (nonatomic) bool gameOver;
 @property (atomic) bool isRestoringSavedState;
 
+@property (nonatomic, retain) NSMutableArray* temporaryAnnotations;
+@property (nonatomic, retain) NSMutableArray* temporaryOverlays;
+
 @end
 
 @implementation CurrentRouteViewController
@@ -72,6 +75,9 @@
     self.mapView.delegate = self;
 	
 	self.flyTo = MKMapRectNull;
+	
+	self.temporaryAnnotations = [[NSMutableArray alloc] init];
+	self.temporaryOverlays = [[NSMutableArray alloc] init];
 }
 
 
@@ -108,7 +114,26 @@
 		}
 		for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) {
 			if ([node.identifier isEqualToString:identifer]) {
+				NSUInteger index = [self.graph.graphRoot.currentNode.outputNode indexOfObject:node];
+
+				if (self.temporaryAnnotations.count > 0) {
+					NSLog(@"Keeping Index: %i. Name: %@.", index, node.identifier);
+					
+					Annotation* annotation = [self.temporaryAnnotations objectAtIndex:index];
+					annotation.type = VISITED;
+
+					[self.temporaryOverlays removeObjectAtIndex:index];
+					[self.mapView removeOverlays:self.temporaryOverlays];
+					[self.temporaryOverlays removeAllObjects];
+					
+					[self.mapView removeAnnotations:self.temporaryAnnotations];
+					[self.temporaryAnnotations removeAllObjects];
+					
+					[self.mapView addAnnotation:annotation];
+				}
+				
 				[self.graph.graphRoot setNodeAsCurrentNode:node];
+				
 				
 //				UILocalNotification *localNotif = [[UILocalNotification alloc] init];
 //				localNotif.alertAction = @"HELLO";
@@ -127,9 +152,10 @@
 	
 	if (self.playerHasArrived) {
 		for (NSString* json in node.outputJSON) {
-			NSLog(@"node.id %@", node.identifier);
-			NSLog(@"%@", [MKPolyline polylineWithEncodedString:json]);
-			[self.mapView addOverlay:[MKPolyline polylineWithEncodedString:json]];
+			MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
+			[self.temporaryOverlays addObject:line];
+			[self.mapView addOverlay:line];
+			
 		}
 	}
 }
@@ -157,17 +183,18 @@
 	MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
 	self.flyTo = MKMapRectUnion(self.flyTo, pointRect);
 
-
 	// add all possible follow-up nodes as box
 	if (!self.gameOver) {
 		if (self.playerHasArrived) {
 			for (int i = 0; i < node.outputNode.count; i++) {
 				GraphNode* successorNode = node.outputNode[i];
-				Annotation* annotation = [self addAnnotation:successorNode addToRect:YES annotationType:VISITED];
+				Annotation* annotation = [self addAnnotation:successorNode addToRect:YES annotationType:CURRENT];
+				[self.temporaryAnnotations addObject:annotation];
 				[self.mapView addAnnotation:annotation];
 			}
 		} else {
 			Annotation* annotation = [self addAnnotation:node addToRect:YES annotationType:CURRENT];
+			[self.temporaryAnnotations addObject:annotation];
 			[self.mapView addAnnotation:annotation];
 		}
 	}
@@ -330,13 +357,7 @@
     [rightButton setTitle:annotation.title forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
     pinView.rightCalloutAccessoryView = rightButton;
-//    pinView.leftCalloutAccessoryView = rightButton;
-    
-    // to add an image to the left side of an annotation thingie
-    
-//    UIImageView* profileIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dominik.png"]];
-//    pinView.leftCalloutAccessoryView = profileIcon;
-    
+
     return pinView;
 }
 

@@ -24,6 +24,7 @@
 @property (nonatomic) MKMapRect flyTo;
 @property (nonatomic) bool playerHasArrived;
 @property (nonatomic) bool gameOver;
+@property (atomic) bool isRestoringSavedState;
 
 @end
 
@@ -85,7 +86,9 @@
 	}
 	[self drawRoutes];
 	[self drawAnnotationsForFollowupStation];
-	[self setupLocationListener];
+	if (!self.isRestoringSavedState) {
+		[self setupLocationListener];
+	}
 }
 
 - (void)didArriveAtLocation:(NSString*)identifer {
@@ -96,8 +99,6 @@
 			self.playerHasArrived = YES;
 			GraphNode* node = self.graph.graphRoot.currentNode;
 			for (NSString* json in node.outputJSON) {
-				NSLog(@"node.id %@", node.identifier);
-				NSLog(@"%@", [MKPolyline polylineWithEncodedString:json]);
 				[self.mapView addOverlay:[MKPolyline polylineWithEncodedString:json]];
 			}
 		}
@@ -162,11 +163,11 @@
 		if (self.playerHasArrived) {
 			for (int i = 0; i < node.outputNode.count; i++) {
 				GraphNode* successorNode = node.outputNode[i];
-				Annotation* annotation = [self addAnnotation:successorNode addToRect:YES];
+				Annotation* annotation = [self addAnnotation:successorNode addToRect:YES annotationType:VISITED];
 				[self.mapView addAnnotation:annotation];
 			}
 		} else {
-			Annotation* annotation = [self addAnnotation:node addToRect:YES];
+			Annotation* annotation = [self addAnnotation:node addToRect:YES annotationType:CURRENT];
 			[self.mapView addAnnotation:annotation];
 		}
 	}
@@ -177,16 +178,17 @@
 
 - (void)drawAnnotationStations {
 	for (GraphNode* node in self.graph.annotationStations) {
-		Annotation* annotation = [self addAnnotation:node addToRect:NO];
+		Annotation* annotation = [self addAnnotation:node addToRect:NO annotationType:STATIC];
 		[self.mapView addAnnotation:annotation];
 	}
 }
 
-- (Annotation*)addAnnotation:(GraphNode*)successorNode addToRect:(BOOL)add {
+- (Annotation*)addAnnotation:(GraphNode*)successorNode addToRect:(BOOL)add annotationType:(AnnotationType)type{
 	Annotation* annotation = [[Annotation alloc] init];
 	annotation.title = successorNode.name;
 	annotation.subtitle = @"";
 	annotation.coordinate = successorNode.location;
+	annotation.type = type;
 	
 	if (add) {
 		MKMapPoint annotationPoint = MKMapPointForCoordinate(successorNode.location);
@@ -203,7 +205,12 @@
 }
 
 - (void)load {
-	
+	self.isRestoringSavedState = YES;
+	for (GraphNode* node in self.graph.graphRoot.visitedNodes) {
+		[self didArriveAtLocation:node.identifier];
+	}
+	self.isRestoringSavedState = NO;
+	[self setupLocationListener];
 }
 
 - (void)loadXML {
@@ -230,11 +237,26 @@
     if (wtf) {
         DebugLog(@"XML parsing failed: %@", [parser parserError]);
     } else {
-		
-		[self progressedToNextStation];
-		[self drawAnnotationStations];
+		if ([[NSUserDefaults standardUserDefaults] objectForKey:[self.graph.graphRoot.name stringByAppendingString:@"current_node"]]) {
+
+			UIAlertView* savedSession = [[UIAlertView alloc] initWithTitle:@"Fortsetzen?" message:@"Diese Route wurde schon einmal begonnen. Am letzten Punkt fortsetzen?" delegate:self cancelButtonTitle:@"Nein" otherButtonTitles:@"Ja", nil];
+			[savedSession show];
+		} else {
+			[self setupMap];
+		}
 	}
 }
+
+- (void)setupMap {
+	[self progressedToNextStation];
+	[self drawAnnotationStations];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 1) [self load];
+	else [self setupMap];
+}
+
 
 - (void)viewDidAppear:(BOOL)animated {
     [self loadXML];
@@ -285,7 +307,24 @@
     
     pinView.animatesDrop = YES;
     pinView.canShowCallout = YES;
-    pinView.pinColor = MKPinAnnotationColorGreen;
+	
+	Annotation* cast = (Annotation*) annotation;
+	switch (cast.type) {
+		case STATIC:
+			pinView.pinColor = MKPinAnnotationColorGreen;
+			break;
+			
+		case CURRENT:
+			pinView.pinColor = MKPinAnnotationColorRed;
+			break;
+			
+		case VISITED:
+			pinView.pinColor = MKPinAnnotationColorPurple;
+			break;
+			
+		default:
+			break;
+	}
     
     UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     [rightButton setTitle:annotation.title forState:UIControlStateNormal];

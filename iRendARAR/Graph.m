@@ -75,22 +75,27 @@
 	for (GraphNode* node in self.graphRoot.visitedNodes) {
 		[visitedNodes addObject:node.identifier];
 	}
+	NSLog(@"Saving %i items", visitedNodes.count);
 	[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:visitedNodes] forKey:[self.graphRoot.name stringByAppendingString:@"visited_nodes"]];
+
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 
 -(void)load {
-	[self.graphRoot setNodeAsCurrentNode:[self nodeForID:[[NSUserDefaults standardUserDefaults] objectForKey:[self.graphRoot.name stringByAppendingString:@"current_node"]]]];
 	NSData *dataRepresentingSavedArray = [[NSUserDefaults standardUserDefaults] objectForKey:[self.graphRoot.name stringByAppendingString:@"visited_nodes"]];
 	if (dataRepresentingSavedArray != nil)
 	{
 		NSArray *savedArray = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
+		NSLog(@"lulwut %@", savedArray);
 		if (savedArray != nil) {
 			for (NSString* identifier in savedArray) {
 				[self.graphRoot setNodeAsCurrentNode:[self nodeForID:identifier]];
 			}
 		}
 	}
+	
+	[self.graphRoot setNodeAsCurrentNode:[self nodeForID:[[NSUserDefaults standardUserDefaults] objectForKey:[self.graphRoot.name stringByAppendingString:@"current_node"]]]];
 }
 
 

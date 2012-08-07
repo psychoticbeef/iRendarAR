@@ -93,17 +93,21 @@
 	[self drawRoutes];
 	[self drawAnnotationsForFollowupStation];
 	if (!self.isRestoringSavedState) {
-		[self setupLocationListener];
+		[self.graph save];
 	}
 	
-	[self.graph save];
+	[self setupLocationListener];
 }
 
 - (void)didArriveAtLocation:(NSString*)identifer {
 	NSLog(@"did arrive at: %@", identifer);
 	
-	dispatch_async(dispatch_get_main_queue(), ^{
+//	dispatch_sync(dispatch_get_main_queue(), ^{
 		if (!self.playerHasArrived) {
+//			[self.graph.graphRoot setNodeAsCurrentNode:self.graph.graphRoot.currentNode];	// to mark as visited :] *hax*
+
+			if (self.temporaryAnnotations.count > 0) {
+				
 			Annotation* annotation = [self.temporaryAnnotations objectAtIndex:0];
 			annotation.type = VISITED;
 
@@ -112,6 +116,7 @@
 			
 			[self.mapView removeAnnotation:annotation];
 			[self.mapView addAnnotation:annotation];
+			}
 		}
 		
 		if (self.graph.graphRoot.currentNode.isEndStation) {
@@ -160,7 +165,7 @@
 
 
 		[self progressedToNextStation];
-	});
+//	});
 }
 
 - (void)drawRoutes {
@@ -201,17 +206,20 @@
 
 	// add all possible follow-up nodes as box
 	if (!self.gameOver) {
+		AnnotationType type = self.isRestoringSavedState ? VISITED : CURRENT;
+
 		if (self.playerHasArrived) {
 			for (int i = 0; i < node.outputNode.count; i++) {
 				GraphNode* successorNode = node.outputNode[i];
-				Annotation* annotation = [self addAnnotation:successorNode addToRect:YES annotationType:CURRENT];
+				
+				Annotation* annotation = [self addAnnotation:successorNode addToRect:YES annotationType:type];
 				[self.temporaryAnnotations addObject:annotation];
 				[self.mapView addAnnotation:annotation];
 				NSLog(@"%@", annotation);
 				NSLog(@"%@", self.mapView.annotations);
 			}
 		} else {
-			Annotation* annotation = [self addAnnotation:node addToRect:YES annotationType:CURRENT];
+			Annotation* annotation = [self addAnnotation:node addToRect:YES annotationType:type];
 			[self.temporaryAnnotations addObject:annotation];
 			[self.mapView addAnnotation:annotation];
 		}
@@ -250,12 +258,15 @@
 }
 
 - (void)load {
+	self.playerHasArrived = YES;
 	self.isRestoringSavedState = YES;
 	[self.graph load];
-	for (GraphNode* node in self.graph.graphRoot.visitedNodes) {
-		[self didArriveAtLocation:node.identifier];
+	for (int i = 0; i < self.graph.graphRoot.visitedNodes.count; i++) {
+		[self.graph.graphRoot setNodeAsCurrentNode:self.graph.graphRoot.visitedNodes[i]];
+		[self drawRoutes];
+		if (i == self.graph.graphRoot.visitedNodes.count-1) self.isRestoringSavedState = NO;
+		[self drawAnnotationsForFollowupStation];
 	}
-	self.isRestoringSavedState = NO;
 	[self setupLocationListener];
 }
 

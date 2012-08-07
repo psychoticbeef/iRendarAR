@@ -29,7 +29,7 @@
 
 
 -(void)setNodeAsCurrentNode:(GraphNode*)node {
-	if (self.currentNode) {
+	if (self.currentNode && [_visitedNodes indexOfObject:node] == NSNotFound) {
 		[_visitedNodes addObject:self.currentNode];
 	}
 		 

@@ -279,7 +279,7 @@
 
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[NSData dataWithContentsOfFile:[cachePath stringByAppendingPathComponent:@"/route/index.xml"]]];
 	
-	NSLog(@"%@", cachePath);
+	DebugLog(@"%@", cachePath);
     self.graph = [[Graph alloc] init];
     [parser setDelegate:self.graph];
     

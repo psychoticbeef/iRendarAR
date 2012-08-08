@@ -22,6 +22,7 @@
 @property (strong, nonatomic) GPSManager* gpsManager;
 @property (readwrite) int routeSelected;
 @property (strong, nonatomic) CurrentRouteViewController* currentRoute;
+@property (nonatomic, retain) NSArray *sortedArray;
 
 @end
 
@@ -43,7 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+	
     RouteSelectionController *__weak weakSelf = self;
     
     self.routeListDownloaded = NO;
@@ -141,8 +142,19 @@
 }
 
 - (void)locationDidChange {
+	NSLog(@"location did change, faggot");
     if (self.routes) {
+		self.sortedArray = [self.routes sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+			float first = [[GPSManager sharedInstance] distanceFromCurrentPosititionToRoute:(Route*)a];
+			float second = [[GPSManager sharedInstance] distanceFromCurrentPosititionToRoute:(Route*)b];
+			if (first == second) return NSOrderedSame;
+			return first > second ? NSOrderedDescending : NSOrderedAscending;
+		}];
+		
+		self.routes = self.sortedArray;
+		
         [self.tv reloadData];
+
         DebugLog(@"The GPS receiver informed us about a new location."
 				 @"Also, Routes are already loaded.");
     } else {
@@ -154,7 +166,8 @@
 - (void)routeLoaderDidFinishLoading:(NSArray* )routeList {
     self.routeListDownloaded = YES;
     self.routes = routeList;
-    [self.tv reloadData];
+	
+	[self locationDidChange];
 }
 
 - (IBAction)cancelDownload:(id)sender {
@@ -173,7 +186,7 @@
         NSLog(@"Downloaded -1 Bytes, which means there was an error concerning"
 			  @"the NSURLConnection downloading route content.");
     }
-    
+	
     NSArray* cachePathArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* cachePath = [cachePathArray lastObject];
     

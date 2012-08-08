@@ -147,7 +147,7 @@
 + (StationType)stationTypeForName:(NSString *)typeName {
     NSUInteger result = [[GraphNode names] indexOfObject:[typeName uppercaseString]];
     if (result == NSNotFound) {
-        NSLog(@"I do not know the station type %@", typeName);
+        NSLog(@"Error: I do not know the station type %@", typeName);
     }
     
     return result;

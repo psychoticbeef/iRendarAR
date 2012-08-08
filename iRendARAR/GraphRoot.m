@@ -20,7 +20,6 @@
 
 -(id)copyWithZone: (NSZone *) zone {
     GraphRoot *newGraphRoot = [[GraphRoot allocWithZone:zone] init];
-    NSLog(@"_copy: %@", [newGraphRoot self]);
 	newGraphRoot.name = self.name;
 	newGraphRoot.schemaVersion = self.schemaVersion;
 	

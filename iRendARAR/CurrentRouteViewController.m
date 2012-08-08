@@ -100,8 +100,6 @@
 }
 
 - (void)didArriveAtLocation:(NSString*)identifer {
-	NSLog(@"did arrive at: %@", identifer);
-	
 //	dispatch_sync(dispatch_get_main_queue(), ^{
 		if (!self.playerHasArrived) {
 //			[self.graph.graphRoot setNodeAsCurrentNode:self.graph.graphRoot.currentNode];	// to mark as visited :] *hax*
@@ -129,12 +127,9 @@
 				NSUInteger index = [self.graph.graphRoot.currentNode.outputNode indexOfObject:node];
 
 				if (self.temporaryAnnotations.count > 0) {
-					NSLog(@"Keeping Index: %i. Name: %@. Overlaycount: %i", index, node.identifier, self.temporaryOverlays.count);
-					
 					Annotation* annotation = [self.temporaryAnnotations objectAtIndex:index];
 					annotation.type = VISITED;
-					NSLog(@"%@ %@", annotation, annotation.title);
-					
+
 					[self.temporaryOverlays removeObjectAtIndex:index];
 					[self.mapView removeOverlays:self.temporaryOverlays];
 					[self.temporaryOverlays removeAllObjects];
@@ -215,8 +210,6 @@
 				Annotation* annotation = [self addAnnotation:successorNode addToRect:YES annotationType:type];
 				[self.temporaryAnnotations addObject:annotation];
 				[self.mapView addAnnotation:annotation];
-				NSLog(@"%@", annotation);
-				NSLog(@"%@", self.mapView.annotations);
 			}
 		} else {
 			Annotation* annotation = [self addAnnotation:node addToRect:YES annotationType:type];

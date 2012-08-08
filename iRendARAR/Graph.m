@@ -75,7 +75,7 @@
 	for (GraphNode* node in self.graphRoot.visitedNodes) {
 		[visitedNodes addObject:node.identifier];
 	}
-	NSLog(@"Saving %i items", visitedNodes.count);
+	DebugLog(@"Debug: Saving %i items", visitedNodes.count);
 	[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:visitedNodes] forKey:[self.graphRoot.name stringByAppendingString:@"visited_nodes"]];
 
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -87,7 +87,7 @@
 	if (dataRepresentingSavedArray != nil)
 	{
 		NSArray *savedArray = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
-		NSLog(@"lulwut %@", savedArray);
+		DebugLog(@"Debug: Deserialized state %@", savedArray);
 		if (savedArray != nil) {
 			for (NSString* identifier in savedArray) {
 				[self.graphRoot setNodeAsCurrentNode:[self nodeForID:identifier]];
@@ -147,7 +147,6 @@
     self.stationType = attributeDict[@"type"];
 	self.isStartStation = [attributeDict[@"is_start_station"] boolValue];
 	self.isEndStation = [attributeDict[@"is_end_station"] boolValue];
-	NSLog(@"%i %i", self.isStartStation, self.isEndStation);
 }
 
 -(void)handleElementDone_station {

@@ -7,6 +7,7 @@
 //
 
 #import "GraphRoot.h"
+#import "DirtyHack.h"
 
 @interface GraphRoot ()
 @property (readwrite, retain) NSString *schemaVersion;
@@ -42,6 +43,9 @@
 		_name = name;
 		_schemaVersion = schemaVersion;
 		_visitedNodes = [[NSMutableArray alloc] init];
+		
+		[DirtyHack sharedInstance].visitedStations = _visitedNodes;
+		[DirtyHack sharedInstance].routeName = name;
 
     }
     

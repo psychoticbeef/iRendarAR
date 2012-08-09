@@ -7,11 +7,12 @@
 //
 
 #import "SummaryViewController.h"
-#import "Score.h"
+//#import "Score.h"
+#import "DirtyHack.h"
+#import "GraphNode.h"
 
 @interface SummaryViewController ()
 
-@property (strong, nonatomic) NSMutableArray* finishedParts;
 @property (weak, nonatomic) IBOutlet UITableView* tv;
 @property (weak, nonatomic) IBOutlet UILabel* scoreLabel;
 
@@ -25,6 +26,7 @@
     if (self) {
         // Custom initialization
     }
+
     return self;
 }
 
@@ -50,15 +52,8 @@
 {
     [super viewDidLoad];
 	
-    self.finishedParts = [[NSMutableArray alloc] init];
-    [self.finishedParts addObject:@"Durch die Mosel schwimmen"];
-    [self.finishedParts addObject:@"Passanten mit Steinen bewerfen"];
-    [self.finishedParts addObject:@"Auf die Seilbahn klettern"];
-	
     [[NSNotificationCenter defaultCenter] addObserver:self selector:(@selector(scoreChanged)) name:@"scoreChanged" object:nil];
-    
 }
-
 
 
 -(void)scoreChanged:(NSNotification*)notification {
@@ -71,8 +66,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -84,7 +77,7 @@
 #pragma mark tableview shit
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.finishedParts count];
+    return [DirtyHack sharedInstance].visitedStations.count;
 }
 
 
@@ -96,10 +89,12 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = self.finishedParts[indexPath.row];
+	
+	GraphNode* node = [DirtyHack sharedInstance].visitedStations[indexPath.row];
+    cell.textLabel.text = node.name;
     
     // checkmarks for stuff done, disclosure for the current thingie
-    cell.accessoryType = ([self.finishedParts count] == (indexPath.row + 1)) ? UITableViewCellAccessoryDetailDisclosureButton : UITableViewCellAccessoryCheckmark;
+    cell.accessoryType = ([DirtyHack sharedInstance].visitedStations.count == (indexPath.row + 1)) ? UITableViewCellAccessoryDetailDisclosureButton : UITableViewCellAccessoryCheckmark;
     
     return cell;
 }
@@ -113,7 +108,13 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Bitte eine Route wählen";
+	return [DirtyHack sharedInstance].routeName ?
+			[@"Abgeschlossene Teile von " stringByAppendingString:[DirtyHack sharedInstance].routeName] : @"";
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[self.tv reloadData];
+	NSLog(@"test");
 }
 
 

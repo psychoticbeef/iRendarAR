@@ -13,6 +13,7 @@
 		032EFE6015A345D4005D96CE /* a.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EFE5D15A345D4005D96CE /* a.png */; };
 		032EFE6115A345D4005D96CE /* b.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EFE5E15A345D4005D96CE /* b.png */; };
 		032EFE6215A345D4005D96CE /* c.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EFE5F15A345D4005D96CE /* c.png */; };
+		033826E315D400DA005D96F2 /* DirtyHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 033826E215D400DA005D96F2 /* DirtyHack.m */; };
 		0341CE5614D4640900DD6350 /* GPSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0341CE5514D4640900DD6350 /* GPSManager.m */; };
 		034F93731510945D00866103 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 034F93691510945D00866103 /* ioapi.c */; };
 		034F93741510945D00866103 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 034F936B1510945D00866103 /* mztools.c */; };
@@ -77,6 +78,8 @@
 		032EFE5D15A345D4005D96CE /* a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = a.png; sourceTree = "<group>"; };
 		032EFE5E15A345D4005D96CE /* b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = b.png; sourceTree = "<group>"; };
 		032EFE5F15A345D4005D96CE /* c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c.png; sourceTree = "<group>"; };
+		033826E115D400D9005D96F2 /* DirtyHack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirtyHack.h; sourceTree = "<group>"; };
+		033826E215D400DA005D96F2 /* DirtyHack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirtyHack.m; sourceTree = "<group>"; };
 		0341CE5414D4640900DD6350 /* GPSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPSManager.h; sourceTree = "<group>"; };
 		0341CE5514D4640900DD6350 /* GPSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPSManager.m; sourceTree = "<group>"; };
 		034F93681510945D00866103 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
@@ -276,7 +279,7 @@
 				03BDED2915A2DA810045D5B3 /* Download */,
 				03F7427C15628D4F00498962 /* TableView Style */,
 				034F93661510945D00866103 /* ZipArchive */,
-				037A590D14D005A400C358BC /* Route Graph */,
+				037A590D14D005A400C358BC /* Model */,
 				03D0D54814D0404300D1D2F7 /* ARlol */,
 				03BDED2D15A2F3220045D5B3 /* Maps */,
 				03BDED2E15A2F6280045D5B3 /* Reachablity */,
@@ -289,6 +292,8 @@
 				03889CE514D014E8008C0343 /* SummaryViewController.m */,
 				03889CE114D00FB6008C0343 /* RouteSelectionController.h */,
 				03889CE214D00FB6008C0343 /* RouteSelectionController.m */,
+				033826E115D400D9005D96F2 /* DirtyHack.h */,
+				033826E215D400DA005D96F2 /* DirtyHack.m */,
 				037A58FE14CFFE9D00C358BC /* ressources */,
 				037A58D114CFFC3B00C358BC /* Supporting Files */,
 			);
@@ -329,7 +334,7 @@
 			name = ressources;
 			sourceTree = "<group>";
 		};
-		037A590D14D005A400C358BC /* Route Graph */ = {
+		037A590D14D005A400C358BC /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				03C4157315177309004B2AE7 /* Graph.h */,
@@ -343,7 +348,7 @@
 				037EEC6614D2D0E700CC2BDF /* Route.h */,
 				037EEC6714D2D0E700CC2BDF /* Route.m */,
 			);
-			name = "Route Graph";
+			name = Model;
 			sourceTree = "<group>";
 		};
 		03A3954B15CFCD9E00FE34DE /* proto */ = {
@@ -529,6 +534,7 @@
 				031B111E15C29B8300F5BC54 /* Question.m in Sources */,
 				031B112215C2AA7E00F5BC54 /* Answer.m in Sources */,
 				03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */,
+				033826E315D400DA005D96F2 /* DirtyHack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

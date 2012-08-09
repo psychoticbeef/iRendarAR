@@ -65,6 +65,8 @@
 {
     [super viewDidLoad];
 
+    [self loadXML];
+    
     self.accelerometer = [UIAccelerometer sharedAccelerometer];
     self.accelerometer.updateInterval = .1;
     
@@ -161,6 +163,10 @@
 
 		[self progressedToNextStation];
 //	});
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	NSLog(@"SEGUE");
 }
 
 - (void)drawRoutes {
@@ -309,8 +315,6 @@
 
 
 - (void)viewDidAppear:(BOOL)animated {
-    [self loadXML];
-    
     self.accelerometer = [UIAccelerometer sharedAccelerometer];
     self.accelerometer.updateInterval = .1;
     self.accelerometer.delegate = self;

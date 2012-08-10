@@ -6,6 +6,34 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+/*
+ 
+ This Controller shows two things:
+	1) routes that we completed
+	2) routes that follow once we completed a route
+ 
+ There are some edge cases here, though:
+ 
+	- the very first route is a dummy. it has all starting routes as follow ups
+	- we haven't a completed any route yet, thus we only show follow up routes
+	- we are at the end, thus there aren't any follow-up routes anymore
+ 
+ Also:
+ 
+ The current route is _not_ visited. So, we have to manage the visited ones, the current one
+ and the follow ups to the current one.
+ 
+ The result: several switches & ifs i wouldn't want to debug in a week or so.
+ 
+ Oh, and it does not get any simplified by the fact that i have no clue how i should share
+ data between this VC and CurrentRouteVC. The problem is: both are instantiated by the TabBar,
+ thus neither one of them has access to the instance of the other. Also, the instantiation of
+ this VC is lazy, so messaging is not an option either – except the very dirty way:
+ 
+ "hey, i was instantiated, tell me what's going on". So a singleton, DirtyHack, does the dirty work.
+ 
+ */
+
 #import "SummaryViewController.h"
 //#import "Score.h"
 #import "DirtyHack.h"
@@ -115,12 +143,9 @@
 	int indexPathSection = indexPath.section;
 	if ([DirtyHack sharedInstance].currentStation.type == DUMMY) indexPathSection++;
 	
-	NSLog(@"IndexPathSection: %i", indexPathSection);
-	
 	switch (indexPathSection) {
 		case 0:
 			if (indexPath.row < [DirtyHack sharedInstance].visitedStations.count) {
-				NSLog(@"%@", [DirtyHack sharedInstance].visitedStations);
 				node = [DirtyHack sharedInstance].visitedStations[indexPath.row];
 				cell.accessoryType = UITableViewCellAccessoryCheckmark;
 			} else if (indexPath.row == [DirtyHack sharedInstance].visitedStations.count) {
@@ -151,9 +176,6 @@
 	int numberOfSections = 0;
 	if (![DirtyHack sharedInstance].currentStation.isEndStation) numberOfSections++;
 	if ([DirtyHack sharedInstance].currentStation.type != DUMMY) numberOfSections++;
-	NSLog(@"currentCount %i", [DirtyHack sharedInstance].currentStation.outputNode.count > 0);
-	NSLog(@"visitedCount %i", [DirtyHack sharedInstance].visitedStations.count > 0);
-	NSLog(@"numberOfSections %i", numberOfSections);
     return numberOfSections;
 }
 

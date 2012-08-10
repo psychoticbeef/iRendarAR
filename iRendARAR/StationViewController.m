@@ -66,9 +66,9 @@
 	self.currentImageIndex = 0;
 	
 	self.images = [[NSMutableArray alloc] init];
-	[self.images addObject:[UIImage imageNamed:@"a.png"]];
-	[self.images addObject:[UIImage imageNamed:@"b.png"]];
-	[self.images addObject:[UIImage imageNamed:@"c.png"]];
+//	[self.images addObject:[UIImage imageNamed:@"a.png"]];
+//	[self.images addObject:[UIImage imageNamed:@"b.png"]];
+//	[self.images addObject:[UIImage imageNamed:@"c.png"]];
 	
 	int i = 0;
 	CGRect scrollViewFrame = self.scrollView.frame;
@@ -98,7 +98,7 @@
 	self.hasDescription = (self.text && self.text.length > 0);
 	self.hasSingleImage = (self.images.count == 1);
 	self.hasMultipleImages = (self.images.count > 1);
-	self.hasMultipleChoice = YES;
+	self.hasMultipleChoice = self.node.questions != NULL && self.node.questions.count > 0;
 	
 	CGRect textViewRect = self.textView.frame;
 	CGRect scrollViewRect = self.scrollView.frame;
@@ -150,6 +150,7 @@
 
 -(IBAction)multipleChoiceAction:(id)sender {
 	self.multipleChoiceViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"multipleChoice"];
+	self.multipleChoiceViewController.questions = self.node.questions;
 	[self.navigationController pushViewController:self.multipleChoiceViewController animated:YES];
 	
 }

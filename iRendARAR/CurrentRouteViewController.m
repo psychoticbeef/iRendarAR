@@ -55,11 +55,11 @@
 #pragma mark - View lifecycle
 
 /*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
+ // Implement loadView to create a view hierarchy programmatically, without using a nib.
+ - (void)loadView
+ {
+ }
+ */
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
@@ -74,7 +74,7 @@
     self.appState = NONE;
     
     self.arViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"arview"];
-
+	
     self.mapView.delegate = self;
 	
 	self.flyTo = MKMapRectNull;
@@ -85,7 +85,7 @@
 
 
 - (void)progressedToNextStation {
-//	[self.mapView removeOverlays:self.mapView.overlays];
+	//	[self.mapView removeOverlays:self.mapView.overlays];
 	for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) { // in the beginning our graph is undirected
 		unsigned int index = [node.outputNode indexOfObject:self.graph.graphRoot.currentNode];
 		if (index != NSNotFound) {
@@ -103,36 +103,45 @@
 }
 
 - (void)didArriveAtLocation:(NSString*)identifer {
-		if (self.graph.graphRoot.currentNode.isEndStation) {
-			self.gameOver = YES;
-			[[GPSManager sharedInstance] clearNotifications];
-		}
-
-		for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) {
-			if ([node.identifier isEqualToString:identifer]) {
-				NSUInteger index = [self.graph.graphRoot.currentNode.outputNode indexOfObject:node];
-
-				if (self.temporaryAnnotations.count > 0) {
-					Annotation* annotation = [self.temporaryAnnotations objectAtIndex:index];
-					annotation.type = VISITED;
-
-					[self.temporaryOverlays removeObjectAtIndex:index];
-					[self.mapView removeOverlays:self.temporaryOverlays];
-					[self.temporaryOverlays removeAllObjects];
-
-					[self.mapView removeAnnotations:self.temporaryAnnotations];
-					[self.temporaryAnnotations removeAllObjects];
-					
-					[self.mapView addAnnotation:annotation];
-				}
+	if (self.graph.graphRoot.currentNode.isEndStation) {
+		self.gameOver = YES;
+		[[GPSManager sharedInstance] clearNotifications];
+	}
+	
+	for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) {
+		if ([node.identifier isEqualToString:identifer]) {
+			NSUInteger index = [self.graph.graphRoot.currentNode.outputNode indexOfObject:node];
+			
+			if (self.temporaryAnnotations.count > 0) {
+				Annotation* annotation = [self.temporaryAnnotations objectAtIndex:index];
+				annotation.type = VISITED;
 				
-				[self.graph.graphRoot setNodeAsCurrentNode:node];
-
-				break;
+				[self.temporaryOverlays removeObjectAtIndex:index];
+				[self.mapView removeOverlays:self.temporaryOverlays];
+				[self.temporaryOverlays removeAllObjects];
+				
+				[self.mapView removeAnnotations:self.temporaryAnnotations];
+				[self.temporaryAnnotations removeAllObjects];
+				
+				[self.mapView addAnnotation:annotation];
 			}
+			
+			[self.graph.graphRoot setNodeAsCurrentNode:node];
+			
+			break;
 		}
-		
+	}
+	
+	self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
+	self.stationDetailViewController.node = self.graph.graphRoot.currentNode;
+	self.stationDetailViewController.delegate = self;
+	[self.navigationController pushViewController:self.stationDetailViewController animated:YES];
+}
+
+- (void)answeredQuestion {
+	dispatch_async(dispatch_get_main_queue(), ^{
 		[self progressedToNextStation];
+	});
 }
 
 - (void)drawRoutes {
@@ -148,7 +157,7 @@
 - (void)setupLocationListener {
 	[[GPSManager sharedInstance] clearNotifications];
 	GraphNode* node = self.graph.graphRoot.currentNode;
-
+	
 	for (GraphNode* followupNode in node.outputNode) {
 		[[GPSManager sharedInstance] notifyWhenAtLocation:followupNode.location withRadius:(int)followupNode.radius identifier:followupNode.identifier delegate:self];
 	}
@@ -161,7 +170,7 @@
 	MKMapPoint annotationPoint = MKMapPointForCoordinate(self.mapView.userLocation.location.coordinate);
 	MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
 	self.flyTo = pointRect;
-
+	
 	// add all possible follow-up nodes as box
 	AnnotationType type = self.isRestoringSavedState ? VISITED : CURRENT;
 	
@@ -172,7 +181,7 @@
 		[self.temporaryAnnotations addObject:annotation];
 		[self.mapView addAnnotation:annotation];
 	}
-
+	
 	// when we're done, we're done.
 	if (!self.gameOver) [self.mapView setVisibleMapRect:self.flyTo edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
 }
@@ -206,7 +215,7 @@
 }
 
 - (void)load {
-//	self.playerHasArrived = YES;
+	//	self.playerHasArrived = YES;
 	self.isRestoringSavedState = YES;
 	[self.graph load];
 	for (int i = 0; i < self.graph.graphRoot.visitedNodes.count; i++) {
@@ -228,10 +237,10 @@
 	// remove all annotations, except the user position, which we removed from the removal list. so smart.
 	// no blinking :o
     [self.mapView removeAnnotations:annotations];
-
+	
 	NSArray* cachePathArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* cachePath = [cachePathArray lastObject];
-
+	
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[NSData dataWithContentsOfFile:[cachePath stringByAppendingPathComponent:@"/route/index.xml"]]];
 	
 	DebugLog(@"%@", cachePath);
@@ -243,7 +252,7 @@
         DebugLog(@"XML parsing failed: %@", [parser parserError]);
     } else {
 		if ([[NSUserDefaults standardUserDefaults] objectForKey:[self.graph.graphRoot.name stringByAppendingString:@"current_node"]]) {
-
+			
 			UIAlertView* savedSession = [[UIAlertView alloc] initWithTitle:@"Fortsetzen?" message:@"Diese Route wurde schon einmal begonnen. Am letzten Punkt fortsetzen?" delegate:self cancelButtonTitle:@"Nein" otherButtonTitles:@"Ja", nil];
 			[savedSession show];
 		} else {
@@ -307,7 +316,7 @@
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
     }
-
+	
     static NSString* AnnotationIdentifier = @"AnnotationIdentifier";
     MKPinAnnotationView* pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationIdentifier];
     
@@ -338,14 +347,14 @@
     [rightButton setTitle:annotation.title forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
     pinView.rightCalloutAccessoryView = rightButton;
-
+	
     return pinView;
 }
 
 -(IBAction)showDetails:(id)sender {
-//    StationDetailView
-//    self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
-//    [self.navigationController pushViewController:self.stationDetailViewController animated:YES];
+	//    StationDetailView
+	//    self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
+	//    [self.navigationController pushViewController:self.stationDetailViewController animated:YES];
 	
 	NSLog(@"Sup. Debug button was tapped. Some overview:");
 	NSLog(@"--- Before ---");
@@ -353,9 +362,9 @@
 	
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	if (node.outputNode.count > 0) {
-//		if (self.playerHasArrived) {
-			node = node.outputNode[0];
-//		}
+		//		if (self.playerHasArrived) {
+		node = node.outputNode[0];
+		//		}
 		[self didArriveAtLocation:node.identifier];
 	}
 	
@@ -371,7 +380,7 @@
     MKPolylineView *polylineView = [[MKPolylineView alloc] initWithPolyline:(MKPolyline *)overlay];
     polylineView.lineWidth = 0;
     polylineView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:0.7];
-
+	
     return polylineView;
     
 }

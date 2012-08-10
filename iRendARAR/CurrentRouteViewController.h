@@ -17,7 +17,7 @@
 
 
 
-@interface CurrentRouteViewController : UIViewController <UIAccelerometerDelegate, MKMapViewDelegate, GPSManagerNotificationDelegate, UIAlertViewDelegate>
+@interface CurrentRouteViewController : UIViewController <UIAccelerometerDelegate, MKMapViewDelegate, GPSManagerNotificationDelegate, UIAlertViewDelegate, MultipleChoiceDelegate>
 
 typedef NS_ENUM (NSUInteger, AppState) { NONE, CAMERA, MAP };
 

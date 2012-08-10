@@ -110,7 +110,7 @@
 
 - (void)handleElement_question:(NSDictionary*)attributeDict {
 	self.question = [[Question alloc] init];
-	[self.questions addObject:self.questions];
+	[self.questions addObject:self.question];
 	self.question.questionText = attributeDict[@"query"];
 }
 
@@ -124,6 +124,8 @@
 		self.question.answers = [[NSMutableArray alloc] init];
 	}
 	[self.question.answers addObject:answer];
+	
+	NSLog(@"%@", answer);
 }
 
 // to make this thing uber, a handler could be created based on the gpsrallye schemaversion (factory)
@@ -180,7 +182,10 @@
 	
     SEL sel = NSSelectorFromString(selector);
     if ([self respondsToSelector:sel]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         [self performSelector:sel withObject:attributeDict];
+#pragma clang diagnostic pop
     } else {
         NSLog(@"Error: Tag %@ is not handled. Worry!", elementName);
     }
@@ -191,7 +196,10 @@
 	NSString* selector = [NSString stringWithFormat:@"handleElementDone_%@", [elementName lowercaseString]];
     SEL sel = NSSelectorFromString(selector);
     if ([self respondsToSelector:sel]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         [self performSelector:sel];
+#pragma clang diagnostic pop
     } else {
         DebugLog(@"Debug: Closing tag %@ is not handled. Don't worry.", elementName); // only a "debuglog" (for logging in debugmode), because doing something when an element ends is NOT required.
     }

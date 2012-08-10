@@ -10,5 +10,6 @@
 
 @interface MultipleChoiceViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, weak) NSMutableArray* questions;
 
 @end

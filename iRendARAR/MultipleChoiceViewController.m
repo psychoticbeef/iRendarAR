@@ -8,6 +8,8 @@
 
 #import "MultipleChoiceViewController.h"
 #import "TableViewCell.h"
+#import "Question.h"
+#import "Answer.h"
 
 @interface MultipleChoiceViewController ()
 
@@ -20,13 +22,16 @@
 #pragma mark - table view shit
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+	
+	Question* q = self.questions[0];
+    return q.answers.count + 1;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"SuperCell";
     
+	Question* q = self.questions[0];
     
     TableViewCell *cell = (TableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -34,9 +39,17 @@
         //cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
         cell = [[TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }   
+    }
+	
+	if (indexPath.row == 0) {
+		cell.bazinga = q.questionText;
+	} else {
+		Answer* a = q.answers[indexPath.row - 1];
+		cell.bazinga = a.answerText;
+//		cell.bazinga = q.questionText;
+	}
     
-    cell.bazinga = [NSString stringWithFormat:@"%i", indexPath.row];
+	cell.bazinga = @"";
     
     return cell;
 }

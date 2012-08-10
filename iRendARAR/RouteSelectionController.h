@@ -11,7 +11,6 @@
 #import "GPSManager.h"
 #import "Route.h"
 #import "CurrentRouteViewController.h"
-#import "ZipArchive.h"
 #import <QuartzCore/QuartzCore.h>
 #import "URLConnection.h"
 #import "Reachability.h"

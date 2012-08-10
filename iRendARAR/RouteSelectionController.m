@@ -8,6 +8,7 @@
 
 #import "RouteSelectionController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SSZipArchive.h"
 
 @interface RouteSelectionController ()
 
@@ -188,7 +189,6 @@
 }
 
 - (void)locationDidChange {
-	NSLog(@"location did change, faggot");
     if (self.routes) {
 		self.sortedArray = [self.routes sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
 			float first = [[GPSManager sharedInstance] distanceFromCurrentPosititionToRoute:(Route*)a];
@@ -249,10 +249,12 @@
         return;
     }
     
-    ZipArchive *zipArchive = [[ZipArchive alloc] init];
-    [zipArchive UnzipOpenFile:filepath Password:@""];
-    [zipArchive UnzipFileTo:[cachePath stringByAppendingPathComponent:@"/route/"] overWrite:YES];
-    [zipArchive UnzipCloseFile];
+//    ZipArchive *zipArchive = [[ZipArchive alloc] init];
+//    [zipArchive UnzipOpenFile:filepath Password:@""];
+//    [zipArchive UnzipFileTo:[cachePath stringByAppendingPathComponent:@"/route/"] overWrite:YES];
+//    [zipArchive UnzipCloseFile];
+	
+	[SSZipArchive unzipFileAtPath:filepath toDestination:[cachePath stringByAppendingPathComponent:@"/route/"]];
     
     self.filesize = 0;
 

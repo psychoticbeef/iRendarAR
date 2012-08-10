@@ -80,3 +80,20 @@ message GPSRallye {
 	repeated Path pathes          = 4;
 	
 }
+
+
+message ServerRouteList {
+
+	message Route {
+
+		required string longname  = 1;
+		required string shortname = 2;
+		required string uri       = 3;
+		required float  latitude  = 4;
+		required float  longitude = 5;
+
+	}
+
+	repeated Route routes = 1;
+
+}

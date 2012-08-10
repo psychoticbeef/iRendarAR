@@ -19,7 +19,6 @@
 @property (nonatomic, retain) NSMutableArray* notifierDelegate;
 @property (nonatomic, retain) NSMutableArray* notifierRadius;
 @property (nonatomic, retain) NSMutableArray* notifierIdentifier;
-@property (nonatomic, retain) CLLocation* loc;
 
 @end
 

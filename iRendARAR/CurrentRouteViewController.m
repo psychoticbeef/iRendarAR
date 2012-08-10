@@ -22,7 +22,7 @@
 @property (strong, nonatomic) Graph* graph;
 @property (strong, nonatomic) StationViewController* stationDetailViewController;
 @property (nonatomic) MKMapRect flyTo;
-@property (nonatomic) bool playerHasArrived;
+//@property (nonatomic) bool playerHasArrived;
 @property (nonatomic) bool gameOver;
 @property (atomic) bool isRestoringSavedState;
 
@@ -103,21 +103,21 @@
 
 - (void)didArriveAtLocation:(NSString*)identifer {
 //	dispatch_sync(dispatch_get_main_queue(), ^{
-		if (!self.playerHasArrived) {
-//			[self.graph.graphRoot setNodeAsCurrentNode:self.graph.graphRoot.currentNode];	// to mark as visited :] *hax*
-
-			if (self.temporaryAnnotations.count > 0) {
-				
-			Annotation* annotation = [self.temporaryAnnotations objectAtIndex:0];
-			annotation.type = VISITED;
-
-			[self.temporaryOverlays removeAllObjects];
-			[self.temporaryAnnotations removeAllObjects];
-			
-			[self.mapView removeAnnotation:annotation];
-			[self.mapView addAnnotation:annotation];
-			}
-		}
+//		if (!self.playerHasArrived) {
+////			[self.graph.graphRoot setNodeAsCurrentNode:self.graph.graphRoot.currentNode];	// to mark as visited :] *hax*
+//
+//			if (self.temporaryAnnotations.count > 0) {
+//				
+//			Annotation* annotation = [self.temporaryAnnotations objectAtIndex:0];
+//			annotation.type = VISITED;
+//
+//			[self.temporaryOverlays removeAllObjects];
+//			[self.temporaryAnnotations removeAllObjects];
+//			
+//			[self.mapView removeAnnotation:annotation];
+//			[self.mapView addAnnotation:annotation];
+//			}
+//		}
 		
 		if (self.graph.graphRoot.currentNode.isEndStation) {
 			self.gameOver = YES;
@@ -155,9 +155,9 @@
 			}
 		}
 		
-		if (self.graph.graphRoot.currentNode.isStartStation) {
-			self.playerHasArrived = YES;
-		}
+//		if (self.graph.graphRoot.currentNode.isStartStation) {
+//			self.playerHasArrived = YES;
+//		}
 		
 
 
@@ -172,44 +172,45 @@
 - (void)drawRoutes {
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	
-	if (self.playerHasArrived) {
+//	if (self.playerHasArrived) {
 		for (NSString* json in node.outputJSON) {
 			MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
 			[self.temporaryOverlays addObject:line];
 			[self.mapView addOverlay:line];
 			
 		}
-	}
+//	}
 }
 
 - (void)setupLocationListener {
 	[[GPSManager sharedInstance] clearNotifications];
 	GraphNode* node = self.graph.graphRoot.currentNode;
-	if (!self.playerHasArrived) {
-		[[GPSManager sharedInstance] notifyWhenAtLocation:node.location withRadius:(int)node.radius identifier:node.identifier delegate:self];
-	} else {
+//	if (!self.playerHasArrived) {
+//		[[GPSManager sharedInstance] notifyWhenAtLocation:node.location withRadius:(int)node.radius identifier:node.identifier delegate:self];
+//	} else {
 		for (GraphNode* followupNode in node.outputNode) {
 			[[GPSManager sharedInstance] notifyWhenAtLocation:followupNode.location withRadius:(int)followupNode.radius identifier:followupNode.identifier delegate:self];
 		}
-	}
+//	}
 }
 
 - (void)drawAnnotationsForFollowupStation {
 	self.flyTo = MKMapRectNull;	// zooms the map around bounding box of these coordinates
 	
 	GraphNode* node = self.graph.graphRoot.currentNode;	// add last visited node as bounding box thing
-	self.flyTo = MKMapRectUnion(self.flyTo, node.pointRect);
+//	self.flyTo = MKMapRectUnion(self.flyTo, node.pointRect);
 	
 	// add the current location of the user to the box
 	MKMapPoint annotationPoint = MKMapPointForCoordinate(self.mapView.userLocation.location.coordinate);
 	MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
-	self.flyTo = MKMapRectUnion(self.flyTo, pointRect);
+//	self.flyTo = MKMapRectUnion(self.flyTo, pointRect);
+	self.flyTo = pointRect;
 
 	// add all possible follow-up nodes as box
 	if (!self.gameOver) {
 		AnnotationType type = self.isRestoringSavedState ? VISITED : CURRENT;
 
-		if (self.playerHasArrived) {
+//		if (self.playerHasArrived) {
 			for (int i = 0; i < node.outputNode.count; i++) {
 				GraphNode* successorNode = node.outputNode[i];
 				
@@ -217,11 +218,11 @@
 				[self.temporaryAnnotations addObject:annotation];
 				[self.mapView addAnnotation:annotation];
 			}
-		} else {
-			Annotation* annotation = [self addAnnotation:node addToRect:YES annotationType:type];
-			[self.temporaryAnnotations addObject:annotation];
-			[self.mapView addAnnotation:annotation];
-		}
+//		} else {
+//			Annotation* annotation = [self addAnnotation:node addToRect:YES annotationType:type];
+//			[self.temporaryAnnotations addObject:annotation];
+//			[self.mapView addAnnotation:annotation];
+//		}
 	}
 
 	// when we're done, we're done.
@@ -257,7 +258,7 @@
 }
 
 - (void)load {
-	self.playerHasArrived = YES;
+//	self.playerHasArrived = YES;
 	self.isRestoringSavedState = YES;
 	[self.graph load];
 	for (int i = 0; i < self.graph.graphRoot.visitedNodes.count; i++) {
@@ -395,13 +396,20 @@
 //    self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
 //    [self.navigationController pushViewController:self.stationDetailViewController animated:YES];
 	
+	NSLog(@"Sup. Debug button was tapped. Some overview:");
+	NSLog(@"--- Before ---");
+	NSLog(@"Current Station: %@", self.graph.graphRoot.currentNode.name);
+	
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	if (node.outputNode.count > 0) {
-		if (self.playerHasArrived) {
+//		if (self.playerHasArrived) {
 			node = node.outputNode[0];
-		}
+//		}
 		[self didArriveAtLocation:node.identifier];
 	}
+	
+	NSLog(@"--- After ---");
+	NSLog(@"Current Station: %@", self.graph.graphRoot.currentNode.name);
 }
 
 

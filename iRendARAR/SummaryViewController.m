@@ -77,7 +77,26 @@
 #pragma mark tableview shit
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [DirtyHack sharedInstance].visitedStations.count;
+	
+	int modifier = 1;
+	if ([DirtyHack sharedInstance].currentStation.type == DUMMY) {
+		section++;
+		modifier--;
+	}
+
+	switch (section) {
+		case 0:
+			return [DirtyHack sharedInstance].visitedStations.count + modifier;
+			break;
+			
+		case 1:
+			return [DirtyHack sharedInstance].currentStation.outputNode.count;
+			break;
+			
+		default:
+			return 0;
+			break;
+	}
 }
 
 
@@ -89,12 +108,37 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-	
-	GraphNode* node = [DirtyHack sharedInstance].visitedStations[indexPath.row];
-    cell.textLabel.text = node.name;
-    
     // checkmarks for stuff done, disclosure for the current thingie
-    cell.accessoryType = ([DirtyHack sharedInstance].visitedStations.count == (indexPath.row + 1)) ? UITableViewCellAccessoryDetailDisclosureButton : UITableViewCellAccessoryCheckmark;
+	
+	GraphNode* node;
+
+	int indexPathSection = indexPath.section;
+	if ([DirtyHack sharedInstance].currentStation.type == DUMMY) indexPathSection++;
+	
+	NSLog(@"IndexPathSection: %i", indexPathSection);
+	
+	switch (indexPathSection) {
+		case 0:
+			if (indexPath.row < [DirtyHack sharedInstance].visitedStations.count) {
+				NSLog(@"%@", [DirtyHack sharedInstance].visitedStations);
+				node = [DirtyHack sharedInstance].visitedStations[indexPath.row];
+				cell.accessoryType = UITableViewCellAccessoryCheckmark;
+			} else if (indexPath.row == [DirtyHack sharedInstance].visitedStations.count) {
+				node = [DirtyHack sharedInstance].currentStation;
+				cell.accessoryType = UITableViewCellAccessoryCheckmark;
+			}
+			break;
+			
+		case 1:
+			node = [DirtyHack sharedInstance].currentStation.outputNode[indexPath.row];
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			break;
+			
+		default:
+			break;
+	}
+
+    cell.textLabel.text = node.name;
     
     return cell;
 }
@@ -104,17 +148,42 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+	int numberOfSections = 0;
+	if (![DirtyHack sharedInstance].currentStation.isEndStation) numberOfSections++;
+	if ([DirtyHack sharedInstance].currentStation.type != DUMMY) numberOfSections++;
+	NSLog(@"currentCount %i", [DirtyHack sharedInstance].currentStation.outputNode.count > 0);
+	NSLog(@"visitedCount %i", [DirtyHack sharedInstance].visitedStations.count > 0);
+	NSLog(@"numberOfSections %i", numberOfSections);
+    return numberOfSections;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return [DirtyHack sharedInstance].routeName ?
-			[@"Abgeschlossene Teile von " stringByAppendingString:[DirtyHack sharedInstance].routeName] : @"";
+	if ([DirtyHack sharedInstance].currentStation.type == DUMMY) section++;
+	
+	NSString *result;
+
+	switch (section) {
+		case 0:
+			result = @"Bereits besuchte Stationen";
+			if (![[DirtyHack sharedInstance].routeName isEqualToString:@""])
+				result = [result stringByAppendingFormat:@" von %@", [DirtyHack sharedInstance].routeName];
+			break;
+		case 1:
+			result = @"Nächstmögliche Ziele";
+			if (![[DirtyHack sharedInstance].routeName isEqualToString:@""])
+				result = [result stringByAppendingFormat:@" von %@", [DirtyHack sharedInstance].routeName];
+			break;
+			
+		default:
+			result = @"";
+			break;
+	}
+	
+	return result;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[self.tv reloadData];
-	NSLog(@"test");
 }
 
 

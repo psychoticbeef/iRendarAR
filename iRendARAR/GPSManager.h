@@ -20,6 +20,8 @@
 
 @interface GPSManager : NSObject <CLLocationManagerDelegate>
 
+@property (nonatomic, retain) CLLocation* loc;
+
 +(id)sharedInstance;
 
 -(CGFloat)distanceFromLatitude:(CGFloat)fromLatitude fromLongitude:(CGFloat)fromLongitude toLatitude:(CGFloat)toLatitude toLongitude:(CGFloat)toLongitude;

@@ -19,21 +19,22 @@
 
 @implementation GraphRoot
 
--(id)copyWithZone: (NSZone *) zone {
-    GraphRoot *newGraphRoot = [[GraphRoot allocWithZone:zone] init];
-	newGraphRoot.name = self.name;
-	newGraphRoot.schemaVersion = self.schemaVersion;
-	
-    return(newGraphRoot);
-}
+//-(id)copyWithZone: (NSZone *) zone {
+//    GraphRoot *newGraphRoot = [[GraphRoot allocWithZone:zone] init];
+//	newGraphRoot.name = self.name;
+//	newGraphRoot.schemaVersion = self.schemaVersion;
+//	
+//    return(newGraphRoot);
+//}
 
 
 -(void)setNodeAsCurrentNode:(GraphNode*)node {
-	if (self.currentNode && [_visitedNodes indexOfObject:node] == NSNotFound) {
+	if (self.currentNode && self.currentNode.type != DUMMY && [_visitedNodes indexOfObject:node] == NSNotFound) {
 		[_visitedNodes addObject:self.currentNode];
 	}
 		 
 	self.currentNode = node;
+	[DirtyHack sharedInstance].currentStation = node;
 }
 
 

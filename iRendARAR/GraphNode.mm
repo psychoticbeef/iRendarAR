@@ -135,6 +135,7 @@
         [_names insertObject:@"TRIGGER" atIndex:TRIGGER];
         [_names insertObject:@"ANNOTATION" atIndex:ANNOTATION];
         [_names insertObject:@"GEO" atIndex:GEO];
+        [_names insertObject:@"DUMMY" atIndex:DUMMY];
     });
 	
     return _names;

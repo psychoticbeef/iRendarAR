@@ -10,6 +10,7 @@
 #import "GraphNode.h"
 #import "Question.h"
 #import "Answer.h"
+#import "GPSManager.h"
 
 @interface Graph ()
 
@@ -26,6 +27,8 @@
 @property (nonatomic) bool isStartStation;
 @property (nonatomic) bool isEndStation;
 
+@property (nonatomic) GraphNode* dummy;
+
 @end
 
 
@@ -35,6 +38,7 @@
     if ((self = [super init])) {
         _annotationStations = [[NSMutableArray alloc] init];
         _graphRoot = NULL;
+		_dummy = [[GraphNode alloc] initWithName:@"dummy" withType:@"DUMMY" withIdentifier:@"dummy" withLocation:CLLocationCoordinate2DMake(0, 0) withRadius:0 withQuestions:nil isStartStation:NO isEndStation:NO];
     }
     
     return self;
@@ -137,6 +141,10 @@
     }
 }
 
+- (void)handleElementDone_gpsrallye {
+	[self.graphRoot setNodeAsCurrentNode:self.dummy];
+}
+
 - (void)handleElement_stations:(NSDictionary *)attributeDict {
     self.nodes = [[NSMutableArray alloc] init];
 }
@@ -152,7 +160,7 @@
 -(void)handleElementDone_station {
 	GraphNode* node = [[GraphNode alloc] initWithName:self.stationName withType:self.stationType withIdentifier:self.stationID withLocation:self.coordinate withRadius:self.radius withQuestions:self.questions isStartStation:self.isStartStation isEndStation:self.isEndStation];
 	
-	if (node.isStartStation) [self.graphRoot setNodeAsCurrentNode:node];
+	if (node.isStartStation) [self.dummy addOutgoingNode:node withJSON:@""];
 	
     if (node.type == ANNOTATION) [self.annotationStations addObject:node];
     else [self.nodes addObject:node];

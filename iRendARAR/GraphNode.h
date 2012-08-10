@@ -16,7 +16,8 @@ typedef NS_ENUM(NSUInteger, StationType) {
     STORY,
     TRIGGER,
     ANNOTATION,
-    GEO
+    GEO,
+	DUMMY
 };
 
 

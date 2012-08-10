@@ -345,7 +345,11 @@
     if ((acceleration.y < 0.2) && (acceleration.x > 0.95 || acceleration.x < -0.95)) { // why does 'z' have no influence here? oO
         if (self.appState != CAMERA) {
             self.appState = CAMERA;
-            [self.navigationController pushViewController:self.arViewController animated:YES];
+			
+			[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+			[self presentViewController:self.arViewController animated:YES completion:^{
+            }];
+            //[self.navigationController pushViewController:self.arViewController animated:YES];
         }
     }
 }

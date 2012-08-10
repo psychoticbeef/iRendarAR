@@ -51,23 +51,22 @@
 	for(UIView *view in self.tabBarController.view.subviews)
 	{
 		CGRect _rect = view.frame;
+		NSLog(@"%f %f %f %f", _rect.origin.x, _rect.origin.y, _rect.size.width, _rect.size.height);
 		if([view isKindOfClass:[UITabBar class]])
 		{
 			if (self.tabbarIsHidden) {
 				_rect.origin.y = 431;
-				[view setFrame:_rect];
 			} else {
 				_rect.origin.y = 480;
-				[view setFrame:_rect];
 			}
+			view.frame = _rect;
 		} else {
 			if (self.tabbarIsHidden) {
 				_rect.size.height = 431;
-				[view setFrame:_rect];
 			} else {
 				_rect.size.height = 480;
-				[view setFrame:_rect];
 			}
+			view.frame = _rect;
 		}
 	}
 	[UIView commitAnimations];

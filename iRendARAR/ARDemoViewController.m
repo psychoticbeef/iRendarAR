@@ -48,7 +48,9 @@
 
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
     if (acceleration.x < 0.6 && acceleration.x > -0.6) {
-        [self.navigationController popViewControllerAnimated:YES];
+		[self dismissViewControllerAnimated:YES completion:^{
+		}];
+//        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "RouteSelectionController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface RouteSelectionController ()
 
@@ -24,6 +25,8 @@
 @property (strong, nonatomic) CurrentRouteViewController* currentRoute;
 @property (nonatomic, retain) NSArray *sortedArray;
 
+@property (nonatomic) BOOL tabbarIsHidden;
+
 @end
 
 @implementation RouteSelectionController
@@ -40,6 +43,50 @@
 }
 
 #pragma mark - View lifecycle
+
+
+- (void)hideTabbar {
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDuration:0.4];
+	for(UIView *view in self.tabBarController.view.subviews)
+	{
+		CGRect _rect = view.frame;
+		if([view isKindOfClass:[UITabBar class]])
+		{
+			if (self.tabbarIsHidden) {
+				_rect.origin.y = 431;
+				[view setFrame:_rect];
+			} else {
+				_rect.origin.y = 480;
+				[view setFrame:_rect];
+			}
+		} else {
+			if (self.tabbarIsHidden) {
+				_rect.size.height = 431;
+				[view setFrame:_rect];
+			} else {
+				_rect.size.height = 480;
+				[view setFrame:_rect];
+			}
+		}
+	}
+	[UIView commitAnimations];
+	
+	self.tabbarIsHidden = !self.tabbarIsHidden;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+//	self.tabBarBackup = [self.tabBarController.viewControllers copy];
+//	NSMutableArray* hiddenTabBar = [self.tabBarController.viewControllers mutableCopy];
+//	[hiddenTabBar removeObjectAtIndex:1];
+//	[self.tabBarController setViewControllers:hiddenTabBar animated:YES];
+	[self hideTabbar];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+//	[self.tabBarController setViewControllers:self.tabBarBackup animated:YES];
+	[self hideTabbar];
+}
 
 - (void)viewDidLoad
 {
@@ -209,7 +256,7 @@
     [zipArchive UnzipCloseFile];
     
     self.filesize = 0;
-    
+
     [self.navigationController pushViewController:self.currentRoute animated:YES];
 }
 

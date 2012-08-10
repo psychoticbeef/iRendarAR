@@ -71,13 +71,13 @@
         <!--Route Selection Controller - Tourauswahl-->
         <scene sceneID="eCC-XH-oc8">
             <objects>
-                <viewController id="Ucs-U9-clq" customClass="RouteSelectionController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="yeahhh2" id="Ucs-U9-clq" customClass="RouteSelectionController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DQ2-dy-Guh">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="FV0-YT-G5E">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
@@ -138,6 +138,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Tourauswahl" id="BcV-o8-CEl"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="activity" destination="bnl-Fm-TEd" id="Bfd-es-g0u"/>
                         <outlet property="downloadPopup" destination="d33-Tz-gzf" id="GJA-RH-1ke"/>
@@ -173,7 +174,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NM7-Gf-Dw9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3390" y="-959"/>
+            <point key="canvasLocation" x="2947" y="-959"/>
         </scene>
         <!--Demo View Controller-->
         <scene sceneID="HXP-9w-4M3">
@@ -213,7 +214,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uz0-mb-2wm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3847" y="-959"/>
+            <point key="canvasLocation" x="3404" y="-959"/>
         </scene>
         <!--Multiple Choice View Controller - Rätseln-->
         <scene sceneID="O4R-AW-Q4U">
@@ -308,7 +309,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="6Uw-OQ-6CF">
             <objects>
-                <tabBarController definesPresentationContext="YES" id="DwL-Qb-O5r" sceneMemberID="viewController">
+                <tabBarController definesPresentationContext="YES" id="DwL-Qb-O5r" customClass="TabBarController" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="V5p-e2-9p8">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
@@ -327,7 +328,7 @@
         <!--Navigation Controller - Aktuelle Route-->
         <scene sceneID="hMX-6b-dYa">
             <objects>
-                <navigationController id="FS3-uE-4yl" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="yeahhh1" id="FS3-uE-4yl" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Aktuelle Route" image="103-map.png" id="WRK-eX-Jut"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="S5i-lx-USI">
@@ -396,6 +397,7 @@
         <class className="RouteSelectionController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RouteSelectionController.h"/>
             <relationships>
+                <relationship kind="action" name="cancelDownload:"/>
                 <relationship kind="outlet" name="activity" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="downloadPopup" candidateClass="UIView"/>
                 <relationship kind="outlet" name="progressView" candidateClass="UIProgressView"/>
@@ -416,6 +418,9 @@
                 <relationship kind="outlet" name="scoreLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
             </relationships>
+        </class>
+        <class className="TabBarController" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TabBarController.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

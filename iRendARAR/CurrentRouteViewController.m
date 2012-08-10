@@ -29,6 +29,7 @@
 @property (nonatomic, retain) NSMutableArray* temporaryAnnotations;
 @property (nonatomic, retain) NSMutableArray* temporaryOverlays;
 
+
 @end
 
 @implementation CurrentRouteViewController
@@ -64,7 +65,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+	
     [self loadXML];
     
     self.accelerometer = [UIAccelerometer sharedAccelerometer];

@@ -243,14 +243,7 @@
 				03FD87F515625B96001DE1C6 /* Score.h */,
 				03FD87F615625B96001DE1C6 /* Score.m */,
 				032EFE5615A329AE005D96CE /* GPS */,
-				037EEC6214D2BEF400CC2BDF /* RouteLoader.h */,
-				037EEC6314D2BEF400CC2BDF /* RouteLoader.m */,
-				03889CE414D014E8008C0343 /* SummaryViewController.h */,
-				03889CE514D014E8008C0343 /* SummaryViewController.m */,
-				03889CE114D00FB6008C0343 /* RouteSelectionController.h */,
-				03889CE214D00FB6008C0343 /* RouteSelectionController.m */,
-				033826E115D400D9005D96F2 /* DirtyHack.h */,
-				033826E215D400DA005D96F2 /* DirtyHack.m */,
+				03ABD78115D64ADC009F7EC9 /* Stuff */,
 				037A58FE14CFFE9D00C358BC /* ressources */,
 				037A58D114CFFC3B00C358BC /* Supporting Files */,
 			);
@@ -308,6 +301,21 @@
 			children = (
 			);
 			path = proto;
+			sourceTree = "<group>";
+		};
+		03ABD78115D64ADC009F7EC9 /* Stuff */ = {
+			isa = PBXGroup;
+			children = (
+				037EEC6214D2BEF400CC2BDF /* RouteLoader.h */,
+				037EEC6314D2BEF400CC2BDF /* RouteLoader.m */,
+				03889CE414D014E8008C0343 /* SummaryViewController.h */,
+				03889CE514D014E8008C0343 /* SummaryViewController.m */,
+				03889CE114D00FB6008C0343 /* RouteSelectionController.h */,
+				03889CE214D00FB6008C0343 /* RouteSelectionController.m */,
+				033826E115D400D9005D96F2 /* DirtyHack.h */,
+				033826E215D400DA005D96F2 /* DirtyHack.m */,
+			);
+			name = Stuff;
 			sourceTree = "<group>";
 		};
 		03BDED2915A2DA810045D5B3 /* Download */ = {

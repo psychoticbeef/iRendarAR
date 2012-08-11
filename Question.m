@@ -30,7 +30,6 @@
 	return 2;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     
@@ -60,6 +59,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	switch (section) {
+		case 0:
+			return [@"Frage #" stringByAppendingFormat:@"%i", self.number];
+		case 1:
+			return @"Antwortmöglichkeiten";
+			
+		default:
+			return @"";
+	}
 }
 
 @end

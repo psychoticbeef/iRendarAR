@@ -12,5 +12,6 @@
 
 @property (nonatomic, retain) NSString* questionText;
 @property (nonatomic, retain) NSMutableArray* answers;
+@property (nonatomic) NSInteger number;
 
 @end

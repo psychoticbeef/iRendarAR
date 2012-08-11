@@ -12,8 +12,6 @@
 		031B112215C2AA7E00F5BC54 /* Answer.m in Sources */ = {isa = PBXBuildFile; fileRef = 031B112115C2AA7E00F5BC54 /* Answer.m */; };
 		033826E315D400DA005D96F2 /* DirtyHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 033826E215D400DA005D96F2 /* DirtyHack.m */; };
 		0341CE5614D4640900DD6350 /* GPSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0341CE5514D4640900DD6350 /* GPSManager.m */; };
-		035704B3156FBF340049AC68 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F7427E15628D6A00498962 /* TableViewCell.m */; };
-		035704B5156FBF340049AC68 /* UITableViewCell+CustomFrameModification.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F7428015628D6A00498962 /* UITableViewCell+CustomFrameModification.m */; };
 		035D194615C52ED9003DB030 /* Chalkboard - iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 035D194415C52ED9003DB030 /* Chalkboard - iPhone.png */; };
 		035D194715C52ED9003DB030 /* Chalkboard - iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 035D194515C52ED9003DB030 /* Chalkboard - iPhone@2x.png */; };
 		036522EC152DCE7300B51E8B /* StationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 036522EB152DCE7300B51E8B /* StationViewController.m */; };
@@ -41,6 +39,7 @@
 		03889CEB14D019FA008C0343 /* CurrentRouteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */; };
 		03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */; };
 		03A3954915CFCC4900FE34DE /* gpsrallye.proto in Resources */ = {isa = PBXBuildFile; fileRef = 03A3954815CFCC4900FE34DE /* gpsrallye.proto */; };
+		03ABD77F15D63D73009F7EC9 /* UACellBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03ABD77E15D63D73009F7EC9 /* UACellBackgroundView.m */; };
 		03BDED2C15A2DAE80045D5B3 /* URLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		03BDED3115A2FCBE0045D5B3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED3015A2F6510045D5B3 /* Reachability.m */; };
 		03C415751517730A004B2AE7 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C415741517730A004B2AE7 /* Graph.m */; };
@@ -110,6 +109,8 @@
 		03A0C24E15CC6A0600576EB7 /* MKPolyline+EncodedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolyline+EncodedString.h"; sourceTree = "<group>"; };
 		03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+EncodedString.m"; sourceTree = "<group>"; };
 		03A3954815CFCC4900FE34DE /* gpsrallye.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gpsrallye.proto; sourceTree = "<group>"; };
+		03ABD77D15D63D73009F7EC9 /* UACellBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UACellBackgroundView.h; sourceTree = "<group>"; };
+		03ABD77E15D63D73009F7EC9 /* UACellBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UACellBackgroundView.m; sourceTree = "<group>"; };
 		03BDED2A15A2DA8F0045D5B3 /* URLConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLConnection.h; sourceTree = "<group>"; };
 		03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URLConnection.m; sourceTree = "<group>"; };
 		03BDED2F15A2F6510045D5B3 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -140,10 +141,6 @@
 		03DAE30B15D5935B004774D7 /* zip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		03DAE30C15D5935B004774D7 /* SSZipArchive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
 		03DAE30D15D5935B004774D7 /* SSZipArchive.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
-		03F7427D15628D6A00498962 /* TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
-		03F7427E15628D6A00498962 /* TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
-		03F7427F15628D6A00498962 /* UITableViewCell+CustomFrameModification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+CustomFrameModification.h"; sourceTree = "<group>"; };
-		03F7428015628D6A00498962 /* UITableViewCell+CustomFrameModification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+CustomFrameModification.m"; sourceTree = "<group>"; };
 		03F7428115628DF800498962 /* MultipleChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleChoiceViewController.h; sourceTree = "<group>"; };
 		03F7428215628DF800498962 /* MultipleChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleChoiceViewController.m; sourceTree = "<group>"; };
 		03FD87F515625B96001DE1C6 /* Score.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Score.h; sourceTree = "<group>"; };
@@ -395,12 +392,10 @@
 		03F7427C15628D4F00498962 /* TableView Style */ = {
 			isa = PBXGroup;
 			children = (
-				03F7427D15628D6A00498962 /* TableViewCell.h */,
-				03F7427E15628D6A00498962 /* TableViewCell.m */,
-				03F7427F15628D6A00498962 /* UITableViewCell+CustomFrameModification.h */,
-				03F7428015628D6A00498962 /* UITableViewCell+CustomFrameModification.m */,
 				03F7428115628DF800498962 /* MultipleChoiceViewController.h */,
 				03F7428215628DF800498962 /* MultipleChoiceViewController.m */,
+				03ABD77D15D63D73009F7EC9 /* UACellBackgroundView.h */,
+				03ABD77E15D63D73009F7EC9 /* UACellBackgroundView.m */,
 			);
 			name = "TableView Style";
 			sourceTree = "<group>";
@@ -483,8 +478,6 @@
 				03DAE30E15D5942B004774D7 /* SSZipArchive.m in Sources */,
 				03BDED3115A2FCBE0045D5B3 /* Reachability.m in Sources */,
 				03BDED2C15A2DAE80045D5B3 /* URLConnection.m in Sources */,
-				035704B3156FBF340049AC68 /* TableViewCell.m in Sources */,
-				035704B5156FBF340049AC68 /* UITableViewCell+CustomFrameModification.m in Sources */,
 				037A58D714CFFC3B00C358BC /* main.m in Sources */,
 				037A58DB14CFFC3B00C358BC /* DDAAppDelegate.m in Sources */,
 				03889CE314D00FB6008C0343 /* RouteSelectionController.m in Sources */,
@@ -507,6 +500,7 @@
 				031B112215C2AA7E00F5BC54 /* Answer.m in Sources */,
 				03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */,
 				033826E315D400DA005D96F2 /* DirtyHack.m in Sources */,
+				03ABD77F15D63D73009F7EC9 /* UACellBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

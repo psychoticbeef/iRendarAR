@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Question : NSObject
+@interface Question : NSObject  <UITableViewDataSource>
 
 @property (nonatomic, retain) NSString* questionText;
 @property (nonatomic, retain) NSMutableArray* answers;

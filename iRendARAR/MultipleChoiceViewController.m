@@ -7,9 +7,9 @@
 //
 
 #import "MultipleChoiceViewController.h"
-#import "TableViewCell.h"
 #import "Question.h"
 #import "Answer.h"
+#import "UACellBackgroundView.h"
 
 @interface MultipleChoiceViewController ()
 
@@ -20,44 +20,6 @@
 @implementation MultipleChoiceViewController
 
 #pragma mark - table view shit
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	
-	Question* q = self.questions[0];
-    return q.answers.count + 1;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"SuperCell";
-    
-	Question* q = self.questions[0];
-    
-    TableViewCell *cell = (TableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        //cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        
-        cell = [[TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-	
-	if (indexPath.row == 0) {
-		cell.bazinga = q.questionText;
-	} else {
-		Answer* a = q.answers[indexPath.row - 1];
-		cell.bazinga = a.answerText;
-//		cell.bazinga = q.questionText;
-	}
-    
-	cell.bazinga = @"";
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES]; 
-}
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -70,7 +32,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+	self.tv.backgroundColor = [UIColor clearColor];
+	self.tv.opaque = NO;
+	self.tv.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard - iPhone.png"]];
+	self.tv.dataSource = self.questions[0];
 }
 
 - (void)viewDidUnload

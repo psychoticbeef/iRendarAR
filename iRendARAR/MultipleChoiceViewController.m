@@ -43,11 +43,13 @@
 		CGFloat xOrigin = i * scrollViewFrame.size.width;
 		tableviewFrame.origin.x = xOrigin;
 		UITableView* tableView = [[UITableView alloc] initWithFrame:tableviewFrame style:UITableViewStyleGrouped];
-		tableView.backgroundColor = [UIColor clearColor];
-		tableView.opaque = NO;
+//		tableView.backgroundColor = [UIColor clearColor];
+//		tableView.opaque = NO;
+//		tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard - iPhone.png"]];
 		Question* q = self.questions[i];
 		q.number = i+1;
 		tableView.dataSource = q;
+		tableView.delegate = q;
 		tableView.contentMode = UIViewContentModeScaleAspectFit;
 		[self.scrollView addSubview:tableView];
 	}
@@ -123,6 +125,15 @@
 	// Set the boolean used when scrolls originate from the UIPageControl.
 	self.pageControlUsed = YES;
 }
+
+//- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+//	[headerView setBackgroundColor:[UIColor redColor]];
+//	NSLog(@"yup. indeed.");
+//	return headerView;
+//}
+
+
 
 
 @end

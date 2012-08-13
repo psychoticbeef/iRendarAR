@@ -12,6 +12,8 @@
 
 @property (nonatomic, retain) NSString* questionText;
 @property (nonatomic, retain) NSMutableArray* answers;
-@property (nonatomic) NSInteger number;
+@property (nonatomic) NSUInteger number;
+@property (nonatomic) NSUInteger total;
+@property (nonatomic) NSInteger selectedAnswers;	// bitwise & for every answer given
 
 @end

@@ -231,6 +231,27 @@
                                     <outlet property="delegate" destination="wFx-Z5-1IR" id="vtc-lb-ZiL"/>
                                 </connections>
                             </scrollView>
+                            <view opaque="NO" alpha="0.0" contentMode="scaleToFill" id="6HK-jh-KGx">
+                                <rect key="frame" x="36" y="108" width="247" height="152"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" text="✓" textAlignment="center" autoshrinkMode="minimumScaleFactor" id="tjz-H7-mk2">
+                                        <rect key="frame" x="20" y="20" width="207" height="87"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="90"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="+100 Punkte" textAlignment="center" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="CVc-aa-lH6">
+                                        <rect key="frame" x="20" y="89" width="207" height="63"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </view>
                             <pageControl contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="r4E-u1-ldQ">
                                 <rect key="frame" x="0.0" y="331" width="320" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

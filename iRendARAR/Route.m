@@ -11,7 +11,7 @@
 @implementation Route
 
 -(NSString* ) description {
-    NSString* result = [NSString stringWithFormat:@"Longname: %@\nShortname: %@\nFilename: %@\nLatitude: %f\nLongitude: %f\n", self.longname, self.shortname, self.filename, self.latitude, self.longitude];
+    NSString* result = [NSString stringWithFormat:@"Longname: %@\nShortname: %@\nFilename: %@\nLatitude: %f\nLongitude: %f\n", self.longname, self.shortname, self.filename, self.coordinate.latitude, self.coordinate.longitude];
     
     return result;
 }

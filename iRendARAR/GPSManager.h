@@ -24,10 +24,6 @@
 
 +(id)sharedInstance;
 
--(CGFloat)distanceFromLatitude:(CGFloat)fromLatitude fromLongitude:(CGFloat)fromLongitude toLatitude:(CGFloat)toLatitude toLongitude:(CGFloat)toLongitude;
-
--(CGFloat)distanceFromCurrentPosititionToLatitude:(CGFloat)latitude andLongitude:(CGFloat)longitude;
-
 -(CGFloat)distanceFromCurrentPosititionToRoute:(Route* )route;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;

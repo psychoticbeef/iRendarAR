@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface Route : NSObject
 
 @property (nonatomic, strong) NSString* longname;
 @property (nonatomic, strong) NSString* shortname;
 @property (nonatomic, strong) NSString* filename;
-@property (nonatomic) CGFloat longitude;
-@property (nonatomic) CGFloat latitude;
+@property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic) NSURL* zipfile;
 
 @end

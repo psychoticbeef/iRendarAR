@@ -61,8 +61,7 @@
                     route.longname = routeArray[0];
                     route.shortname = routeArray[1];
                     route.filename = routeArray[2];
-                    route.latitude = [routeArray[3] floatValue];
-                    route.longitude = [routeArray[4] floatValue];
+					route.coordinate = CLLocationCoordinate2DMake([routeArray[3] floatValue], [routeArray[3] floatValue]);
                     route.zipfile = [NSURL URLWithString:[self.base_url stringByAppendingString:route.filename]];
                     
                                         

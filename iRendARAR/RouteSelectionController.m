@@ -158,8 +158,8 @@
     
     NSString* distance;
     CGFloat fdistance = [[GPSManager sharedInstance] distanceFromCurrentPosititionToRoute:self.routes[indexPath.row]];
-    if (fdistance > 1)
-        distance = [NSString stringWithFormat:@"%.fkm", fdistance];
+    if (fdistance > 1000)
+        distance = [NSString stringWithFormat:@"%.fkm", fdistance/1000];
     else
         distance = [NSString stringWithFormat:@"%.fm", fdistance*1000];
     
@@ -249,11 +249,6 @@
         return;
     }
     
-//    ZipArchive *zipArchive = [[ZipArchive alloc] init];
-//    [zipArchive UnzipOpenFile:filepath Password:@""];
-//    [zipArchive UnzipFileTo:[cachePath stringByAppendingPathComponent:@"/route/"] overWrite:YES];
-//    [zipArchive UnzipCloseFile];
-	
 	[SSZipArchive unzipFileAtPath:filepath toDestination:[cachePath stringByAppendingPathComponent:@"/route/"]];
     
     self.filesize = 0;

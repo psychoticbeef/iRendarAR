@@ -59,6 +59,8 @@ const CGFloat d2r = M_PI / 180.0;
 
 -(CGFloat)distanceFromCurrentPosititionToRoute:(Route* )route {
 	CLLocation* temporaryLocation = [[CLLocation alloc] initWithLatitude:route.coordinate.latitude longitude:route.coordinate.longitude];
+	
+	NSLog(@"%f %f", route.coordinate.latitude, route.coordinate.longitude);
 	return [temporaryLocation distanceFromLocation:self.loc];
 }
 

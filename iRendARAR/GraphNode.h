@@ -24,7 +24,7 @@ typedef NS_ENUM(NSUInteger, StationType) {
 @interface GraphNode : NSObject
 
 -(void)addOutgoingNode:(GraphNode* )node withJSON:(NSString*)json;
-- (id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius withQuestions:(NSMutableArray*)questions isStartStation:(bool)isStartStation isEndStation:(bool)isEndStation;
+- (id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius withQuestions:(NSMutableArray*)questions isStartStation:(bool)isStartStation isEndStation:(bool)isEndStation media:(NSArray*)media;
 //- (CLLocationCoordinate2D*)getLocationCoordinateCollection:(int)index;
 //- (NSUInteger)getLocationCoordinateCollectionCount:(int)index;
 //- (NSUInteger)numberOfPossibleNextRoutes;
@@ -40,6 +40,6 @@ typedef NS_ENUM(NSUInteger, StationType) {
 @property (readonly, nonatomic) bool isStartStation;
 @property (readonly, nonatomic) bool isEndStation;
 @property (readonly, nonatomic) MKMapRect pointRect;
-
+@property (readonly, nonatomic) NSArray* media;
 
 @end

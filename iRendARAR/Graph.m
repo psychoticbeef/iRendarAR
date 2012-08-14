@@ -41,7 +41,7 @@
     if ((self = [super init])) {
         _annotationStations = [[NSMutableArray alloc] init];
         _graphRoot = NULL;
-		_dummy = [[GraphNode alloc] initWithName:@"dummy" withType:@"DUMMY" withIdentifier:@"dummy" withLocation:CLLocationCoordinate2DMake(0, 0) withRadius:0 withQuestions:nil isStartStation:NO isEndStation:NO];
+		_dummy = [[GraphNode alloc] initWithName:@"dummy" withType:@"DUMMY" withIdentifier:@"dummy" withLocation:CLLocationCoordinate2DMake(0, 0) withRadius:0 withQuestions:nil isStartStation:NO isEndStation:NO media:nil];
     }
     
     return self;
@@ -198,7 +198,7 @@
 }
 
 -(void)handleElementDone_station {
-	GraphNode* node = [[GraphNode alloc] initWithName:self.stationName withType:self.stationType withIdentifier:self.stationID withLocation:self.coordinate withRadius:self.radius withQuestions:self.questions isStartStation:self.isStartStation isEndStation:self.isEndStation];
+	GraphNode* node = [[GraphNode alloc] initWithName:self.stationName withType:self.stationType withIdentifier:self.stationID withLocation:self.coordinate withRadius:self.radius withQuestions:self.questions isStartStation:self.isStartStation isEndStation:self.isEndStation media:self.media];
 	
 	if (node.isStartStation) [self.dummy addOutgoingNode:node withJSON:@""];
 	

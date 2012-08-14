@@ -22,6 +22,7 @@
 @property (readwrite, nonatomic) bool isStartStation;
 @property (readwrite, nonatomic) bool isEndStation;
 @property (readwrite, nonatomic) MKMapRect pointRect;
+@property (readwrite, nonatomic) NSArray* media;
 @end
 
 
@@ -69,7 +70,7 @@
 //	return lolJSON.count;
 //}
 
-- (id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius withQuestions:(NSMutableArray*)questions isStartStation:(bool)isStartStation isEndStation:(bool)isEndStation {
+- (id)initWithName:(NSString*)stationName withType:(NSString*)stationType withIdentifier:(NSString*)stationID withLocation:(CLLocationCoordinate2D)location withRadius:(double)radius withQuestions:(NSMutableArray*)questions isStartStation:(bool)isStartStation isEndStation:(bool)isEndStation media:(NSArray*)media {
     self = [super init];
     if (self) {
 		_outputJSON = [[NSMutableArray alloc] init];
@@ -82,6 +83,7 @@
 		_questions = questions;
 		_isStartStation = isStartStation;
 		_isEndStation = isEndStation;
+		_media = media;
 		
 		MKMapPoint annotationPoint = MKMapPointForCoordinate(self.location);
 		self.pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);

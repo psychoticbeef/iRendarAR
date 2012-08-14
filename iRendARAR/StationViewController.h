@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MultipleChoiceViewController.h"
 #import "GraphNode.h"
+#import "Media.h"
 
 @protocol MultipleChoiceDelegate
 - (void)answeredQuestion;

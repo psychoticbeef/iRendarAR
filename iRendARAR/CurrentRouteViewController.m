@@ -356,9 +356,9 @@
 	//    self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
 	//    [self.navigationController pushViewController:self.stationDetailViewController animated:YES];
 	
-	NSLog(@"Sup. Debug button was tapped. Some overview:");
-	NSLog(@"--- Before ---");
-	NSLog(@"Current Station: %@", self.graph.graphRoot.currentNode.name);
+//	DebugLog(@"Sup. Debug button was tapped. Some overview:");
+//	DebugLog(@"--- Before ---");
+//	DebugLog(@"Current Station: %@", self.graph.graphRoot.currentNode.name);
 	
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	if (node.outputNode.count > 0) {
@@ -368,8 +368,8 @@
 		[self didArriveAtLocation:node.identifier];
 	}
 	
-	NSLog(@"--- After ---");
-	NSLog(@"Current Station: %@", self.graph.graphRoot.currentNode.name);
+//	DebugLog(@"--- After ---");
+//	DebugLog(@"Current Station: %@", self.graph.graphRoot.currentNode.name);
 }
 
 

@@ -66,9 +66,29 @@
 	self.currentImageIndex = 0;
 	
 	self.images = [[NSMutableArray alloc] init];
-//	[self.images addObject:[UIImage imageNamed:@"a.png"]];
-//	[self.images addObject:[UIImage imageNamed:@"b.png"]];
-//	[self.images addObject:[UIImage imageNamed:@"c.png"]];
+	
+	NSArray* cachePathArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString* cachePath = [cachePathArray lastObject];
+	NSString* path = [cachePath stringByAppendingPathComponent:@"/route"];
+	
+	NSError* error = nil;
+	
+	for (Media* m in self.node.media) {
+		NSString* uri = [path stringByAppendingPathComponent:m.uri];
+		
+		if (m.type == IMAGE) {
+			[self.images addObject:[UIImage imageWithContentsOfFile:uri]];
+		}
+		
+		if (m.type == TEXT) {
+			self.text = [NSString stringWithContentsOfFile:uri encoding:NSUTF8StringEncoding error:&error];
+			if (error) {
+				NSLog(@"%@", error);
+				error = nil;
+			}
+		}
+	}
+
 	
 	int i = 0;
 	CGRect scrollViewFrame = self.scrollView.frame;
@@ -90,7 +110,7 @@
 											 self.images.count,
 											 self.scrollView.frame.size.height);
 	
-	self.text = @"lorem ipsum";
+	self.textView.text = self.text;
 	
 	self.pageControl.numberOfPages = self.images.count;
 	self.pageControl.currentPage = self.currentImageIndex;

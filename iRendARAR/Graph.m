@@ -113,6 +113,7 @@
 - (void)handle_MediaHelper:(NSDictionary*)attributeDict type:(MediaType)type {
 	Media* media = [[Media alloc] initWithType:type uri:attributeDict[@"src"] identifier:attributeDict[@"id"]];
 	[self.temporaryMedia addObject:media];
+//	DebugLog(@"added media %@ %@", attributeDict[@"src"], attributeDict[@"id"]);
 }
 
 - (void)handleElement_audio:(NSDictionary*)attributeDict {
@@ -130,7 +131,7 @@
 
 - (void)handleElementDone_media {
 	
-	NSArray* sortedArray = [self.media sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+	NSArray* sortedArray = [self.temporaryMedia sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
 		int first = [(Media*)a identifier];
 		int second = [(Media*)b identifier];
 		if (first == second) return NSOrderedSame;
@@ -138,7 +139,7 @@
 	}];
 	
 	self.media = sortedArray;
-
+	NSLog(@"SELF MEDIA COUNT %i", self.media.count);
 }
 
 

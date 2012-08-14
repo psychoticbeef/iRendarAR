@@ -42,36 +42,45 @@
     self.routeList = [[NSMutableArray alloc] init];
     DebugLog(@"Trying to download from URL: %@", self.url);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		int i = 0;
         NSError* downloadError = NULL;
-        NSString* routeComponents = [NSString stringWithContentsOfURL:self.url encoding:NSUTF8StringEncoding error:&downloadError];
-        
-        NSArray* routeComponentArray = [routeComponents componentsSeparatedByString:@"\n"];
-        
-        for (NSString* line in routeComponentArray) {
-            if ([line length] > 0) {
-                if ([line characterAtIndex:0] != '#') {// lines that start with # are comments
-                    NSArray* routeArray = [line componentsSeparatedByString:@"\t"];
-                    if ([routeArray count] != 5) {
-                        NSLog(@"Routelist Error: %@ broken in line: %@", self.list_file, line);
+		NSString* routeComponents;
+		do {
+			routeComponents = [NSString stringWithContentsOfURL:self.url encoding:NSUTF8StringEncoding error:&downloadError];
+		} while (downloadError && i++ < 3);
+		
+		NSArray* routeComponentArray = [routeComponents componentsSeparatedByString:@"\n"];
+		
+		for (NSString* line in routeComponentArray) {
+			if ([line length] > 0) {
+				if ([line characterAtIndex:0] != '#') {// lines that start with # are comments
+					NSArray* routeArray = [line componentsSeparatedByString:@"\t"];
+					if ([routeArray count] != 5) {
+						NSLog(@"Routelist Error: %@ broken in line: %@", self.list_file, line);
 						NSLog(@"Got %i lines: %@", routeArray.count, routeArray);
-                        continue;
-                    }
-                    
-                    Route* route = [[Route alloc] init];
-                    route.longname = routeArray[0];
-                    route.shortname = routeArray[1];
-                    route.filename = routeArray[2];
+						continue;
+					}
+					
+					Route* route = [[Route alloc] init];
+					route.longname = routeArray[0];
+					route.shortname = routeArray[1];
+					route.filename = routeArray[2];
 					route.coordinate = CLLocationCoordinate2DMake([routeArray[3] floatValue], [routeArray[4] floatValue]);
-                    route.zipfile = [NSURL URLWithString:[self.base_url stringByAppendingString:route.filename]];
-                    
-                                        
-                    [self.routeList addObject:route];
-                }
-            }
-        }
-        
+					route.zipfile = [NSURL URLWithString:[self.base_url stringByAppendingString:route.filename]];
+					
+					
+					[self.routeList addObject:route];
+				}
+			}
+		}
+		
+			
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate routeLoaderDidFinishLoading:[self.routeList copy]];
+			if (!downloadError) {
+				[self.delegate routeLoaderDidFinishLoading:[self.routeList copy]];
+			} else {
+				[self.delegate routeLoaderDidFinishWithError];
+			}
         });
     });
 }

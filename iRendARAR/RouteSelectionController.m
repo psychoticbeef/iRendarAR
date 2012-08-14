@@ -26,6 +26,7 @@
 @property (strong, nonatomic) CurrentRouteViewController* currentRoute;
 @property (nonatomic, retain) NSArray *sortedArray;
 @property (nonatomic, weak) URLConnection* connection;
+@property (nonatomic, retain) Reachability* reach;
 
 @property (nonatomic) BOOL tabbarIsHidden;
 
@@ -116,19 +117,19 @@
     NSMutableDictionary* urlSettings = [[NSMutableDictionary alloc] initWithContentsOfFile:urlSettingsFile];
     NSString* base_url = [urlSettings valueForKey:@"base_url"];
     NSURL* url = [NSURL URLWithString:base_url];
-    Reachability* reach = [Reachability reachabilityWithHostname:url.host];
+    self.reach = [Reachability reachabilityWithHostname:url.host];
     
-    reach.reachableBlock = ^(Reachability* reach) {
+    self.reach.reachableBlock = ^(Reachability* reach) {
         if (!weakSelf.routeListDownloaded) {
             [weakSelf.routeLoader loadRoutes];
         }
     };
     
-    reach.unreachableBlock = ^(Reachability* reach) {
+    self.reach.unreachableBlock = ^(Reachability* reach) {
         DebugLog(@"Network is down");
     };
     
-    [reach startNotifier];
+    [self.reach startNotifier];
 }
 
 - (void)viewDidUnload {
@@ -215,8 +216,12 @@
 - (void)routeLoaderDidFinishLoading:(NSArray* )routeList {
     self.routeListDownloaded = YES;
     self.routes = routeList;
-	
+	[self.reach stopNotifier];
 	[self locationDidChange];
+}
+
+- (void)routeLoaderDidFinishWithError {
+    self.routeListDownloaded = NO;
 }
 
 - (IBAction)cancelDownload:(id)sender {
@@ -230,7 +235,14 @@
 - (void)downloadFinished:(Route*)route {
     
     [self.activity stopAnimating];
-    self.downloadPopup.alpha = 0.0;
+	if (route == nil) {
+		[UIView animateWithDuration:1.0 animations:^(void) {
+			self.downloadPopup.alpha = 0.0;
+		}];
+	}
+	else {
+		self.downloadPopup.alpha = 0.0;
+	}
     if (self.filesize == -1 || route == nil) {
         NSLog(@"Downloaded -1 Bytes, which means there was an error concerning"
 			  @"the NSURLConnection downloading route content.");

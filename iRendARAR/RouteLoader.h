@@ -10,6 +10,7 @@
 
 @protocol RouteLoaderDelegate
 - (void)routeLoaderDidFinishLoading:(NSArray* )routeList;
+- (void)routeLoaderDidFinishWithError;
 @end
 
 

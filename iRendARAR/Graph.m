@@ -11,6 +11,7 @@
 #import "Question.h"
 #import "Answer.h"
 #import "GPSManager.h"
+#import "Media.h"
 
 @interface Graph ()
 
@@ -24,6 +25,8 @@
 @property (nonatomic, retain) NSString* stationType;
 @property (readwrite, retain) NSMutableArray* questions;
 @property (readwrite, retain) Question* question;
+@property (nonatomic, retain) NSMutableArray* temporaryMedia;
+@property (nonatomic, retain) NSArray* media;
 @property (nonatomic) bool isStartStation;
 @property (nonatomic) bool isEndStation;
 
@@ -102,6 +105,41 @@
 	[self.graphRoot setNodeAsCurrentNode:[self nodeForID:[[NSUserDefaults standardUserDefaults] objectForKey:[self.graphRoot.name stringByAppendingString:@"current_node"]]]];
 }
 
+
+- (void)handleElement_media:(NSDictionary*)attributeDict {
+	self.temporaryMedia = [[NSMutableArray alloc] init];
+}
+
+- (void)handle_MediaHelper:(NSDictionary*)attributeDict type:(MediaType)type {
+	Media* media = [[Media alloc] initWithType:type uri:attributeDict[@"src"] identifier:attributeDict[@"id"]];
+	[self.temporaryMedia addObject:media];
+}
+
+- (void)handleElement_audio:(NSDictionary*)attributeDict {
+	[self handle_MediaHelper:attributeDict type:AUDIO];
+}
+- (void)handleElement_image:(NSDictionary*)attributeDict {
+	[self handle_MediaHelper:attributeDict type:IMAGE];
+}
+- (void)handleElement_video:(NSDictionary*)attributeDict {
+	[self handle_MediaHelper:attributeDict type:VIDEO];
+}
+- (void)handleElement_text:(NSDictionary*)attributeDict {
+	[self handle_MediaHelper:attributeDict type:TEXT];
+}
+
+- (void)handleElementDone_media {
+	
+	NSArray* sortedArray = [self.media sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+		int first = [(Media*)a identifier];
+		int second = [(Media*)b identifier];
+		if (first == second) return NSOrderedSame;
+		return first > second ? NSOrderedDescending : NSOrderedAscending;
+	}];
+	
+	self.media = sortedArray;
+
+}
 
 
 - (void)handleElement_questions:(NSDictionary*)attributeDict {

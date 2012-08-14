@@ -24,7 +24,7 @@ downloadProgressBlock:(URLConnectioDownloadProgressBlock)downloadBlock;
 
 @implementation URLConnection
 
-+ (void)asyncConnectionWithRequest:(NSURLRequest *)request 
++ (URLConnection*)asyncConnectionWithRequest:(NSURLRequest *)request
                    completionBlock:(URLConnectionCompletionBlock)completionBlock
                         errorBlock:(URLConnectioErrorBlock)errorBlock
                uploadPorgressBlock:(URLConnectioUploadProgressBlock)uploadBlock
@@ -37,6 +37,7 @@ downloadProgressBlock:(URLConnectioDownloadProgressBlock)downloadBlock;
                                                  downloadProgressBlock:downloadBlock];
     [connection start];
     [connection release];
+	return connection;
 }
 
 + (void)asyncConnectionWithRequest:(NSURLRequest *)request 
@@ -100,7 +101,9 @@ downloadProgressBlock:(URLConnectioDownloadProgressBlock)_downloadBlock {
 }
 
 
-
+- (void)abort {
+	[connection cancel];
+}
 
 #pragma mark NSURLConnectionDelegate
 

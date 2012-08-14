@@ -25,6 +25,7 @@
 @property (readwrite) int routeSelected;
 @property (strong, nonatomic) CurrentRouteViewController* currentRoute;
 @property (nonatomic, retain) NSArray *sortedArray;
+@property (nonatomic, weak) URLConnection* connection;
 
 @property (nonatomic) BOOL tabbarIsHidden;
 
@@ -161,7 +162,7 @@
     if (fdistance > 1000)
         distance = [NSString stringWithFormat:@"%.fkm", fdistance/1000];
     else
-        distance = [NSString stringWithFormat:@"%.fm", fdistance*1000];
+        distance = [NSString stringWithFormat:@"%.fm", fdistance];
     
     cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [self.routes[indexPath.row] longname], distance];
     
@@ -175,7 +176,9 @@
         return;
     }
     
-    self.downloadPopup.alpha = 0.8;
+//	[UIView animateWithDuration:0.25 animations:^(void) {
+		self.downloadPopup.alpha = 0.8;
+//	}];
     [self fetchZIPfile:self.routes[indexPath.row]];
     [self.activity startAnimating];
 }
@@ -218,8 +221,8 @@
 
 - (IBAction)cancelDownload:(id)sender {
     // TODO:
-    // [connection cancel]
-    //    [self downloadFinished];
+    [self.connection abort];
+    [self downloadFinished:nil];
     DebugLog(@"trying to cancel. NYI");
 }
 
@@ -228,7 +231,7 @@
     
     [self.activity stopAnimating];
     self.downloadPopup.alpha = 0.0;
-    if (self.filesize == -1) {
+    if (self.filesize == -1 || route == nil) {
         NSLog(@"Downloaded -1 Bytes, which means there was an error concerning"
 			  @"the NSURLConnection downloading route content.");
     }
@@ -278,7 +281,7 @@
     
     self.progressView.progress = 0.0;
     
-    [URLConnection asyncConnectionWithRequest:request
+    self.connection = [URLConnection asyncConnectionWithRequest:request
                               completionBlock:^(NSData *data, NSURLResponse *response) {
                                   [data writeToFile:[cachePath stringByAppendingPathComponent:route.filename] atomically:YES];
                                   weakSelf.filesize = [data length];

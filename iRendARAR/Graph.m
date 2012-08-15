@@ -10,10 +10,8 @@
 // this whole crap shoul be replaced with google protocol buffers or smth similar
 
 #import "Graph.h"
-#import "GraphNode.h"
 #import "Question.h"
 #import "Answer.h"
-#import "GPSManager.h"
 #import "Media.h"
 
 @interface Graph ()

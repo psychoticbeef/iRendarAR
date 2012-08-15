@@ -24,7 +24,7 @@
 
 +(id)sharedInstance;
 
--(CGFloat)distanceFromCurrentPosititionToRoute:(Route* )route;
+-(CLLocationDistance)distanceFromCurrentPositionToRoute:(Route* )route;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
 

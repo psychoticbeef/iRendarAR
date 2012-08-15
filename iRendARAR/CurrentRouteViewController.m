@@ -13,18 +13,16 @@
 
 @interface CurrentRouteViewController ()
 
-@property (readwrite, atomic) AppState appState;
+@property (readwrite) AppState appState;
 
 @property (strong, nonatomic) UIAccelerometer* accelerometer;
-@property (weak, nonatomic) IBOutlet UILabel* label;
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
 @property (strong, nonatomic) ARDemoViewController* arViewController;
 @property (strong, nonatomic) Graph* graph;
 @property (strong, nonatomic) StationViewController* stationDetailViewController;
 @property (nonatomic) MKMapRect flyTo;
-//@property (nonatomic) bool playerHasArrived;
 @property (nonatomic) bool gameOver;
-@property (atomic) bool isRestoringSavedState;
+@property (readwrite) bool isRestoringSavedState;
 
 @property (nonatomic, retain) NSMutableArray* temporaryAnnotations;
 @property (nonatomic, retain) NSMutableArray* temporaryOverlays;
@@ -185,7 +183,7 @@
 	// add all possible follow-up nodes as box
 	AnnotationType type = self.isRestoringSavedState ? VISITED : CURRENT;
 	
-	for (int i = 0; i < node.outputNode.count; i++) {
+	for (unsigned int i = 0; i < node.outputNode.count; i++) {
 		GraphNode* successorNode = node.outputNode[i];
 		
 		Annotation* annotation = [self addAnnotation:successorNode addToRect:YES annotationType:type];
@@ -229,7 +227,7 @@
 	//	self.playerHasArrived = YES;
 	self.isRestoringSavedState = YES;
 	[self.graph load];
-	for (int i = 0; i < self.graph.graphRoot.visitedNodes.count; i++) {
+	for (unsigned int i = 0; i < self.graph.graphRoot.visitedNodes.count; i++) {
 		[self.graph.graphRoot setNodeAsCurrentNode:self.graph.graphRoot.visitedNodes[i]];
 		[self drawRoutes];
 		if (i == self.graph.graphRoot.visitedNodes.count-1) self.isRestoringSavedState = NO;
@@ -294,12 +292,12 @@
     self.accelerometer.delegate = nil;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
+//- (void)viewDidUnload
+//{
+//    [super viewDidUnload];
+//    // Release any retained subviews of the main view.
+//    // e.g. self.myOutlet = nil;
+//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

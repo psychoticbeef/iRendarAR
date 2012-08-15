@@ -10,7 +10,7 @@
 #import "DirtyHack.h"
 
 @interface GraphRoot ()
-@property (readwrite, retain) NSString *schemaVersion;
+@property (readwrite, retain) NSString* schemaVersion;
 @property (readwrite, retain) NSString *name;
 @property (readwrite, retain) GraphNode* currentNode;
 @property (readwrite, copy) NSMutableArray* visitedNodes;
@@ -39,7 +39,9 @@
 
 
 -(id)initWithName:(NSString *)name version:(NSString *)schemaVersion {
-    if (self = [super init]) {
+    self = [super init];
+
+    if (self) {
         
 		_name = name;
 		_schemaVersion = schemaVersion;

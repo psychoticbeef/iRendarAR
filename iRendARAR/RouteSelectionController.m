@@ -7,13 +7,12 @@
 //
 
 #import "RouteSelectionController.h"
-#import <QuartzCore/QuartzCore.h>
 #import "SSZipArchive.h"
 
 @interface RouteSelectionController ()
 
 @property (nonatomic, readwrite) NSUInteger filesize;
-@property (atomic, readwrite) BOOL routeListDownloaded;
+@property (readwrite) BOOL routeListDownloaded;
 
 @property (weak, nonatomic) IBOutlet UIView* downloadPopup;
 @property (weak, nonatomic) IBOutlet UIProgressView* progressView;
@@ -21,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UITableView* tv;
 @property (strong, nonatomic) RouteLoader* routeLoader;
 @property (strong, nonatomic) GPSManager* gpsManager;
-@property (nonatomic, retain) NSArray *sortedArray;
 @property (nonatomic, weak) URLConnection* connection;
 @property (nonatomic, retain) Reachability* reach;
 
@@ -127,9 +125,9 @@
     [self.reach startNotifier];
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-}
+//- (void)viewDidUnload {
+//    [super viewDidUnload];
+//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -152,8 +150,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
-	Route* r = self.routeLoader.routes[indexPath.row];
+
+	Route* r = self.routeLoader.routes[(NSUInteger) indexPath.row];
 	NSString* distance;
 	if (r.distance > 1000) {
 		distance = [NSString stringWithFormat:@"%.fkm", r.distance/1000];
@@ -190,7 +188,7 @@
 //	[UIView animateWithDuration:0.25 animations:^(void) {
 		self.downloadPopup.alpha = 0.8;
 //	}];
-    [self fetchZIPfile:self.routeLoader.routes[indexPath.row]];
+    [self fetchZIPfile:self.routeLoader.routes[(NSUInteger) indexPath.row]];
     [self.activity startAnimating];
 }
 

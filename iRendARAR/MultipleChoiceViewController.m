@@ -8,8 +8,6 @@
 
 #import "MultipleChoiceViewController.h"
 #import "Question.h"
-#import "Answer.h"
-#import "UACellBackgroundView.h"
 
 @interface MultipleChoiceViewController ()
 
@@ -36,13 +34,13 @@
     [super viewDidLoad];
 
 	CGRect scrollViewFrame = self.scrollView.frame;
-	CGRect tableviewFrame = self.scrollView.frame;
-	tableviewFrame.origin.y = 0;
+	CGRect tableViewFrame = self.scrollView.frame;
+	tableViewFrame.origin.y = 0;
 
-	for (int i = 0; i < self.questions.count; i++) {
+	for (unsigned int i = 0; i < self.questions.count; i++) {
 		CGFloat xOrigin = i * scrollViewFrame.size.width;
-		tableviewFrame.origin.x = xOrigin;
-		UITableView* tableView = [[UITableView alloc] initWithFrame:tableviewFrame style:UITableViewStyleGrouped];
+		tableViewFrame.origin.x = xOrigin;
+		UITableView* tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStyleGrouped];
 //		tableView.backgroundColor = [UIColor clearColor];
 //		tableView.opaque = NO;
 //		tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard - iPhone.png"]];
@@ -65,12 +63,12 @@
 	self.scrollView.pagingEnabled = YES;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
+//- (void)viewDidUnload
+//{
+//    [super viewDidUnload];
+//    // Release any retained subviews of the main view.
+//    // e.g. self.myOutlet = nil;
+//}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -101,7 +99,7 @@
 	}
 	
 	CGFloat pageWidth = self.scrollView.frame.size.width;
-	int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+	int page = (int)floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	self.pageControl.currentPage = page;
 }
 

@@ -22,7 +22,6 @@
 			
 		default:
 			return 0;
-			break;
 	}
 }
 
@@ -38,7 +37,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 	
-	Answer* a = self.answers[indexPath.row];
+	Answer* a = self.answers[(NSUInteger) indexPath.row];
 	
 	switch (indexPath.section) {
 		case 0:

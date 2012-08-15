@@ -14,7 +14,7 @@
 @end
 
 
-@interface RouteLoader : NSObject <UITableViewDataSource>
+@interface RouteLoader : NSObject
 
 - (void)loadRoutes;
 - (void)locationDidChange;

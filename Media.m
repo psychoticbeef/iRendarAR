@@ -31,32 +31,32 @@
 }
 
 
-+ (NSArray *)names {
-    static NSMutableArray * _names = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _names = [NSMutableArray arrayWithCapacity:4];
-        [_names insertObject:@"AUDIO" atIndex:AUDIO];
-        [_names insertObject:@"IMAGE" atIndex:IMAGE];
-        [_names insertObject:@"VIDEO" atIndex:VIDEO];
-        [_names insertObject:@"TEXT" atIndex:TEXT];
-    });
-	
-    return _names;
-}
+//+ (NSArray *)names {
+//    static NSMutableArray * _names = nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        _names = [NSMutableArray arrayWithCapacity:4];
+//        [_names insertObject:@"AUDIO" atIndex:AUDIO];
+//        [_names insertObject:@"IMAGE" atIndex:IMAGE];
+//        [_names insertObject:@"VIDEO" atIndex:VIDEO];
+//        [_names insertObject:@"TEXT" atIndex:TEXT];
+//    });
+//
+//    return _names;
+//}
 
-+ (NSString *)nameForType:(MediaType)type {
-    return ([self names])[type];
-}
+//+ (NSString *)nameForType:(MediaType)type {
+//    return ([self names])[type];
+//}
 
-+ (MediaType)typeForName:(NSString *)typeName {
-    NSUInteger result = [[Media names] indexOfObject:[typeName uppercaseString]];
-    if (result == NSNotFound) {
-        NSLog(@"Error: I do not know the station type %@", typeName);
-    }
-    
-    return result;
-}
+//+ (MediaType)typeForName:(NSString *)typeName {
+//    NSUInteger result = [[Media names] indexOfObject:[typeName uppercaseString]];
+//    if (result == NSNotFound) {
+//        NSLog(@"Error: I do not know the station type %@", typeName);
+//    }
+//
+//    return result;
+//}
 
 
 

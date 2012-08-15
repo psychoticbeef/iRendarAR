@@ -18,7 +18,7 @@
 }
 
 - (float)distance {
-	return [[GPSManager sharedInstance] distanceFromCurrentPosititionToRoute:self];
+	return [[GPSManager sharedInstance] distanceFromCurrentPositionToRoute:self];
 }
 
 

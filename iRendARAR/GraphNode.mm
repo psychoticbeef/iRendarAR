@@ -7,8 +7,6 @@
 //
 
 #import "GraphNode.h"
-#import <CoreLocation/CoreLocation.h>
-#import <vector>
 
 @interface GraphNode ()
 @property (readwrite, nonatomic) StationType type;
@@ -143,9 +141,9 @@
     return _names;
 }
 
-+ (NSString *)nameForType:(StationType)type {
-    return ([self names])[type];
-}
+//+ (NSString *)nameForType:(StationType)type {
+//    return ([self names])[type];
+//}
 
 + (StationType)stationTypeForName:(NSString *)typeName {
     NSUInteger result = [[GraphNode names] indexOfObject:[typeName uppercaseString]];

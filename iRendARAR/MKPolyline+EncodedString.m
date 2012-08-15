@@ -22,7 +22,7 @@
     float latitude = 0;
     float longitude = 0;
     while (idx < length) {
-        char byte = 0;
+        char byte;
         int res = 0;
         char shift = 0;
 		

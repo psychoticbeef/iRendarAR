@@ -7,7 +7,6 @@
 //
 
 #import "GPSManager.h"
-#import <math.h>
 
 
 @interface GPSManager ()
@@ -25,7 +24,6 @@
 
 @implementation GPSManager
 
-const CGFloat d2r = M_PI / 180.0;
 
 +(id)sharedInstance {
     static id sharedInstance = nil;
@@ -57,7 +55,7 @@ const CGFloat d2r = M_PI / 180.0;
     return self;
 }
 
--(CGFloat)distanceFromCurrentPosititionToRoute:(Route* )route {
+-(CLLocationDistance)distanceFromCurrentPositionToRoute:(Route* )route {
 	CLLocation* temporaryLocation = [[CLLocation alloc] initWithLatitude:route.coordinate.latitude longitude:route.coordinate.longitude];
 	
 //	DebugLog(@"%f %f", route.coordinate.latitude, route.coordinate.longitude);
@@ -96,7 +94,7 @@ const CGFloat d2r = M_PI / 180.0;
 }
 
 - (void)notify:(CLLocation *) currentLocation {
-	int i = 0;
+	unsigned int i = 0;
 	for (CLLocation* location in self.notifierCoordinate) {
 		if ([currentLocation distanceFromLocation:location] < [self.notifierRadius[i] doubleValue]) {
 			[self.notifierDelegate[i] didArriveAtLocation:self.notifierIdentifier[i]];

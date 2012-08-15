@@ -37,7 +37,6 @@
 #import "SummaryViewController.h"
 //#import "Score.h"
 #import "DirtyHack.h"
-#import "GraphNode.h"
 
 @interface SummaryViewController ()
 
@@ -80,7 +79,7 @@
 {
     [super viewDidLoad];
 	
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:(@selector(scoreChanged)) name:@"scoreChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:(@selector(scoreChanged:)) name:@"scoreChanged" object:nil];
 }
 
 
@@ -91,10 +90,10 @@
 }
 
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
+//- (void)viewDidUnload
+//{
+//    [super viewDidUnload];
+//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -115,15 +114,12 @@
 	switch (section) {
 		case 0:
 			return [DirtyHack sharedInstance].visitedStations.count + modifier;
-			break;
-			
+
 		case 1:
 			return [DirtyHack sharedInstance].currentStation.outputNode.count;
-			break;
-			
+
 		default:
 			return 0;
-			break;
 	}
 }
 
@@ -146,7 +142,7 @@
 	switch (indexPathSection) {
 		case 0:
 			if (indexPath.row < [DirtyHack sharedInstance].visitedStations.count) {
-				node = [DirtyHack sharedInstance].visitedStations[indexPath.row];
+				node = [DirtyHack sharedInstance].visitedStations[(NSUInteger) indexPath.row];
 				cell.accessoryType = UITableViewCellAccessoryCheckmark;
 			} else if (indexPath.row == [DirtyHack sharedInstance].visitedStations.count) {
 				node = [DirtyHack sharedInstance].currentStation;
@@ -155,7 +151,7 @@
 			break;
 			
 		case 1:
-			node = [DirtyHack sharedInstance].currentStation.outputNode[indexPath.row];
+			node = [DirtyHack sharedInstance].currentStation.outputNode[(NSUInteger) indexPath.row];
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			break;
 			

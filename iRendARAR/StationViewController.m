@@ -12,7 +12,6 @@
 
 @property (strong, nonatomic) NSMutableArray* images;
 @property (strong, nonatomic) NSString* text;
-@property (strong, nonatomic) NSMutableArray* multipleChoice;
 
 @property (weak, nonatomic) IBOutlet UIPageControl* pageControl;
 @property (weak, nonatomic) IBOutlet UITextView* textView;
@@ -27,7 +26,7 @@
 @property (readwrite) BOOL hasMultipleChoice;
 @property (readwrite) NSInteger currentImageIndex;
 
-@property (readwrite, atomic) BOOL pageControlUsed;
+@property (readwrite) BOOL pageControlUsed;
 
 @end
 
@@ -42,11 +41,11 @@
 	return self;
 }
 
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	// Release any retained subviews of the main view.
-}
+//- (void)viewDidUnload
+//{
+//	[super viewDidUnload];
+//	// Release any retained subviews of the main view.
+//}
 
 
 - (void)viewDidLoad
@@ -188,7 +187,7 @@
 	}
 	
 	CGFloat pageWidth = self.scrollView.frame.size.width;
-	int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+	int page = (int)floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	self.pageControl.currentPage = page;
 }
 

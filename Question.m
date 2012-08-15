@@ -114,30 +114,42 @@ static Score* score;
 			[score modifyScore:a.points];
 
 			self.selectedAnswers |= (1 << indexPath.row);
-			self.correctlyAnswered = (self.selectedAnswers & self.correctAnswerBitmask) > 0;
 
 			self.tableView.userInteractionEnabled = NO;
 			
-			if (!self.correctlyAnswered && !self.answersExhausted) {
-				[self.tableView beginUpdates];
-				[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:
-				 UITableViewRowAnimationLeft];
-				[self.tableView endUpdates];
-			} else {
-				[self.tableView reloadData];
+			NSMutableArray* indexPathes;
+			
+			NSUInteger completeMask = (1 << self.answers.count) - 1;
+			if ((self.selectedAnswers | self.correctAnswerBitmask) == completeMask) {
+				self.answersExhausted = YES;
 			}
+			self.correctlyAnswered = (self.selectedAnswers & self.correctAnswerBitmask) > 0;
+			
+			if (!self.correctlyAnswered && !self.answersExhausted) {
+				indexPathes = [NSMutableArray arrayWithObject:indexPath];
+			} else {
+				indexPathes = [[NSMutableArray alloc] init];
+
+				for (int i = 0; i < self.answers.count; i++) {
+					if (((1 << i) & self.selectedAnswers) == 0) {
+						[indexPathes addObject:[NSIndexPath indexPathForRow:i inSection:1]];
+					}
+				}
+				
+				[indexPathes addObject:indexPath];
+			}
+			
+			[self.tableView beginUpdates];
+			[self.tableView reloadRowsAtIndexPaths:indexPathes withRowAnimation:
+			 UITableViewRowAnimationLeft];
+			[self.tableView endUpdates];
+
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
 				//		[self.delegate questionAnswered:self.correctlyAnswered forPoints:a.points];
 				[self.delegate questionAnswered:self.correctlyAnswered forPoints:a.points sender:self];
 			});
 		}
-	}
-	
-	NSUInteger completeMask = (1 << self.answers.count) - 1;
-	if ((self.selectedAnswers | self.correctAnswerBitmask) == completeMask) {
-		self.answersExhausted = YES;
-		NSLog(@"ANSWERS EXHAUSTED");
 	}
 }
 

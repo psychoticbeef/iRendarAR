@@ -21,8 +21,6 @@
 @property (weak, nonatomic) IBOutlet UITableView* tv;
 @property (strong, nonatomic) RouteLoader* routeLoader;
 @property (strong, nonatomic) GPSManager* gpsManager;
-@property (readwrite) int routeSelected;
-@property (strong, nonatomic) CurrentRouteViewController* currentRoute;
 @property (nonatomic, retain) NSArray *sortedArray;
 @property (nonatomic, weak) URLConnection* connection;
 @property (nonatomic, retain) Reachability* reach;
@@ -104,8 +102,6 @@
     self.gpsManager.delegate = self;
     
     self.navigationController.delegate = self;
-    
-    self.currentRoute = [self.storyboard instantiateViewControllerWithIdentifier:@"CurrentRouteViewController"];
     
     self.downloadPopup.alpha = 0.0f;
     self.downloadPopup.layer.cornerRadius = 5;
@@ -252,7 +248,8 @@
     
     self.filesize = 0;
 
-    [self.navigationController pushViewController:self.currentRoute animated:YES];
+	CurrentRouteViewController* currentRoute = [self.storyboard instantiateViewControllerWithIdentifier:@"CurrentRouteViewController"];
+    [self.navigationController pushViewController:currentRoute animated:YES];
 }
 
 

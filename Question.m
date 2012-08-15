@@ -98,7 +98,7 @@ static Score* score;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	if (self.correctlyAnswered || self.answersExhausted)
+	if (self.correctlyAnswered || self.answersExhausted || !self.tableView.userInteractionEnabled)
 		return;
 	
 	if (indexPath.section == 1) {
@@ -106,17 +106,19 @@ static Score* score;
 			Answer* a = self.answers[indexPath.row];
 			[score modifyScore:a.points];
 
-			self.selectedAnswers |= 1 << indexPath.row;
+			self.selectedAnswers |= (1 << indexPath.row);
 			self.correctlyAnswered = (self.selectedAnswers & self.correctAnswerBitmask) > 0;
 
+			self.tableView.userInteractionEnabled = NO;
+			
 			dispatch_async(dispatch_get_main_queue(), ^{
 				//		[self.delegate questionAnswered:self.correctlyAnswered forPoints:a.points];
-				[self.delegate questionAnswered:self.correctlyAnswered forPoints:a.points];
+				[self.delegate questionAnswered:self.correctlyAnswered forPoints:a.points sender:self];
 			});
 		}
 	}
 	
-	NSUInteger completeMask = (1 << self.total) - 1;
+	NSUInteger completeMask = (1 << self.answers.count) - 1;
 	if ((self.selectedAnswers | self.correctAnswerBitmask) == completeMask) {
 		self.answersExhausted = YES;
 		NSLog(@"ANSWERS EXHAUSTED");

@@ -140,14 +140,15 @@
 	} else if (self.graph.graphRoot.currentNode.questions.count > 0) {
 		self.multipleChoiceViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"multipleChoice"];
 		self.multipleChoiceViewController.questions = self.graph.graphRoot.currentNode.questions;
+		self.multipleChoiceViewController.delegate = self;
 		[self.navigationController pushViewController:self.multipleChoiceViewController animated:YES];
 	// otherwise just continue with the following stations
 	} else {
-		[self answeredQuestion];
+		[self answeredQuestions];
 	}
 }
 
-- (void)answeredQuestion {
+- (void)answeredQuestions {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self progressedToNextStation];
 	});

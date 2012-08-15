@@ -170,7 +170,12 @@
 -(IBAction)multipleChoiceAction:(id)sender {
 	self.multipleChoiceViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"multipleChoice"];
 	self.multipleChoiceViewController.questions = self.node.questions;
+	self.multipleChoiceViewController.delegate = self;
 	[self.navigationController pushViewController:self.multipleChoiceViewController animated:YES];
+}
+
+- (void)answeredQuestions {
+	[self.delegate answeredQuestions];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

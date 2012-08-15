@@ -9,8 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "Question.h"
 
+@protocol MultipleChoiceDelegate
+- (void)answeredQuestions;
+@end
+
+
 @interface MultipleChoiceViewController : UIViewController <UIScrollViewDelegate, UITableViewDelegate, QuestionDelegate>
 
 @property (nonatomic, weak) NSMutableArray* questions;
+@property (weak) id<MultipleChoiceDelegate> delegate;
 
 @end

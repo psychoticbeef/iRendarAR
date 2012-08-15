@@ -55,6 +55,7 @@
 		Question* q = self.questions[i];
 		q.number = i+1;
 		q.delegate = self;
+		q.tableView = tableView;
 		tableView.dataSource = q;
 		tableView.delegate = q;
 		tableView.contentMode = UIViewContentModeScaleAspectFit;
@@ -72,7 +73,7 @@
 	self.scrollView.pagingEnabled = YES;
 }
 
-- (void)questionAnswered:(BOOL)correctly forPoints:(NSInteger)points {
+- (void)questionAnswered:(BOOL)correctly forPoints:(NSInteger)points sender:(Question*)sender {
 	self.answerViewPoints.text = [NSString stringWithFormat:@"%i Punkte", points];
 
 	if (correctly) {
@@ -96,7 +97,7 @@
 		self.answerView.frame = centerFrame;
 	} completion:^(BOOL finished) {
 		
-		[UIView animateWithDuration:2.0 animations:^(void) {
+		[UIView animateWithDuration:1.5 animations:^(void) {
 			self.answerView.alpha = 1.0;
 		} completion:^(BOOL finished) {
 			
@@ -105,9 +106,43 @@
 				self.answerView.frame = outsideViewFrame;
 			} completion:^(BOOL finished) {
 				self.answerView.frame = centerFrame;
+				
+				int index = [self.questions indexOfObject:sender];
+				int newIndex = -1;
+				
+				for (int i = index; i < self.questions.count; i++) {
+					Question* q = self.questions[i];
+					if (!(q.answersExhausted || q.correctlyAnswered)) {
+						newIndex = i;
+						break;
+					}
+				}
+				
+				if (newIndex == -1) {
+					for (int i = index; i >= 0; i--) {
+						Question* q = self.questions[i];
+						if (!(q.answersExhausted || q.correctlyAnswered)) {
+							newIndex = i;
+							break;
+						}
+					}
+				}
+				
+				if (newIndex != -1) {
+					self.pageControl.currentPage = newIndex;
+					[self changePage:nil];
+				} else {
+					[self.delegate answeredQuestions];
+					[self.navigationController popViewControllerAnimated:YES];
+				}
+				
+
 			}];
 		}];
 	}];
+	
+	
+	sender.tableView.userInteractionEnabled = YES;
 }
 
 //- (void)viewDidUnload

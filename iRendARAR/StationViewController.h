@@ -11,12 +11,8 @@
 #import "GraphNode.h"
 #import "Media.h"
 
-@protocol MultipleChoiceDelegate
-- (void)answeredQuestion;
-@end
 
-
-@interface StationViewController : UIViewController <UIScrollViewDelegate>
+@interface StationViewController : UIViewController <UIScrollViewDelegate, MultipleChoiceDelegate>
 
 @property (nonatomic, weak) GraphNode* node;
 @property (nonatomic, weak) id<MultipleChoiceDelegate> delegate;

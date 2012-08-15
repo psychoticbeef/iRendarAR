@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol QuestionDelegate
-- (void)questionAnswered:(BOOL)correctly forPoints:(NSInteger)points;
+- (void)questionAnswered:(BOOL)correctly forPoints:(NSInteger)points sender:(id)sender ;
 @end
 
 @interface Question : NSObject  <UITableViewDataSource, UITableViewDelegate>
@@ -23,5 +23,7 @@
 @property (nonatomic) BOOL correctlyAnswered;
 @property (nonatomic) BOOL answersExhausted;	// clicked every wrong answer there is
 @property (weak) id<QuestionDelegate> delegate;
+@property (weak) UITableView* tableView;
 
 @end
+

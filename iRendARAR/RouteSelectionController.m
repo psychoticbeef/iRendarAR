@@ -15,7 +15,6 @@
 @property (nonatomic, readwrite) NSUInteger filesize;
 @property (atomic, readwrite) BOOL routeListDownloaded;
 
-@property (strong, nonatomic) NSArray* routes;
 @property (weak, nonatomic) IBOutlet UIView* downloadPopup;
 @property (weak, nonatomic) IBOutlet UIProgressView* progressView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView* activity;
@@ -95,9 +94,9 @@
     [super viewDidLoad];
 	
     RouteSelectionController *__weak weakSelf = self;
+	
     
     self.routeListDownloaded = NO;
-    self.routes = NULL;
     self.routeLoader = [[RouteLoader alloc] init];
     self.routeLoader.delegate = self;
     
@@ -144,7 +143,7 @@
 #pragma mark tableview shit
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.routes count];
+    return self.routeLoader.routes.count;
 }
 
 
@@ -158,17 +157,32 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    NSString* distance;
-    CGFloat fdistance = [[GPSManager sharedInstance] distanceFromCurrentPosititionToRoute:self.routes[indexPath.row]];
-    if (fdistance > 1000)
-        distance = [NSString stringWithFormat:@"%.fkm", fdistance/1000];
-    else
-        distance = [NSString stringWithFormat:@"%.fm", fdistance];
-    
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [self.routes[indexPath.row] longname], distance];
+	Route* r = self.routeLoader.routes[indexPath.row];
+	NSString* distance;
+	if (r.distance > 1000) {
+		distance = [NSString stringWithFormat:@"%.fkm", r.distance/1000];
+	} else {
+		distance = [NSString stringWithFormat:@"%.fm", r.distance];
+	}
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", r.longname, distance];
     
     return cell;
 }
+
+- (void)locationDidChange {
+	[self.routeLoader locationDidChange];
+	[self.tv reloadData];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"Tour wählen";
+}
+
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -180,42 +194,12 @@
 //	[UIView animateWithDuration:0.25 animations:^(void) {
 		self.downloadPopup.alpha = 0.8;
 //	}];
-    [self fetchZIPfile:self.routes[indexPath.row]];
+    [self fetchZIPfile:self.routeLoader.routes[indexPath.row]];
     [self.activity startAnimating];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Tour wählen";
-}
-
-- (void)locationDidChange {
-    if (self.routes) {
-		self.sortedArray = [self.routes sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-			float first = [[GPSManager sharedInstance] distanceFromCurrentPosititionToRoute:(Route*)a];
-			float second = [[GPSManager sharedInstance] distanceFromCurrentPosititionToRoute:(Route*)b];
-			if (first == second) return NSOrderedSame;
-			return first > second ? NSOrderedDescending : NSOrderedAscending;
-		}];
-		
-		self.routes = self.sortedArray;
-		
-        [self.tv reloadData];
-
-        DebugLog(@"The GPS receiver informed us about a new location."
-				 @"Also, Routes are already loaded.");
-    } else {
-        DebugLog(@"The GPS receiver informed us about a new location."
-				 @"The route list was not yet loaded.");
-    }
-}
-
-- (void)routeLoaderDidFinishLoading:(NSArray* )routeList {
+- (void)routeLoaderDidFinishLoading {
     self.routeListDownloaded = YES;
-    self.routes = routeList;
 	[self.reach stopNotifier];
 	[self locationDidChange];
 }
@@ -228,7 +212,7 @@
     // TODO:
     [self.connection abort];
     [self downloadFinished:nil];
-    DebugLog(@"trying to cancel. NYI");
+//    DebugLog(@"trying to cancel. NYI");
 }
 
 

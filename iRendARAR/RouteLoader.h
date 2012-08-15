@@ -9,15 +9,18 @@
 #import <Foundation/Foundation.h>
 
 @protocol RouteLoaderDelegate
-- (void)routeLoaderDidFinishLoading:(NSArray* )routeList;
+- (void)routeLoaderDidFinishLoading;
 - (void)routeLoaderDidFinishWithError;
 @end
 
 
-@interface RouteLoader : NSObject
+@interface RouteLoader : NSObject <UITableViewDataSource>
 
--(void)loadRoutes;
+- (void)loadRoutes;
+- (void)locationDidChange;
 
 @property (weak) id<RouteLoaderDelegate> delegate;
+@property (readonly, strong) NSArray* routes;
+
 
 @end

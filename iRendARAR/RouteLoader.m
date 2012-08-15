@@ -17,12 +17,36 @@
 @property (nonatomic, strong) NSMutableDictionary* urlSettings;
 @property (nonatomic, strong) NSURL* url;
 @property (nonatomic, strong) NSMutableArray* routeList;
+@property (readwrite, strong) NSArray* routes;
 @property (nonatomic, strong) NSString* zipURL;
 
 @end
 
 
 @implementation RouteLoader
+
+- (void)locationDidChange {
+	NSArray* sortedArray;
+    if (self.routes) {
+		sortedArray = [self.routes sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+			float first = [a distance];
+			float second = [b distance];
+			if (first == second) return NSOrderedSame;
+			return first > second ? NSOrderedDescending : NSOrderedAscending;
+		}];
+		
+		self.routes = sortedArray;
+		
+        DebugLog(@"The GPS receiver informed us about a new location."
+				 @"Also, Routes are already loaded.");
+    } else {
+        DebugLog(@"The GPS receiver informed us about a new location."
+				 @"The route list was not yet loaded.");
+    }
+}
+
+
+
 
 -(id)init{
     if (self=[super init]) {
@@ -74,10 +98,11 @@
 			}
 		}
 		
+		self.routes = [self.routeList copy];
 			
         dispatch_async(dispatch_get_main_queue(), ^{
 			if (!downloadError) {
-				[self.delegate routeLoaderDidFinishLoading:[self.routeList copy]];
+				[self.delegate routeLoaderDidFinishLoading];
 			} else {
 				[self.delegate routeLoaderDidFinishWithError];
 			}

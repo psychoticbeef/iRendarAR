@@ -17,4 +17,7 @@
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic) NSURL* zipfile;
 
+
+- (float)distance;
+
 @end

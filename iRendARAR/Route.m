@@ -7,6 +7,7 @@
 //
 
 #import "Route.h"
+#import "GPSManager.h"
 
 @implementation Route
 
@@ -15,5 +16,11 @@
     
     return result;
 }
+
+- (float)distance {
+	return [[GPSManager sharedInstance] distanceFromCurrentPosititionToRoute:self];
+}
+
+
 
 @end

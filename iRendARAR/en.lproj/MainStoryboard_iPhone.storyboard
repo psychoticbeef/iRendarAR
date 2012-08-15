@@ -92,7 +92,7 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="Ucs-U9-clq" id="vup-kp-Q2o"/>
+                                    <outlet property="dataSource" destination="Ucs-U9-clq" id="wUO-C3-6kC"/>
                                     <outlet property="delegate" destination="Ucs-U9-clq" id="UmH-We-NCj"/>
                                 </connections>
                             </tableView>

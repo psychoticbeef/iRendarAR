@@ -114,7 +114,6 @@
 - (void)handle_MediaHelper:(NSDictionary*)attributeDict type:(MediaType)type {
 	Media* media = [[Media alloc] initWithType:type uri:attributeDict[@"src"] identifier:attributeDict[@"id"]];
 	[self.temporaryMedia addObject:media];
-//	DebugLog(@"added media %@ %@", attributeDict[@"src"], attributeDict[@"id"]);
 }
 
 - (void)handleElement_audio:(NSDictionary*)attributeDict {
@@ -148,10 +147,25 @@
 	self.questions = [[NSMutableArray alloc] init];
 }
 
+- (void)handleElementDone_questions {
+	for (Question* q in self.questions) {
+		q.total = self.questions.count;
+	}
+}
+
 - (void)handleElement_question:(NSDictionary*)attributeDict {
 	self.question = [[Question alloc] init];
 	[self.questions addObject:self.question];
 	self.question.questionText = attributeDict[@"query"];
+}
+
+- (void)handleElementDone_question {
+	for (unsigned int i = 0; i < self.question.answers.count; i++) {
+		Answer* a = self.question.answers[i];
+		if (a.isCorrect) {
+			self.question.correctAnswerBitmask |= 1 << i;
+		}
+	}
 }
 
 - (void)handleElement_answer:(NSDictionary*)attributeDict {

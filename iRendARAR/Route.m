@@ -17,7 +17,7 @@
     return result;
 }
 
-- (float)distance {
+- (CLLocationDistance)distance {
 	return [[GPSManager sharedInstance] distanceFromCurrentPositionToRoute:self];
 }
 

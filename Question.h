@@ -14,6 +14,9 @@
 @property (nonatomic, retain) NSMutableArray* answers;
 @property (nonatomic) NSUInteger number;
 @property (nonatomic) NSUInteger total;
-@property (nonatomic) NSInteger selectedAnswers;	// bitwise & for every answer given
+@property (nonatomic) NSUInteger selectedAnswers;	// bitwise & for every answer given
+@property (nonatomic) NSUInteger correctAnswerBitmask;
+@property (nonatomic) BOOL correctlyAnswered;
+@property (nonatomic) BOOL answersExhausted;	// clicked every wrong answer there is
 
 @end

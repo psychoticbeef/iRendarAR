@@ -21,6 +21,7 @@
 @interface GPSManager : NSObject <CLLocationManagerDelegate>
 
 @property (nonatomic, retain) CLLocation* loc;
+@property (weak) id<GPSManagerDelegate> delegate;
 
 +(id)sharedInstance;
 
@@ -31,7 +32,9 @@
 - (void)notifyWhenAtLocation:(CLLocationCoordinate2D)location withRadius:(int)radius identifier:(NSString*)identifier delegate:(id<GPSManagerNotificationDelegate>)delegate;
 - (void)clearNotifications;
 
-@property (weak) id<GPSManagerDelegate> delegate;
+- (void)stop;
+- (void)restart;
+
 
 
 @end

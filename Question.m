@@ -8,8 +8,25 @@
 
 #import "Question.h"
 #import "Answer.h"
+#import "Score.h"
 
 @implementation Question
+
+static Score* score;
+
+- (id)init {
+	self = [super init];
+	
+	static dispatch_once_t once;
+
+	if (self) {
+		dispatch_once(&once, ^{
+			score = [[Score alloc] init];
+		});
+	}
+	
+	return self;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	
@@ -55,13 +72,20 @@
 			break;
 	}
 	
+	if (self.correctlyAnswered || self.answersExhausted) {
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	} else {
+		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	}
+	
     return cell;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch (section) {
 		case 0:
-			return [@"Frage #" stringByAppendingFormat:@"%i", self.number];
+			return [NSString stringWithFormat:@"Frage %i von %i", self.number, self.total];
+
 		case 1:
 			return @"Antwortmöglichkeiten";
 			
@@ -70,10 +94,27 @@
 	}
 }
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (self.correctlyAnswered || self.answersExhausted)
+		return;
+	
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
 	if (indexPath.section == 1) {
-		self.selectedAnswers |= 1 << indexPath.row;
+		if ((self.selectedAnswers | indexPath.row) != self.selectedAnswers) {
+			Answer* a = self.answers[indexPath.row];
+			[score modifyScore:a.points];
+
+			self.selectedAnswers |= 1 << indexPath.row;
+			self.correctlyAnswered = (self.selectedAnswers & self.correctAnswerBitmask) > 0;
+		}
+	}
+	
+	NSUInteger completeMask = (1 << self.total) - 1;
+	if ((self.selectedAnswers | self.correctAnswerBitmask) == completeMask) {
+		self.answersExhausted = YES;
+		NSLog(@"ANSWERS EXHAUSTED");
 	}
 }
 

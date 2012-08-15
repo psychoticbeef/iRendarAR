@@ -221,7 +221,7 @@
 	else {
 		self.downloadPopup.alpha = 0.0;
 	}
-    if (self.filesize == -1 || route == nil) {
+    if (self.filesize == INT_MAX || route == nil) {
         NSLog(@"Downloaded -1 Bytes, which means there was an error concerning"
 			  @"the NSURLConnection downloading route content.");
     }
@@ -282,7 +282,7 @@
                                       UIAlertView* downloadedErrorView = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Notwendige Dateien konnten nicht heruntergeladen werden. Bitte versuchen Sie es später erneut." delegate:weakSelf cancelButtonTitle:nil otherButtonTitles:@"Alles klar!", nil];
                                       [downloadedErrorView show];
                                       
-                                      weakSelf.filesize = -1;
+                                      weakSelf.filesize = INT_MAX;
                                   });
                               } uploadPorgressBlock:^(float progress) {
                               } downloadProgressBlock:^(float progress) {

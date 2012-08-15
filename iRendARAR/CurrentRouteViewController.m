@@ -250,6 +250,7 @@
 	NSArray* cachePathArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* cachePath = [cachePathArray lastObject];
 	
+	// TODO: this is weird. stuff should be unpacked into their own subdirectories. RouteSelectionController should probably set that path, and this controller should probably forward it to StationViewController.
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[NSData dataWithContentsOfFile:[cachePath stringByAppendingPathComponent:@"/route/index.xml"]]];
 	
 	DebugLog(@"%@", cachePath);

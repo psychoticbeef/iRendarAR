@@ -18,6 +18,6 @@
 @property (nonatomic) NSURL* zipfile;
 
 
-- (float)distance;
+- (CLLocationDistance)distance;
 
 @end

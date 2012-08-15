@@ -103,5 +103,13 @@
 	}
 }
 
+- (void)restart {
+    [_locationManager startUpdatingLocation];
+}
+
+- (void)stop {
+    [self.locationManager stopUpdatingLocation];
+}
+
 
 @end

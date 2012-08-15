@@ -65,6 +65,13 @@ static Score* score;
 		case 1:
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			cell.textLabel.text = a.answerText;
+			
+			if ((self.selectedAnswers & (1 << indexPath.row)) > 0 || self.answersExhausted || self.correctlyAnswered) {
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
+				cell.textLabel.textColor = ((self.correctAnswerBitmask & (1 << indexPath.row)) > 0) ?
+				[UIColor greenColor] : [UIColor redColor];
+			}
+			
 			break;
 			
 		default:
@@ -110,6 +117,15 @@ static Score* score;
 			self.correctlyAnswered = (self.selectedAnswers & self.correctAnswerBitmask) > 0;
 
 			self.tableView.userInteractionEnabled = NO;
+			
+			if (!self.correctlyAnswered && !self.answersExhausted) {
+				[self.tableView beginUpdates];
+				[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:
+				 UITableViewRowAnimationLeft];
+				[self.tableView endUpdates];
+			} else {
+				[self.tableView reloadData];
+			}
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
 				//		[self.delegate questionAnswered:self.correctlyAnswered forPoints:a.points];

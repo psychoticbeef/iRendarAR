@@ -172,7 +172,6 @@
 	self.multipleChoiceViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"multipleChoice"];
 	self.multipleChoiceViewController.questions = self.node.questions;
 	[self.navigationController pushViewController:self.multipleChoiceViewController animated:YES];
-	
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

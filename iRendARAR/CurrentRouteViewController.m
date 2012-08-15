@@ -28,7 +28,7 @@
 
 @property (nonatomic, retain) NSMutableArray* temporaryAnnotations;
 @property (nonatomic, retain) NSMutableArray* temporaryOverlays;
-
+@property (nonatomic, retain) MultipleChoiceViewController* multipleChoiceViewController;
 
 @end
 
@@ -131,11 +131,22 @@
 			break;
 		}
 	}
-	
-	self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
-	self.stationDetailViewController.node = self.graph.graphRoot.currentNode;
-	self.stationDetailViewController.delegate = self;
-	[self.navigationController pushViewController:self.stationDetailViewController animated:YES];
+
+	// if there's media, show media
+	if (self.graph.graphRoot.currentNode.media.count > 0) {
+		self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
+		self.stationDetailViewController.node = self.graph.graphRoot.currentNode;
+		self.stationDetailViewController.delegate = self;
+		[self.navigationController pushViewController:self.stationDetailViewController animated:YES];
+	// if there's no media, but questions, show those instead
+	} else if (self.graph.graphRoot.currentNode.questions.count > 0) {
+		self.multipleChoiceViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"multipleChoice"];
+		self.multipleChoiceViewController.questions = self.graph.graphRoot.currentNode.questions;
+		[self.navigationController pushViewController:self.multipleChoiceViewController animated:YES];
+	// otherwise just continue with the following stations
+	} else {
+		[self answeredQuestion];
+	}
 }
 
 - (void)answeredQuestion {
@@ -193,7 +204,7 @@
 	}
 }
 
-- (Annotation*)addAnnotation:(GraphNode*)successorNode addToRect:(BOOL)add annotationType:(AnnotationType)type{
+- (Annotation*)addAnnotation:(GraphNode*)successorNode addToRect:(BOOL)add annotationType:(AnnotationType)type {
 	Annotation* annotation = [[Annotation alloc] init];
 	annotation.title = successorNode.name;
 	annotation.subtitle = @"";

@@ -6,6 +6,9 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+
+// this whole crap shoul be replaced with google protocol buffers or smth similar
+
 #import "Graph.h"
 #import "GraphNode.h"
 #import "Question.h"
@@ -139,7 +142,7 @@
 	}];
 	
 	self.media = sortedArray;
-	NSLog(@"SELF MEDIA COUNT %i", self.media.count);
+//	DebugLog(@"SELF MEDIA COUNT %i", self.media.count);
 }
 
 

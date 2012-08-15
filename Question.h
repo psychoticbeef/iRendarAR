@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol QuestionDelegate
+- (void)questionAnswered:(BOOL)correctly forPoints:(NSInteger)points;
+@end
+
 @interface Question : NSObject  <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) NSString* questionText;
@@ -18,5 +22,6 @@
 @property (nonatomic) NSUInteger correctAnswerBitmask;
 @property (nonatomic) BOOL correctlyAnswered;
 @property (nonatomic) BOOL answersExhausted;	// clicked every wrong answer there is
+@property (weak) id<QuestionDelegate> delegate;
 
 @end

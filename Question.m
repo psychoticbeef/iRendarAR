@@ -96,18 +96,23 @@ static Score* score;
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
 	if (self.correctlyAnswered || self.answersExhausted)
 		return;
 	
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-	
 	if (indexPath.section == 1) {
-		if ((self.selectedAnswers | indexPath.row) != self.selectedAnswers) {
+		if ((self.selectedAnswers | (1 << indexPath.row)) != self.selectedAnswers) {
 			Answer* a = self.answers[indexPath.row];
 			[score modifyScore:a.points];
 
 			self.selectedAnswers |= 1 << indexPath.row;
 			self.correctlyAnswered = (self.selectedAnswers & self.correctAnswerBitmask) > 0;
+
+			dispatch_async(dispatch_get_main_queue(), ^{
+				//		[self.delegate questionAnswered:self.correctlyAnswered forPoints:a.points];
+				[self.delegate questionAnswered:self.correctlyAnswered forPoints:a.points];
+			});
 		}
 	}
 	
@@ -117,7 +122,5 @@ static Score* score;
 		NSLog(@"ANSWERS EXHAUSTED");
 	}
 }
-
-
 
 @end

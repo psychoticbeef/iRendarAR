@@ -267,6 +267,9 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="answerView" destination="6HK-jh-KGx" id="UsX-OO-B7u"/>
+                        <outlet property="answerViewPoints" destination="CVc-aa-lH6" id="vFp-yF-vNh"/>
+                        <outlet property="answerViewSymbol" destination="tjz-H7-mk2" id="WKz-km-CTs"/>
                         <outlet property="pageControl" destination="r4E-u1-ldQ" id="oEe-at-HTa"/>
                         <outlet property="scrollView" destination="bHQ-7q-OG5" id="ken-3D-Xbp"/>
                     </connections>
@@ -404,6 +407,10 @@
         <class className="MultipleChoiceViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MultipleChoiceViewController.h"/>
             <relationships>
+                <relationship kind="action" name="changePage:"/>
+                <relationship kind="outlet" name="answerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="answerViewPoints" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="answerViewSymbol" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="pageControl" candidateClass="UIPageControl"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
             </relationships>
@@ -411,6 +418,7 @@
         <class className="RouteSelectionController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RouteSelectionController.h"/>
             <relationships>
+                <relationship kind="action" name="cancelDownload:"/>
                 <relationship kind="outlet" name="activity" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="downloadPopup" candidateClass="UIView"/>
                 <relationship kind="outlet" name="progressView" candidateClass="UIProgressView"/>

@@ -7,12 +7,14 @@
 //
 
 #import "MultipleChoiceViewController.h"
-#import "Question.h"
 
 @interface MultipleChoiceViewController ()
 
 @property (weak) IBOutlet UIPageControl* pageControl;
 @property (weak) IBOutlet UIScrollView *scrollView;
+@property (weak) IBOutlet UIView* answerView;
+@property (weak) IBOutlet UILabel* answerViewSymbol;
+@property (weak) IBOutlet UILabel* answerViewPoints;
 @property (nonatomic) BOOL pageControlUsed;
 
 @end
@@ -29,9 +31,15 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
+	
+	// shadow!!1
+	self.answerView.layer.masksToBounds = NO;
+	self.answerView.layer.cornerRadius = 8;
+	self.answerView.layer.shadowOffset = CGSizeMake(-15, 20);
+	self.answerView.layer.shadowRadius = 5;
+	self.answerView.layer.shadowOpacity = 0.5;
 
 	CGRect scrollViewFrame = self.scrollView.frame;
 	CGRect tableViewFrame = self.scrollView.frame;
@@ -46,6 +54,7 @@
 //		tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard - iPhone.png"]];
 		Question* q = self.questions[i];
 		q.number = i+1;
+		q.delegate = self;
 		tableView.dataSource = q;
 		tableView.delegate = q;
 		tableView.contentMode = UIViewContentModeScaleAspectFit;
@@ -61,6 +70,44 @@
 	self.scrollView.showsVerticalScrollIndicator = NO;
 	self.scrollView.scrollsToTop = NO;
 	self.scrollView.pagingEnabled = YES;
+}
+
+- (void)questionAnswered:(BOOL)correctly forPoints:(NSInteger)points {
+	self.answerViewPoints.text = [NSString stringWithFormat:@"%i Punkte", points];
+
+	if (correctly) {
+		self.answerViewSymbol.text = @"✓";
+		self.answerViewSymbol.textColor = [UIColor greenColor];
+		self.answerViewPoints.textColor = [UIColor greenColor];
+	} else {
+		self.answerViewSymbol.text = @"✗";
+		self.answerViewSymbol.textColor = [UIColor redColor];
+		self.answerViewPoints.textColor = [UIColor redColor];
+	}
+	
+	CGRect centerFrame = self.answerView.frame;
+	CGRect outsideViewFrame = centerFrame;
+
+	outsideViewFrame.origin.y = -(centerFrame.size.height);
+	self.answerView.frame = outsideViewFrame;
+	self.answerView.alpha = 0.8;
+	
+	[UIView animateWithDuration:0.75 animations:^(void) {
+		self.answerView.frame = centerFrame;
+	} completion:^(BOOL finished) {
+		
+		[UIView animateWithDuration:2.0 animations:^(void) {
+			self.answerView.alpha = 1.0;
+		} completion:^(BOOL finished) {
+			
+			[UIView animateWithDuration:0.75 animations:^(void) {
+				self.answerView.alpha = 0.0;
+				self.answerView.frame = outsideViewFrame;
+			} completion:^(BOOL finished) {
+				self.answerView.frame = centerFrame;
+			}];
+		}];
+	}];
 }
 
 //- (void)viewDidUnload

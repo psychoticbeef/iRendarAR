@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Question.h"
 
-@interface MultipleChoiceViewController : UIViewController <UIScrollViewDelegate, UITableViewDelegate>
+@interface MultipleChoiceViewController : UIViewController <UIScrollViewDelegate, UITableViewDelegate, QuestionDelegate>
 
 @property (nonatomic, weak) NSMutableArray* questions;
 

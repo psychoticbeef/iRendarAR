@@ -220,6 +220,11 @@
 	
     if (node.type == ANNOTATION) [self.annotationStations addObject:node];
     else [self.nodes addObject:node];
+	
+	self.media = nil;
+	self.questions = nil;
+	self.question = nil;
+	self.temporaryMedia = nil;
 }
 
 -(void)handleElement_gpspos:(NSDictionary *)attributeDict {

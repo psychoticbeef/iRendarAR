@@ -28,6 +28,8 @@
 @property (nonatomic, retain) NSMutableArray* temporaryOverlays;
 @property (nonatomic, retain) MultipleChoiceViewController* multipleChoiceViewController;
 
+@property (nonatomic) BOOL canProgress;
+
 @end
 
 @implementation CurrentRouteViewController
@@ -144,14 +146,14 @@
 		[self.navigationController pushViewController:self.multipleChoiceViewController animated:YES];
 	// otherwise just continue with the following stations
 	} else {
-		[self answeredQuestions];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self progressedToNextStation];
+		});
 	}
 }
 
 - (void)answeredQuestions {
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self progressedToNextStation];
-	});
+	self.canProgress = YES;
 }
 
 - (void)drawRoutes {
@@ -288,6 +290,13 @@
     self.accelerometer.updateInterval = .1;
     self.accelerometer.delegate = self;
     self.appState = MAP;
+	
+	if (self.canProgress) {
+		self.canProgress = NO;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self progressedToNextStation];
+		});
+	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

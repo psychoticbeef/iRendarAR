@@ -101,9 +101,12 @@
 }
 
 - (void)didArriveAtLocation:(NSString*)identifer {
+	NSLog(@"did arrive! %@", identifer);
+	
+	[[GPSManager sharedInstance] clearNotifications];
+
 	if (self.graph.graphRoot.currentNode.isEndStation) {
 		self.gameOver = YES;
-		[[GPSManager sharedInstance] clearNotifications];
 	}
 	
 	for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) {
@@ -300,19 +303,21 @@
 	
     self.navigationController.navigationBar.translucent = YES;
 	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
-	
-	if (self.canProgress) {
-		self.canProgress = NO;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self progressedToNextStation];
-		});
-	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     self.accelerometer.delegate = nil;
     self.navigationController.navigationBar.translucent = NO;
 	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	if (self.canProgress) {
+		self.canProgress = NO;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self progressedToNextStation];
+		});
+	}
 }
 
 //- (void)viewDidUnload
@@ -407,7 +412,7 @@
 	
 	if ([view.annotation isKindOfClass:[Annotation class]]) {
 		Annotation* a = (Annotation*) view.annotation;
-		if (a.node.type == VISITED || a.node.type == ANNOTATION) {
+		if (a.node.type == VISITED || a.node.type == ANNOTATION || self.graph.graphRoot.currentNode == a.node) {
 			[self showDetailsForNode: a.node];
 		} else {
 			// POPUP INS GESICHT

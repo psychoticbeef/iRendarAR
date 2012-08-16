@@ -130,24 +130,33 @@
 		}
 	}
 
-	// if there's media, show media
-	if (self.graph.graphRoot.currentNode.media.count > 0) {
-		self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
-		self.stationDetailViewController.node = self.graph.graphRoot.currentNode;
-		self.stationDetailViewController.delegate = self;
-		[self.navigationController pushViewController:self.stationDetailViewController animated:YES];
-	// if there's no media, but questions, show those instead
-	} else if (self.graph.graphRoot.currentNode.questions.count > 0) {
-		self.multipleChoiceViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"multipleChoice"];
-		self.multipleChoiceViewController.questions = self.graph.graphRoot.currentNode.questions;
-		self.multipleChoiceViewController.delegate = self;
-		[self.navigationController pushViewController:self.multipleChoiceViewController animated:YES];
-	// otherwise just continue with the following station(s)
-	} else {
+	if (![self showDetailsForNode:self.graph.graphRoot.currentNode]) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self progressedToNextStation];
 		});
 	}
+}
+
+
+- (bool)showDetailsForNode:(GraphNode*) node {
+	// if there's media, show media
+	if (node.media.count > 0) {
+		self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
+		self.stationDetailViewController.node = node;
+		self.stationDetailViewController.delegate = self;
+		[self.navigationController pushViewController:self.stationDetailViewController animated:YES];
+		// if there's no media, but questions, show those instead
+	} else if (node.questions.count > 0) {
+		self.multipleChoiceViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"multipleChoice"];
+		self.multipleChoiceViewController.questions = node.questions;
+		self.multipleChoiceViewController.delegate = self;
+		[self.navigationController pushViewController:self.multipleChoiceViewController animated:YES];
+		// otherwise just continue with the following station(s)
+	} else {
+		return false;
+	}
+	
+	return true;
 }
 
 - (void)answeredQuestions {
@@ -209,6 +218,7 @@
 	annotation.subtitle = @"";
 	annotation.coordinate = successorNode.location;
 	annotation.type = type;
+	annotation.node = successorNode;
 	
 	if (add) {
 		MKMapPoint annotationPoint = MKMapPointForCoordinate(successorNode.location);
@@ -339,12 +349,24 @@
         return nil;
     }
 	
+//	if ([annotation isKindOfClass:[Annotation class]]) {
+//		Annotation* a = (Annotation*)annotation;
+//		if (a.node.type == DUMMY)
+//			return nil;
+//	}
+	
     static NSString* AnnotationIdentifier = @"AnnotationIdentifier";
     MKPinAnnotationView* pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationIdentifier];
     
-    pinView.canShowCallout = YES;
-	
 	Annotation* cast = (Annotation*) annotation;
+	pinView.canShowCallout = YES;
+	
+	if (cast.node.media.count > 0 || cast.node.questions.count > 0) {
+		UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+		[rightButton setTitle:annotation.title forState:UIControlStateNormal];
+		pinView.rightCalloutAccessoryView = rightButton;
+	}
+	
 	switch (cast.type) {
 		case STATIC:
 			pinView.animatesDrop = NO;
@@ -365,37 +387,35 @@
 			break;
 	}
     
-    UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    [rightButton setTitle:annotation.title forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
-    pinView.rightCalloutAccessoryView = rightButton;
 	
     return pinView;
 }
 
 -(IBAction)showDetails:(id)sender {
 	NSLog(@"%@ %@", sender, [sender class]);
-	//    StationDetailView
-	//    self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
-	//    [self.navigationController pushViewController:self.stationDetailViewController animated:YES];
-	
-//	DebugLog(@"Sup. Debug button was tapped. Some overview:");
-//	DebugLog(@"--- Before ---");
-//	DebugLog(@"Current Station: %@", self.graph.graphRoot.currentNode.name);
-	
-	GraphNode* node = self.graph.graphRoot.currentNode;
-	if (node.outputNode.count > 0) {
-		//		if (self.playerHasArrived) {
-		node = node.outputNode[0];
-		//		}
-		[self didArriveAtLocation:node.identifier];
-	}
-	
-//	DebugLog(@"--- After ---");
-//	DebugLog(@"Current Station: %@", self.graph.graphRoot.currentNode.name);
+
+	//	GraphNode* node = self.graph.graphRoot.currentNode;
+//	if (node.outputNode.count > 0) {
+//		//		if (self.playerHasArrived) {
+//		node = node.outputNode[0];
+//		//		}
+//		[self didArriveAtLocation:node.identifier];
+//	}
 }
 
-
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+	
+	if ([view.annotation isKindOfClass:[Annotation class]]) {
+		Annotation* a = (Annotation*) view.annotation;
+		if (a.node.type == VISITED || a.node.type == ANNOTATION) {
+			[self showDetailsForNode: a.node];
+		} else {
+			// POPUP INS GESICHT
+			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Erst bei Erreichen der Station" message:@"Die Details zu einer Station werden erst angezeigt, wenn sie erreicht wurde und die Fragen der vorherigen Station beantwortet wurden." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+			[alert show];
+		}
+	}
+}
 
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {

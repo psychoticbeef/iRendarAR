@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import "GraphNode.h"
 
 @interface Annotation : NSObject<MKAnnotation>
 
@@ -18,5 +19,6 @@ typedef NS_ENUM (NSUInteger, AnnotationType) { STATIC, CURRENT, VISITED };
 @property (nonatomic, copy) NSString* title;
 @property (nonatomic, copy) NSString* subtitle;
 @property (nonatomic) AnnotationType type;
+@property (weak) GraphNode* node;
 
 @end

@@ -65,7 +65,7 @@
     accelerometer = [UIAccelerometer sharedAccelerometer];
     accelerometer.updateInterval = .1;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:(@selector(scoreDidChange)) name:@"scoreDidChange" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:(@selector(scoreDidChange)) name:@"scoreDidChange" object:nil];
     
     CGAffineTransform rotationTransform = CGAffineTransformIdentity;
     rotationTransform = CGAffineTransformRotate(rotationTransform, -M_PI/2);

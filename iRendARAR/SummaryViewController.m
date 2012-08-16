@@ -79,7 +79,7 @@
 {
     [super viewDidLoad];
 	
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:(@selector(scoreChanged:)) name:@"scoreChanged" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:(@selector(scoreChanged:)) name:@"scoreChanged" object:nil];
 }
 
 

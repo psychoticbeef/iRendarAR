@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-// TODO: Remove annotations AND paths we did not visit.
-
 #import "CurrentRouteViewController.h"
 #import "MKPolyline+EncodedString.h"
 
@@ -67,7 +65,7 @@
     [super viewDidLoad];
 	
     [self loadXML];
-    
+	
     self.accelerometer = [UIAccelerometer sharedAccelerometer];
     self.accelerometer.updateInterval = .1;
     
@@ -144,7 +142,7 @@
 		self.multipleChoiceViewController.questions = self.graph.graphRoot.currentNode.questions;
 		self.multipleChoiceViewController.delegate = self;
 		[self.navigationController pushViewController:self.multipleChoiceViewController animated:YES];
-	// otherwise just continue with the following stations
+	// otherwise just continue with the following station(s)
 	} else {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self progressedToNextStation];
@@ -253,7 +251,6 @@
 	NSArray* cachePathArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* cachePath = [cachePathArray lastObject];
 	
-	// TODO: this is weird. stuff should be unpacked into their own subdirectories. RouteSelectionController should probably set that path, and this controller should probably forward it to StationViewController.
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[NSData dataWithContentsOfFile:[cachePath stringByAppendingPathComponent:@"/route/index.xml"]]];
 	
 	DebugLog(@"%@", cachePath);
@@ -285,11 +282,14 @@
 }
 
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     self.accelerometer = [UIAccelerometer sharedAccelerometer];
     self.accelerometer.updateInterval = .1;
     self.accelerometer.delegate = self;
     self.appState = MAP;
+	
+    self.navigationController.navigationBar.translucent = YES;
+	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
 	
 	if (self.canProgress) {
 		self.canProgress = NO;
@@ -301,6 +301,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     self.accelerometer.delegate = nil;
+    self.navigationController.navigationBar.translucent = NO;
+	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
 }
 
 //- (void)viewDidUnload
@@ -322,7 +324,7 @@
         if (self.appState != CAMERA) {
             self.appState = CAMERA;
 			
-			[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+//			[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
 			[self presentViewController:self.arViewController animated:YES completion:^{
             }];
         }
@@ -372,6 +374,7 @@
 }
 
 -(IBAction)showDetails:(id)sender {
+	NSLog(@"%@ %@", sender, [sender class]);
 	//    StationDetailView
 	//    self.stationDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"StationDetailView"];
 	//    [self.navigationController pushViewController:self.stationDetailViewController animated:YES];

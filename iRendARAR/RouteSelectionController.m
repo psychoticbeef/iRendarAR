@@ -203,10 +203,8 @@
 }
 
 - (IBAction)cancelDownload:(id)sender {
-    // TODO:
     [self.connection abort];
     [self downloadFinished:nil];
-//    DebugLog(@"trying to cancel. NYI");
 }
 
 

@@ -151,12 +151,8 @@
 		scrollViewRect.size.height += 162;
 		scrollViewRect.size.height += 24;
 	}
-	
-	if (!self.hasDescription && !self.hasMultipleImages && !self.hasSingleImage) {
-		// TODO: go immediately to multiple choice view
-		[self multipleChoiceAction:self];
-		return;
-	}
+
+	NSAssert(self.hasDescription || self.hasMultipleImages || self.hasSingleImage, @"The StationDetailView should NOT be invoked if there is no media at all to be displayed. Please go straight to the MultipleChoiceView.");
 	
 	self.textView.frame = textViewRect;
 	self.scrollView.frame = scrollViewRect;

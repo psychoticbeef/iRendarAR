@@ -7,6 +7,7 @@
 //
 
 #import "MultipleChoiceViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface MultipleChoiceViewController ()
 

@@ -8,6 +8,8 @@
 
 #import "CurrentRouteViewController.h"
 #import "MKPolyline+EncodedString.h"
+#import <AudioToolbox/AudioServices.h>
+
 
 @interface CurrentRouteViewController ()
 
@@ -26,7 +28,12 @@
 @property (nonatomic, retain) NSMutableArray* temporaryOverlays;
 @property (nonatomic, retain) MultipleChoiceViewController* multipleChoiceViewController;
 
+@property (nonatomic) SystemSoundID soundID;
+@property (nonatomic) OSStatus audioErrorCode;
+
 @property (nonatomic) BOOL canProgress;
+
+@property (nonatomic) NSUInteger vibrationCount;
 
 @end
 
@@ -65,6 +72,14 @@
     [super viewDidLoad];
 	
     [self loadXML];
+	
+	NSString* str =  [[NSBundle mainBundle] pathForResource:@"out" ofType:@"caf"];
+	
+	CFURLRef soundFileURL = (__bridge CFURLRef)[NSURL URLWithString:[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	SystemSoundID soundID = 0;
+	self.audioErrorCode = AudioServicesCreateSystemSoundID(soundFileURL, &soundID);
+	self.soundID = soundID;
+
 	
     self.accelerometer = [UIAccelerometer sharedAccelerometer];
     self.accelerometer.updateInterval = .1;
@@ -132,12 +147,27 @@
 			break;
 		}
 	}
+	
+	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground || [UIApplication sharedApplication].applicationState == UIApplicationStateInactive) {
+		if (!self.audioErrorCode) AudioServicesPlaySystemSound(self.soundID);
+		[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(vibrate:) userInfo:nil repeats:YES];
+	}
 
 	if (![self showDetailsForNode:self.graph.graphRoot.currentNode]) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self progressedToNextStation];
 		});
 	}
+}
+
+
+- (void)vibrate:(NSTimer*)timer {
+	if (self.vibrationCount++ == 5) {
+		[timer invalidate];
+		self.vibrationCount = 0;
+	}
+	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground || [UIApplication sharedApplication].applicationState == UIApplicationStateInactive)AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+	else [timer invalidate];
 }
 
 

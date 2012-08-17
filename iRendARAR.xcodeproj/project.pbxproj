@@ -39,14 +39,12 @@
 		03889CE814D0156F008C0343 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03889CE714D0156F008C0343 /* MapKit.framework */; };
 		03889CEB14D019FA008C0343 /* CurrentRouteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */; };
 		03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */; };
-		03A3954915CFCC4900FE34DE /* gpsrallye.proto in Resources */ = {isa = PBXBuildFile; fileRef = 03A3954815CFCC4900FE34DE /* gpsrallye.proto */; };
 		03ABD77F15D63D73009F7EC9 /* UACellBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03ABD77E15D63D73009F7EC9 /* UACellBackgroundView.m */; };
 		03BDED2C15A2DAE80045D5B3 /* URLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		03BDED3115A2FCBE0045D5B3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED3015A2F6510045D5B3 /* Reachability.m */; };
 		03C415751517730A004B2AE7 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C415741517730A004B2AE7 /* Graph.m */; };
 		03C4157815177319004B2AE7 /* GraphNode.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03C4157715177319004B2AE7 /* GraphNode.mm */; };
 		03D072F8159B008A0028701F /* GraphRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D072F7159B008A0028701F /* GraphRoot.m */; };
-		03D0D54A14D0420400D1D2F7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D0D54914D0420400D1D2F7 /* AVFoundation.framework */; };
 		03D0D54C14D0420C00D1D2F7 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D0D54B14D0420C00D1D2F7 /* CoreVideo.framework */; };
 		03D0D54E14D0421100D1D2F7 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D0D54D14D0421000D1D2F7 /* CoreMedia.framework */; };
 		03D0D54F14D0435600D1D2F7 /* ARDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D0D54214D0392500D1D2F7 /* ARDemoViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -57,6 +55,9 @@
 		03DAE31015D59451004774D7 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 03DAE30615D5935B004774D7 /* mztools.c */; };
 		03DAE31115D59451004774D7 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 03DAE30815D5935B004774D7 /* unzip.c */; };
 		03DAE31215D59451004774D7 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 03DAE30A15D5935B004774D7 /* zip.c */; };
+		03F0627B15DE3ABA004E0C9A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03F0627A15DE3ABA004E0C9A /* AudioToolbox.framework */; };
+		03F0627C15DE3ACB004E0C9A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D0D54914D0420400D1D2F7 /* AVFoundation.framework */; };
+		03F0627D15DE3CDC004E0C9A /* out.caf in Resources */ = {isa = PBXBuildFile; fileRef = 03F0627915DE36DE004E0C9A /* out.caf */; };
 		03F7428315628DF800498962 /* MultipleChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F7428215628DF800498962 /* MultipleChoiceViewController.m */; };
 		03FD87F715625B96001DE1C6 /* Score.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FD87F615625B96001DE1C6 /* Score.m */; };
 		03FD87FE15626668001DE1C6 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FD87FD15626668001DE1C6 /* Annotation.m */; };
@@ -144,6 +145,8 @@
 		03DAE30B15D5935B004774D7 /* zip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		03DAE30C15D5935B004774D7 /* SSZipArchive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
 		03DAE30D15D5935B004774D7 /* SSZipArchive.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
+		03F0627915DE36DE004E0C9A /* out.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = out.caf; sourceTree = "<group>"; };
+		03F0627A15DE3ABA004E0C9A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		03F7428115628DF800498962 /* MultipleChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleChoiceViewController.h; sourceTree = "<group>"; };
 		03F7428215628DF800498962 /* MultipleChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleChoiceViewController.m; sourceTree = "<group>"; };
 		03FD87F515625B96001DE1C6 /* Score.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Score.h; sourceTree = "<group>"; };
@@ -157,6 +160,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03F0627C15DE3ACB004E0C9A /* AVFoundation.framework in Frameworks */,
+				03F0627B15DE3ABA004E0C9A /* AudioToolbox.framework in Frameworks */,
 				0374415F150DFECD00189C4C /* libz.dylib in Frameworks */,
 				037A58CF14CFFC3B00C358BC /* CoreGraphics.framework in Frameworks */,
 				0374415D150DFEC300189C4C /* MobileCoreServices.framework in Frameworks */,
@@ -165,7 +170,6 @@
 				03022FCC14D46A20006CBF8E /* CoreLocation.framework in Frameworks */,
 				03D0D54E14D0421100D1D2F7 /* CoreMedia.framework in Frameworks */,
 				03D0D54C14D0420C00D1D2F7 /* CoreVideo.framework in Frameworks */,
-				03D0D54A14D0420400D1D2F7 /* AVFoundation.framework in Frameworks */,
 				03889CE814D0156F008C0343 /* MapKit.framework in Frameworks */,
 				037A58CB14CFFC3B00C358BC /* UIKit.framework in Frameworks */,
 				037A58CD14CFFC3B00C358BC /* Foundation.framework in Frameworks */,
@@ -201,6 +205,7 @@
 		037A58BB14CFFC3A00C358BC = {
 			isa = PBXGroup;
 			children = (
+				03F0627A15DE3ABA004E0C9A /* AudioToolbox.framework */,
 				037A58D014CFFC3B00C358BC /* iRendARAR */,
 				037A58C914CFFC3B00C358BC /* Frameworks */,
 				037A58C714CFFC3B00C358BC /* Products */,
@@ -274,6 +279,7 @@
 		037A58FE14CFFE9D00C358BC /* ressources */ = {
 			isa = PBXGroup;
 			children = (
+				03F0627915DE36DE004E0C9A /* out.caf */,
 				03C8940515AD6D31003E05A1 /* backgrounds */,
 				037A58DC14CFFC3B00C358BC /* MainStoryboard_iPhone.storyboard */,
 				037A58FF14CFFF0100C358BC /* 73-radar.png */,
@@ -464,6 +470,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03F0627D15DE3CDC004E0C9A /* out.caf in Resources */,
 				037A58D514CFFC3B00C358BC /* InfoPlist.strings in Resources */,
 				037A58DE14CFFC3B00C358BC /* MainStoryboard_iPhone.storyboard in Resources */,
 				037A58F914CFFDFD00C358BC /* url_settings.plist in Resources */,
@@ -473,7 +480,6 @@
 				037A590214CFFF0100C358BC /* 73-radar@2x.png in Resources */,
 				035D194615C52ED9003DB030 /* Chalkboard - iPhone.png in Resources */,
 				035D194715C52ED9003DB030 /* Chalkboard - iPhone@2x.png in Resources */,
-				03A3954915CFCC4900FE34DE /* gpsrallye.proto in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

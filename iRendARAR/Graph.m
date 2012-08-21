@@ -41,7 +41,6 @@
 -(id)init {
     if ((self = [super init])) {
         _annotationStations = [[NSMutableArray alloc] init];
-        _graphRoot = NULL;
 		_dummy = [[GraphNode alloc] initWithName:@"dummy" withType:@"DUMMY" withIdentifier:@"dummy" withLocation:CLLocationCoordinate2DMake(0, 0) withRadius:0 withQuestions:nil isStartStation:NO isEndStation:NO media:nil];
     }
     
@@ -266,6 +265,7 @@
 }
 
 - (void)generateGraph {
+	self.graphRoot.allNodes = self.nodes;
 	DebugLog(@"Annotation Count: %i\nStation Count %i", self.annotationStations.count, self.nodes.count);
 }
 

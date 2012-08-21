@@ -15,6 +15,7 @@
 @property (readonly, retain) NSString *name;
 @property (readonly, retain) GraphNode* currentNode;
 @property (readonly, copy) NSMutableArray* visitedNodes;
+@property (readwrite, retain) NSMutableArray* allNodes;
 
 -(id)initWithName:(NSString *)name version:(NSString *)schemaVersion;
 -(void)setNodeAsCurrentNode:(GraphNode*)node;

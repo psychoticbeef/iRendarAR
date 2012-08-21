@@ -167,7 +167,10 @@
 		self.vibrationCount = 0;
 	}
 	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground || [UIApplication sharedApplication].applicationState == UIApplicationStateInactive)AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-	else [timer invalidate];
+	else {
+		[timer invalidate];
+		self.vibrationCount = 0;
+	}
 }
 
 

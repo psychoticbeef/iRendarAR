@@ -56,6 +56,9 @@ static Score* score;
 	
 	Answer* a = self.answers[(NSUInteger) indexPath.row];
 	
+	cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+	cell.textLabel.numberOfLines = 100;
+	
 	switch (indexPath.section) {
 		case 0:
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -85,6 +88,9 @@ static Score* score;
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	}
 	
+	NSLog(@"%f", cell.frame.size.height);
+	NSLog(@"%@", cell.textLabel.font);
+	
     return cell;
 }
 
@@ -99,6 +105,40 @@ static Score* score;
 		default:
 			return @"";
 	}
+}
+
+#define FONT_SIZE 14.0f
+#define CELL_CONTENT_WIDTH 320.0f
+#define CELL_CONTENT_MARGIN 10.0f
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	Answer* a = self.answers[(NSUInteger) indexPath.row];
+	NSString *text;
+	
+	switch (indexPath.section) {
+		case 0:
+			text = self.questionText;
+			break;
+			
+		case 1:
+			text = a.answerText;
+			break;
+			
+		default:
+			text = @"";
+			break;
+	}
+
+	// Get a CGSize for the width and, effectively, unlimited height
+	CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2), 20000.0f);
+	// Get the size of the text given the CGSize we just made as a constraint
+	
+	CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
+	// Get the height of our measurement, with a minimum of 44 (standard cell size)
+	CGFloat height = MAX(size.height + 2 * CELL_CONTENT_MARGIN, 44.0f);
+	// return the height, with a bit of extra padding in
+	return height;
 }
 
 

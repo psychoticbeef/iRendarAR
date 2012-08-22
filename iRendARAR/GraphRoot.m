@@ -47,33 +47,58 @@
 			continue;
 		
 		[self removeNodeFromGraph:outgoingNode];
+		NSLog(@"Deleting Node: %@", outgoingNode.name);
 	}
 	
 	[self removeNodeFromGraph:oldCurrent];
+	NSLog(@"Deleting Node: %@", oldCurrent.name);
 }
 
+static int i = 0;
+static bool path_exists = NO;
 
+// the recursion is buggy. nao we has a variable "path_exists" that only dingenses if a path was found. niec?
 - (BOOL)checkPathForNode:(GraphNode*)node deletedList:(NSMutableArray*)deletedNodes {
 	[deletedNodes addObject:node];
 	
-	for (GraphNode* currentNode in node.outputNode) {
-		if ([deletedNodes indexOfObject:currentNode] == NSNotFound)
-			continue;
-		if (currentNode.isEndStation)
-			return YES;
-		
-		return [self checkPathForNode:currentNode deletedList:[deletedNodes mutableCopy]];
+	NSLog(@"recursion depth %i", i++);
+	
+	if (node.isEndStation) {
+		path_exists = YES;
+		return NO;
 	}
 	
-	return NO;
+	for (GraphNode* currentNode in node.outputNode) {
+		if ([deletedNodes indexOfObject:currentNode] != NSNotFound)
+			continue;
+
+		NSLog(@"Looking at Node: %@", currentNode.name);
+
+		if (currentNode.isEndStation) {
+			NSLog(@"IS NOT TEH END");
+			path_exists = YES;
+			return NO;
+		}
+
+
+//		return [self checkPathForNode:currentNode deletedList:[deletedNodes mutableCopy]];
+		[self checkPathForNode:currentNode deletedList:[deletedNodes mutableCopy]];
+	}
+	
+	return YES;
 }
 
 - (void)removeDeadends:(GraphNode*)node {
 	NSMutableArray* set = [[NSMutableArray alloc] init];
 	
 	for (GraphNode* output in node.outputNode) {
-		if (![self checkPathForNode:output deletedList:[[NSMutableArray alloc] init]])
+		path_exists = NO;
+		[self checkPathForNode:output deletedList:[[NSMutableArray alloc] init]];
+		BOOL isDeadEnd = !path_exists;
+		if (isDeadEnd)
 			[set addObject:output];
+		
+		NSLog(@"IsDeadEnd: %i NodeNaem: %@", isDeadEnd, output.name);
 	}
 	
 	for (GraphNode* bla in set)
@@ -84,10 +109,12 @@
 -(void)setNodeAsCurrentNode:(GraphNode*)node {
 	if (self.currentNode && self.currentNode.type != DUMMY && [_visitedNodes indexOfObject:node] == NSNotFound) {
 		[_visitedNodes addObject:self.currentNode];
+
+		[self cleanupGraph:node oldNode:self.currentNode];
+		[self removeDeadends:node];
 	}
-		 
-	[self cleanupGraph:node oldNode:self.currentNode];
-	[self removeDeadends:node];
+	
+	NSLog(@"Current Node is %@", node.name);
 
 	self.currentNode = node;
 	[DirtyHack sharedInstance].currentStation = node;

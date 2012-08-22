@@ -432,7 +432,7 @@
 -(IBAction)showDetails:(id)sender {
 	NSLog(@"%@ %@", sender, [sender class]);
 
-	//	GraphNode* node = self.graph.graphRoot.currentNode;
+//	GraphNode* node = self.graph.graphRoot.currentNode;
 //	if (node.outputNode.count > 0) {
 //		//		if (self.playerHasArrived) {
 //		node = node.outputNode[0];
@@ -442,17 +442,28 @@
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-	
-	if ([view.annotation isKindOfClass:[Annotation class]]) {
-		Annotation* a = (Annotation*) view.annotation;
-		if (a.node.type == VISITED || a.node.type == ANNOTATION || self.graph.graphRoot.currentNode == a.node) {
-			[self showDetailsForNode: a.node];
-		} else {
-			// POPUP INS GESICHT
-			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Erst bei Erreichen der Station" message:@"Die Details zu einer Station werden erst angezeigt, wenn sie erreicht wurde und die Fragen der vorherigen Station beantwortet wurden." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-			[alert show];
-		}
+
+	// dat si teh testcoed
+	GraphNode* node = self.graph.graphRoot.currentNode;
+	if (node.outputNode.count > 0) {
+		//		if (self.playerHasArrived) {
+		node = node.outputNode[0];
+		//		}
+		[self didArriveAtLocation:node.identifier];
 	}
+	
+	// dat si teh p0rduction coed. u liek? y/n/m
+	
+//	if ([view.annotation isKindOfClass:[Annotation class]]) {
+//		Annotation* a = (Annotation*) view.annotation;
+//		if (a.node.type == VISITED || a.node.type == ANNOTATION || self.graph.graphRoot.currentNode == a.node) {
+//			[self showDetailsForNode: a.node];
+//		} else {
+//			// POPUP INS GESICHT
+//			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Erst bei Erreichen der Station" message:@"Die Details zu einer Station werden erst angezeigt, wenn sie erreicht wurde und die Fragen der vorherigen Station beantwortet wurden." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//			[alert show];
+//		}
+//	}
 }
 
 

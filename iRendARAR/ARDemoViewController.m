@@ -10,6 +10,7 @@
 #import "ImageUtils.h"
 #import "ARView.h"
 #import "Score.h"
+#import "DirtyHack.h"
 
 @interface ARDemoViewController()
 
@@ -80,6 +81,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     accelerometer.delegate = self;
+	scoreLabel.text = [NSString stringWithFormat:@"%i Punkte", [DirtyHack sharedInstance].score];
 }
 
 

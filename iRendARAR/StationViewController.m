@@ -7,6 +7,7 @@
 //
 
 #import "StationViewController.h"
+#import "DirtyHack.h"
 
 @interface StationViewController ()
 
@@ -28,6 +29,9 @@
 
 @property (readwrite) BOOL pageControlUsed;
 
+@property (weak, nonatomic) IBOutlet UIView* animatedHint;
+@property (weak, nonatomic) IBOutlet UILabel* animatedHintText;
+
 @end
 
 @implementation StationViewController
@@ -46,6 +50,43 @@
 //	[super viewDidUnload];
 //	// Release any retained subviews of the main view.
 //}
+- (void)showHint {
+	int score = [DirtyHack sharedInstance].score;
+	NSString* hintText = [NSString stringWithFormat:@"Du hast nun %i Punkte. Tippe auf \"Karte\" um fortzufahren.", score];
+	if (score > 0) {
+		hintText = [@"Herzlichen Glueckwunsch!" stringByAppendingString:hintText];
+	}
+	
+	NSLog(@"%@", hintText);
+		
+	self.animatedHintText.text = hintText;
+	self.animatedHintText.textColor = [UIColor purpleColor];
+	
+	CGRect centerFrame = self.animatedHint.frame;
+	CGRect outsideViewFrame = centerFrame;
+	
+	outsideViewFrame.origin.y = -(centerFrame.size.height);
+	self.animatedHint.frame = outsideViewFrame;
+	self.animatedHint.alpha = 0.8;
+	
+	[UIView animateWithDuration:0.75 animations:^(void) {
+		self.animatedHint.frame = centerFrame;
+	} completion:^(BOOL finished) {
+		
+		[UIView animateWithDuration:1.5 animations:^(void) {
+			self.animatedHint.alpha = 1.0;
+		} completion:^(BOOL finished) {
+			
+			[UIView animateWithDuration:0.75 animations:^(void) {
+				self.animatedHint.alpha = 0.0;
+				self.animatedHint.frame = outsideViewFrame;
+			} completion:^(BOOL finished) {
+				self.animatedHint.frame = centerFrame;
+			}];
+		}];
+	}];
+}
+
 
 
 - (void)viewDidLoad
@@ -171,6 +212,7 @@
 }
 
 - (void)answeredQuestions {
+	[self showHint];
 	[self.delegate answeredQuestions];
 }
 

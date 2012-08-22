@@ -136,9 +136,7 @@ static Score* score;
 	
 	CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
 	// Get the height of our measurement, with a minimum of 44 (standard cell size)
-	CGFloat height = MAX(size.height + 2 * CELL_CONTENT_MARGIN, 44.0f);
-	// return the height, with a bit of extra padding in
-	return height;
+	return MAX(size.height + 2 * CELL_CONTENT_MARGIN, 44.0f);
 }
 
 

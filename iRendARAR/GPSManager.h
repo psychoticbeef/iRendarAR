@@ -35,6 +35,7 @@
 - (void)stop;
 - (void)restart;
 
+- (void)pauseNotifications:(BOOL)pause;
 
 
 @end

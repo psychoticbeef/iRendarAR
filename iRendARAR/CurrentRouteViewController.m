@@ -10,6 +10,9 @@
 #import "MKPolyline+EncodedString.h"
 #import <AudioToolbox/AudioServices.h>
 
+	// dat is for while sitting in der bude, debugging
+#define TESTMODE
+
 
 @interface CurrentRouteViewController ()
 
@@ -210,12 +213,14 @@
 }
 
 - (void)setupLocationListener {
+	[[GPSManager sharedInstance] pauseNotifications:YES];
 	[[GPSManager sharedInstance] clearNotifications];
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	
 	for (GraphNode* followupNode in node.outputNode) {
 		[[GPSManager sharedInstance] notifyWhenAtLocation:followupNode.location withRadius:(int)followupNode.radius identifier:followupNode.identifier delegate:self];
 	}
+	[[GPSManager sharedInstance] pauseNotifications:NO];
 }
 
 - (void)drawAnnotationsForFollowupStation {
@@ -398,12 +403,16 @@
     
 	Annotation* cast = (Annotation*) annotation;
 	pinView.canShowCallout = YES;
-	
+
+#ifndef TESTMODE
 	if (cast.node.media.count > 0 || cast.node.questions.count > 0) {
+#endif
 		UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 		[rightButton setTitle:annotation.title forState:UIControlStateNormal];
 		pinView.rightCalloutAccessoryView = rightButton;
+#ifndef TESTMODE
 	}
+#endif
 	
 	switch (cast.type) {
 		case STATIC:
@@ -442,6 +451,8 @@
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+	
+#ifdef TESTMODE
 
 	// dat si teh testcoed
 	GraphNode* node = self.graph.graphRoot.currentNode;
@@ -452,18 +463,24 @@
 		[self didArriveAtLocation:node.identifier];
 	}
 	
+	
+#else
+	
 	// dat si teh p0rduction coed. u liek? y/n/m
 	
-//	if ([view.annotation isKindOfClass:[Annotation class]]) {
-//		Annotation* a = (Annotation*) view.annotation;
-//		if (a.node.type == VISITED || a.node.type == ANNOTATION || self.graph.graphRoot.currentNode == a.node) {
-//			[self showDetailsForNode: a.node];
-//		} else {
-//			// POPUP INS GESICHT
-//			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Erst bei Erreichen der Station" message:@"Die Details zu einer Station werden erst angezeigt, wenn sie erreicht wurde und die Fragen der vorherigen Station beantwortet wurden." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//			[alert show];
-//		}
-//	}
+	if ([view.annotation isKindOfClass:[Annotation class]]) {
+		Annotation* a = (Annotation*) view.annotation;
+		if (a.node.type == VISITED || a.node.type == ANNOTATION || self.graph.graphRoot.currentNode == a.node) {
+			[self showDetailsForNode: a.node];
+		} else {
+			// POPUP INS GESICHT
+			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Erst bei Erreichen der Station" message:@"Die Details zu einer Station werden erst angezeigt, wenn sie erreicht wurde und die Fragen der vorherigen Station beantwortet wurden." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+			[alert show];
+		}
+	}
+	
+#endif
+	
 }
 
 

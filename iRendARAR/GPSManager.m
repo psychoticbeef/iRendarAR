@@ -19,6 +19,8 @@
 @property (nonatomic, retain) NSMutableArray* notifierRadius;
 @property (nonatomic, retain) NSMutableArray* notifierIdentifier;
 
+@property (atomic) BOOL notificationsArePaused;
+
 @end
 
 
@@ -93,14 +95,25 @@
 	[self.notifierIdentifier removeAllObjects];
 }
 
+- (void)pauseNotifications:(BOOL)pause {
+	self.notificationsArePaused = pause;
+}
+
 - (void)notify:(CLLocation *) currentLocation {
+	if (self.notificationsArePaused) return;
+	
 	unsigned int i = 0;
+	bool fuck_yeah = NO;
 	for (CLLocation* location in self.notifierCoordinate) {
 		if ([currentLocation distanceFromLocation:location] < [self.notifierRadius[i] doubleValue]) {
-			[self.notifierDelegate[i] didArriveAtLocation:self.notifierIdentifier[i]];
+			fuck_yeah = YES;
+			break;
 		}
 		i++;
 	}
+	
+	if (fuck_yeah)
+		[self.notifierDelegate[i] didArriveAtLocation:self.notifierIdentifier[i]];
 }
 
 - (void)restart {

@@ -11,7 +11,7 @@
 #import <AudioToolbox/AudioServices.h>
 
 	// dat is for while sitting in der bude, debugging
-#define TESTMODE
+//#define TESTMODE
 
 
 @interface CurrentRouteViewController ()
@@ -455,14 +455,9 @@
 #ifdef TESTMODE
 
 	// dat si teh testcoed
-	GraphNode* node = self.graph.graphRoot.currentNode;
-	if (node.outputNode.count > 0) {
-		//		if (self.playerHasArrived) {
-		node = node.outputNode[0];
-		//		}
-		[self didArriveAtLocation:node.identifier];
-	}
-	
+	Annotation* a = (Annotation*) view.annotation;
+	if (a.node.type != VISITED && a.node.type != ANNOTATION)
+		[self didArriveAtLocation:a.node.identifier];
 	
 #else
 	

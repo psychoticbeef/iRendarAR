@@ -41,11 +41,11 @@
 
 // removes all occurrences of teh previous node & not taken alternatives from teh graph
 -(void)cleanupGraph:(GraphNode*)newCurrent oldNode:(GraphNode*)oldCurrent {
+	
+	NSMutableArray* nodesToDelete = [oldCurrent.outputNode mutableCopy];
+	[nodesToDelete removeObject:newCurrent];
+	for (GraphNode* outgoingNode in nodesToDelete) {
 
-	for (GraphNode* outgoingNode in oldCurrent.outputNode) {
-		if (outgoingNode == newCurrent)
-			continue;
-		
 		[self removeNodeFromGraph:outgoingNode];
 		NSLog(@"Deleting Node: %@", outgoingNode.name);
 	}
@@ -54,14 +54,14 @@
 	NSLog(@"Deleting Node: %@", oldCurrent.name);
 }
 
-static int i = 0;
+//static int i = 0;
 static bool path_exists = NO;
 
 // the recursion is buggy. nao we has a variable "path_exists" that only dingenses if a path was found. niec?
 - (BOOL)checkPathForNode:(GraphNode*)node deletedList:(NSMutableArray*)deletedNodes {
 	[deletedNodes addObject:node];
 	
-	NSLog(@"recursion depth %i", i++);
+//	NSLog(@"recursion depth %i", i++);
 	
 	if (node.isEndStation) {
 		path_exists = YES;
@@ -72,10 +72,10 @@ static bool path_exists = NO;
 		if ([deletedNodes indexOfObject:currentNode] != NSNotFound)
 			continue;
 
-		NSLog(@"Looking at Node: %@", currentNode.name);
+//		NSLog(@"Looking at Node: %@", currentNode.name);
 
 		if (currentNode.isEndStation) {
-			NSLog(@"IS NOT TEH END");
+//			NSLog(@"IS NOT TEH END");
 			path_exists = YES;
 			return NO;
 		}
@@ -93,12 +93,14 @@ static bool path_exists = NO;
 	
 	for (GraphNode* output in node.outputNode) {
 		path_exists = NO;
-		[self checkPathForNode:output deletedList:[[NSMutableArray alloc] init]];
+		NSMutableArray* deletedList = [[NSMutableArray alloc] init];
+		[deletedList addObject:node];
+		[self checkPathForNode:output deletedList:deletedList];
 		BOOL isDeadEnd = !path_exists;
 		if (isDeadEnd)
 			[set addObject:output];
 		
-		NSLog(@"IsDeadEnd: %i NodeNaem: %@", isDeadEnd, output.name);
+//		NSLog(@"IsDeadEnd: %i NodeNaem: %@", isDeadEnd, output.name);
 	}
 	
 	for (GraphNode* bla in set)
@@ -114,7 +116,7 @@ static bool path_exists = NO;
 		[self removeDeadends:node];
 	}
 	
-	NSLog(@"Current Node is %@", node.name);
+//	NSLog(@"Current Node is %@", node.name);
 
 	self.currentNode = node;
 	[DirtyHack sharedInstance].currentStation = node;

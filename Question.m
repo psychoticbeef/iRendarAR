@@ -88,8 +88,8 @@ static Score* score;
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	}
 	
-	NSLog(@"%f", cell.frame.size.height);
-	NSLog(@"%@", cell.textLabel.font);
+//	NSLog(@"%f", cell.frame.size.height);
+//	NSLog(@"%@", cell.textLabel.font);
 	
     return cell;
 }

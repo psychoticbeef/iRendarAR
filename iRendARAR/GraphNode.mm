@@ -26,6 +26,12 @@
 
 @implementation GraphNode
 
+-(NSString*)description {
+	NSString* result = [NSString stringWithFormat:@"Type: %@\nIdentifier: %@\nName: %@\nNodes %@", [GraphNode nameForType:self.type], self.identifier, self.name, self.outputNode];
+	
+	return result;
+}
+
 //std::vector<CLLocationCoordinate2D*> coordinateCollectionArray;
 //CLLocationCoordinate2D* coordinateCollection = nil;
 //
@@ -141,9 +147,9 @@
     return _names;
 }
 
-//+ (NSString *)nameForType:(StationType)type {
-//    return ([self names])[type];
-//}
++ (NSString *)nameForType:(StationType)type {
+    return ([self names])[type];
+}
 
 + (StationType)stationTypeForName:(NSString *)typeName {
     NSUInteger result = [[GraphNode names] indexOfObject:[typeName uppercaseString]];

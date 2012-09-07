@@ -10,6 +10,7 @@
 		03022FCC14D46A20006CBF8E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03022FCB14D46A20006CBF8E /* CoreLocation.framework */; };
 		031B111E15C29B8300F5BC54 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = 031B111D15C29B8200F5BC54 /* Question.m */; };
 		031B112215C2AA7E00F5BC54 /* Answer.m in Sources */ = {isa = PBXBuildFile; fileRef = 031B112115C2AA7E00F5BC54 /* Answer.m */; };
+		03381A9315FA0ACF00783C6F /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 03381A9115F9FE3400783C6F /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		033826E315D400DA005D96F2 /* DirtyHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 033826E215D400DA005D96F2 /* DirtyHack.m */; };
 		0341CE5614D4640900DD6350 /* GPSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0341CE5514D4640900DD6350 /* GPSManager.m */; };
 		035D194615C52ED9003DB030 /* Chalkboard - iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 035D194415C52ED9003DB030 /* Chalkboard - iPhone.png */; };
@@ -69,6 +70,8 @@
 		031B111D15C29B8200F5BC54 /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
 		031B112015C2AA7E00F5BC54 /* Answer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Answer.h; sourceTree = "<group>"; };
 		031B112115C2AA7E00F5BC54 /* Answer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Answer.m; sourceTree = "<group>"; };
+		03381A9015F9FE3400783C6F /* NSData+Base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		03381A9115F9FE3400783C6F /* NSData+Base64.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		033826E115D400D9005D96F2 /* DirtyHack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirtyHack.h; sourceTree = "<group>"; };
 		033826E215D400DA005D96F2 /* DirtyHack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirtyHack.m; sourceTree = "<group>"; };
 		0341CE5414D4640900DD6350 /* GPSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPSManager.h; sourceTree = "<group>"; };
@@ -263,6 +266,8 @@
 		037A58D114CFFC3B00C358BC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				03381A9015F9FE3400783C6F /* NSData+Base64.h */,
+				03381A9115F9FE3400783C6F /* NSData+Base64.m */,
 				03A3954B15CFCD9E00FE34DE /* proto */,
 				03A3954815CFCC4900FE34DE /* gpsrallye.proto */,
 				037A58D914CFFC3B00C358BC /* DDAAppDelegate.h */,
@@ -490,6 +495,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03381A9315FA0ACF00783C6F /* NSData+Base64.m in Sources */,
 				03DAE30F15D59451004774D7 /* ioapi.c in Sources */,
 				03DAE31015D59451004774D7 /* mztools.c in Sources */,
 				03DAE31115D59451004774D7 /* unzip.c in Sources */,

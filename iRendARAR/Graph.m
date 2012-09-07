@@ -13,6 +13,7 @@
 #import "Question.h"
 #import "Answer.h"
 #import "Media.h"
+#import "NSData+Base64.h"
 
 @interface Graph ()
 
@@ -61,8 +62,13 @@
 		NSLog(@"Error: StationID %@ not found.", attributeDict[@"station_end_id"]);
 	}
 	
-	[start addOutgoingNode:end withJSON:attributeDict[@"json"]];
-	[end addOutgoingNode:start withJSON:attributeDict[@"json"]];
+	NSString* json_base64 = attributeDict[@"json"];
+	NSData *plainTextData = [NSData dataFromBase64String:json_base64];
+	NSLog(@"%@", plainTextData);
+	NSString *json = [[NSString alloc] initWithData:plainTextData encoding:NSUTF8StringEncoding];
+	
+	[start addOutgoingNode:end withJSON:json];
+	[end addOutgoingNode:start withJSON:json];
 }
 			 
 			 

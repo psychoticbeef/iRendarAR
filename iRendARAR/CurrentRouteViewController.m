@@ -13,6 +13,7 @@
 	// dat is for while sitting in der bude, debugging
 //#define TESTMODE
 
+#define DRAW_ALL_ROUTES_TEST
 
 @interface CurrentRouteViewController ()
 
@@ -203,6 +204,7 @@
 }
 
 - (void)drawRoutes {
+#ifndef DRAW_ALL_ROUTES_TEST
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	
 	for (NSString* json in node.outputJSON) {
@@ -210,6 +212,16 @@
 		[self.temporaryOverlays addObject:line];
 		[self.mapView addOverlay:line];
 	}
+#else
+	NSLog(@"allonodes count %i", self.graph.graphRoot.allNodes.count);
+	for (GraphNode* node in self.graph.graphRoot.allNodes) {
+		for (NSString* json in node.outputJSON) {
+			MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
+			[self.mapView addOverlay:line];
+		}
+	}
+	
+#endif
 }
 
 - (void)setupLocationListener {

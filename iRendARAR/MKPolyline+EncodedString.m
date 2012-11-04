@@ -11,7 +11,6 @@
 @implementation MKPolyline (EncodedString)
 
 + (MKPolyline *)polylineWithEncodedString:(NSString *)encodedString {
-	NSLog(@"%@", encodedString);
 	encodedString = [encodedString stringByReplacingOccurrencesOfString:@"\\\\" withString:@"\\"];
     const char *bytes = [encodedString UTF8String];
     NSUInteger length = [encodedString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
@@ -54,7 +53,6 @@
 		
         CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(finalLat, finalLon);
 		
-		NSLog(@"%f %f", finalLat, finalLon);
         coords[coordIdx++] = coord;
 		
         if (coordIdx == count) {

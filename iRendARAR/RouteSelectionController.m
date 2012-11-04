@@ -154,7 +154,7 @@
 	Route* r = self.routeLoader.routes[(NSUInteger) indexPath.row];
 	NSString* distance;
 	if (r.distance > 1000) {
-		distance = [NSString stringWithFormat:@"%.fkm", r.distance/1000];
+		distance = [NSString stringWithFormat:@"%.fkm", r.distance/1000.0];
 	} else {
 		distance = [NSString stringWithFormat:@"%.fm", r.distance];
 	}

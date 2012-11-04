@@ -9,11 +9,12 @@
 #import "CurrentRouteViewController.h"
 #import "MKPolyline+EncodedString.h"
 #import <AudioToolbox/AudioServices.h>
+#import "BSEPolyline.h"
 
 	// dat is for while sitting in der bude, debugging
 //#define TESTMODE
 
-#define DRAW_ALL_ROUTES_TEST
+//#define DRAW_ALL_ROUTES_TEST
 
 @interface CurrentRouteViewController ()
 
@@ -108,6 +109,7 @@
 		if (index != NSNotFound) {
 			[node.outputNode removeObjectAtIndex:index];	// it BECOMES the cup. err directed.
 			[node.outputJSON removeObjectAtIndex:index];	// the app can flow. or it can crash.
+																										// be water my friend
 		}
 	}
 	[self drawRoutes];
@@ -126,6 +128,7 @@
 
 	if (self.graph.graphRoot.currentNode.isEndStation) {
 		self.gameOver = YES;
+		return;
 	}
 	
 	for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) {
@@ -158,9 +161,11 @@
 	}
 
 	if (![self showDetailsForNode:self.graph.graphRoot.currentNode]) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self progressedToNextStation];
-		});
+		if (!self.graph.graphRoot.currentNode.isEndStation) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self progressedToNextStation];
+			});
+		}
 	}
 }
 
@@ -208,7 +213,8 @@
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	
 	for (NSString* json in node.outputJSON) {
-		MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
+//		MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
+		BSEPolyline* line = [BSEPolyline polylineWithEncodedString:json];
 		[self.temporaryOverlays addObject:line];
 		[self.mapView addOverlay:line];
 	}
@@ -255,7 +261,7 @@
 	}
 	
 	// when we're done, we're done.
-	if (!self.gameOver) [self.mapView setVisibleMapRect:self.flyTo edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
+	if (!self.gameOver) [self.mapView setVisibleMapRect:self.flyTo edgePadding:UIEdgeInsetsMake(50, 100, 50, 50) animated:YES];
 }
 
 - (void)drawAnnotationStations {
@@ -417,7 +423,7 @@
 	pinView.canShowCallout = YES;
 
 #ifndef TESTMODE
-	if (cast.node.media.count > 0 || cast.node.questions.count > 0) {
+	if ((cast.node.media.count > 0 || cast.node.questions.count > 0) /* && cast.type != */  ) {
 #endif
 		UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 		[rightButton setTitle:annotation.title forState:UIControlStateNormal];
@@ -495,7 +501,10 @@
     
     MKPolylineView *polylineView = [[MKPolylineView alloc] initWithPolyline:(MKPolyline *)overlay];
     polylineView.lineWidth = 0;
+	// if visited
     polylineView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:0.7];
+	// else
+    polylineView.strokeColor = [[UIColor purpleColor] colorWithAlphaComponent:0.7];
 	
     return polylineView;
     

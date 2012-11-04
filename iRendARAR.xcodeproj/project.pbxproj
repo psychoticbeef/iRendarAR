@@ -39,6 +39,7 @@
 		03889CE614D014E8008C0343 /* SummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03889CE514D014E8008C0343 /* SummaryViewController.m */; };
 		03889CE814D0156F008C0343 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03889CE714D0156F008C0343 /* MapKit.framework */; };
 		03889CEB14D019FA008C0343 /* CurrentRouteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */; };
+		038D5E861646BE5B00BC7288 /* BSEPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 038D5E851646BE5B00BC7288 /* BSEPolyline.m */; };
 		03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */; };
 		03ABD77F15D63D73009F7EC9 /* UACellBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03ABD77E15D63D73009F7EC9 /* UACellBackgroundView.m */; };
 		03BDED2C15A2DAE80045D5B3 /* URLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -113,6 +114,8 @@
 		03889CE714D0156F008C0343 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		03889CE914D019FA008C0343 /* CurrentRouteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentRouteViewController.h; sourceTree = "<group>"; };
 		03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentRouteViewController.m; sourceTree = "<group>"; };
+		038D5E841646BE5B00BC7288 /* BSEPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSEPolyline.h; sourceTree = "<group>"; };
+		038D5E851646BE5B00BC7288 /* BSEPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSEPolyline.m; sourceTree = "<group>"; };
 		03A0C24E15CC6A0600576EB7 /* MKPolyline+EncodedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolyline+EncodedString.h"; sourceTree = "<group>"; };
 		03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+EncodedString.m"; sourceTree = "<group>"; };
 		03A3954815CFCC4900FE34DE /* gpsrallye.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gpsrallye.proto; sourceTree = "<group>"; };
@@ -350,6 +353,8 @@
 				03FD87FD15626668001DE1C6 /* Annotation.m */,
 				03889CE914D019FA008C0343 /* CurrentRouteViewController.h */,
 				03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */,
+				038D5E841646BE5B00BC7288 /* BSEPolyline.h */,
+				038D5E851646BE5B00BC7288 /* BSEPolyline.m */,
 				036522EA152DCE7300B51E8B /* StationViewController.h */,
 				036522EB152DCE7300B51E8B /* StationViewController.m */,
 			);
@@ -527,6 +532,7 @@
 				033826E315D400DA005D96F2 /* DirtyHack.m in Sources */,
 				03ABD77F15D63D73009F7EC9 /* UACellBackgroundView.m in Sources */,
 				0383157E15DA919E0064DF0E /* Media.m in Sources */,
+				038D5E861646BE5B00BC7288 /* BSEPolyline.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -107,6 +107,8 @@
 	
 	self.images = [[NSMutableArray alloc] init];
 	
+	self.scrollView.backgroundColor = [UIColor blackColor];
+	
 	NSArray* cachePathArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* cachePath = [cachePathArray lastObject];
 	NSString* path = [cachePath stringByAppendingPathComponent:@"/route"];
@@ -117,6 +119,12 @@
 		NSString* uri = [path stringByAppendingPathComponent:m.uri];
 		
 		if (m.type == IMAGE) {
+			UIImage* tmp = NULL;
+			tmp = [UIImage imageWithContentsOfFile:uri];
+			if (!tmp) {
+				NSLog(@"Error: Could not load %@", uri);
+				continue;
+			}
 			[self.images addObject:[UIImage imageWithContentsOfFile:uri]];
 		}
 		
@@ -129,26 +137,6 @@
 		}
 	}
 
-	
-	int i = 0;
-	CGRect scrollViewFrame = self.scrollView.frame;
-	CGRect imageFrame = self.scrollView.frame;
-	imageFrame.origin.y = 0;
-	
-	// no for loop over "i", because this uses fast enumeration.
-	for (UIImage* image in self.images) {
-		CGFloat xOrigin = i++ * scrollViewFrame.size.width;
-		
-		UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
-		imageView.contentMode = UIViewContentModeScaleAspectFit;
-		imageFrame.origin.x = xOrigin;
-		imageView.frame = imageFrame;
-		[self.scrollView addSubview:imageView];
-	}
-	
-	self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width *
-											 self.images.count,
-											 self.scrollView.frame.size.height);
 	
 	self.textView.text = self.text;
 	
@@ -202,6 +190,28 @@
 		UIBarButtonItem *multipleChoice = [[UIBarButtonItem alloc] initWithTitle:@"Rätseln" style:UIBarButtonItemStylePlain target:self action:@selector(multipleChoiceAction:)];
 		self.navigationItem.rightBarButtonItem = multipleChoice;
 	}
+	
+	int i = 0;
+	CGRect scrollViewFrame = self.scrollView.frame;
+	CGRect imageFrame = self.scrollView.frame;
+	imageFrame.origin.y = 0;
+	
+	// no for loop over "i", because this uses fast enumeration.
+	for (UIImage* image in self.images) {
+		CGFloat xOrigin = i++ * scrollViewFrame.size.width;
+		
+		UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
+		imageView.contentMode = UIViewContentModeScaleAspectFit;
+		imageFrame.origin.x = xOrigin;
+		imageView.frame = imageFrame;
+		[self.scrollView addSubview:imageView];
+	}
+	
+	self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width *
+											 self.images.count,
+											 self.scrollView.frame.size.height);
+	
+
 }
 
 -(IBAction)multipleChoiceAction:(id)sender {

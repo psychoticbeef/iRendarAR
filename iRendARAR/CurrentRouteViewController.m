@@ -12,7 +12,7 @@
 #import "BSEPolyline.h"
 
 	// dat is for while sitting in der bude, debugging
-//#define TESTMODE
+#define TESTMODE
 
 //#define DRAW_ALL_ROUTES_TEST
 
@@ -39,6 +39,10 @@
 @property (nonatomic) BOOL canProgress;
 
 @property (nonatomic) NSUInteger vibrationCount;
+
+@property (nonatomic) NSMutableArray* purplePolylines;
+
+@property (nonatomic) BOOL canDoAR;
 
 @end
 
@@ -99,6 +103,8 @@
 	
 	self.temporaryAnnotations = [[NSMutableArray alloc] init];
 	self.temporaryOverlays = [[NSMutableArray alloc] init];
+	
+	self.canDoAR = YES;
 }
 
 
@@ -212,9 +218,11 @@
 #ifndef DRAW_ALL_ROUTES_TEST
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	
+	self.purplePolylines = [[NSMutableArray alloc] init];
+	
 	for (NSString* json in node.outputJSON) {
-//		MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
-		BSEPolyline* line = [BSEPolyline polylineWithEncodedString:json];
+		MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
+		[self.purplePolylines addObject:line];
 		[self.temporaryOverlays addObject:line];
 		[self.mapView addOverlay:line];
 	}
@@ -374,6 +382,7 @@
 			[self progressedToNextStation];
 		});
 	}
+	self.canDoAR = YES;
 }
 
 //- (void)viewDidUnload
@@ -391,13 +400,16 @@
 
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
     
-    if ((acceleration.y < 0.2) && (acceleration.x > 0.95 || acceleration.x < -0.95)) { // why does 'z' have no influence here? oO
-        if (self.appState != CAMERA) {
-            self.appState = CAMERA;
-			
-//			[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-			[self presentViewController:self.arViewController animated:YES completion:^{
-            }];
+	if (self.canDoAR) {
+		if ((acceleration.y < 0.2) && (acceleration.x > 0.95 || acceleration.x < -0.95)) { // why does 'z' have no influence here? oO
+			if (self.appState != CAMERA) {
+				self.appState = CAMERA;
+				
+				//			[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+				self.canDoAR = NO;
+				[self presentViewController:self.arViewController animated:YES completion:^{
+				}];
+			}
         }
     }
 }
@@ -501,10 +513,13 @@
     
     MKPolylineView *polylineView = [[MKPolylineView alloc] initWithPolyline:(MKPolyline *)overlay];
     polylineView.lineWidth = 0;
-	// if visited
-    polylineView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:0.7];
-	// else
-    polylineView.strokeColor = [[UIColor purpleColor] colorWithAlphaComponent:0.7];
+	if ([self.purplePolylines containsObject:overlay]) {
+		polylineView.strokeColor = [[UIColor purpleColor] colorWithAlphaComponent:0.7];
+		DebugLog(@"purple");
+	} else {
+		polylineView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:0.7];
+		DebugLog(@"blue");
+	}
 	
     return polylineView;
     

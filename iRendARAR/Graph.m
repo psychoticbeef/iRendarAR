@@ -64,7 +64,7 @@
 	
 	NSString* json_base64 = attributeDict[@"json"];
 	NSData *plainTextData = [NSData dataFromBase64String:json_base64];
-	NSLog(@"%@", plainTextData);
+//	NSLog(@"%@", plainTextData);
 	NSString *json = [[NSString alloc] initWithData:plainTextData encoding:NSUTF8StringEncoding];
 	
 	[start addOutgoingNode:end withJSON:json];

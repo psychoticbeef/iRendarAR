@@ -8,8 +8,9 @@
 
 #import <MapKit/MapKit.h>
 
-@interface BSEPolyline : MKPolyline
+@interface BSEPolyline
 
 @property bool visited;
+@property MKPolyline* lineID;
 
 @end

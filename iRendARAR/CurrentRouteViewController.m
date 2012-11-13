@@ -12,7 +12,7 @@
 #import "BSEPolyline.h"
 
 	// dat is for while sitting in der bude, debugging
-#define TESTMODE
+//#define TESTMODE
 
 //#define DRAW_ALL_ROUTES_TEST
 
@@ -137,6 +137,9 @@
 		return;
 	}
 	
+	[self.mapView removeOverlays:self.mapView.overlays];
+
+	
 	for (GraphNode* node in self.graph.graphRoot.currentNode.outputNode) {
 		if ([node.identifier isEqualToString:identifer]) {
 			NSUInteger index = [self.graph.graphRoot.currentNode.outputNode indexOfObject:node];
@@ -160,6 +163,9 @@
 			break;
 		}
 	}
+	
+	[self.mapView setNeedsDisplay];
+
 	
 	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground || [UIApplication sharedApplication].applicationState == UIApplicationStateInactive) {
 		if (!self.audioErrorCode) AudioServicesPlaySystemSound(self.soundID);
@@ -367,6 +373,9 @@
 	
     self.navigationController.navigationBar.translucent = YES;
 	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
+	
+	UITabBarItem *tabBarItem = self.tabBarController.tabBar.items[0];
+	tabBarItem.enabled = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -382,6 +391,7 @@
 			[self progressedToNextStation];
 		});
 	}
+//	[self.mapView setNeedsDisplayInRect:MKMapRectWorld];
 	self.canDoAR = YES;
 }
 
@@ -509,12 +519,14 @@
 }
 
 
+// different coloring has been disabled. only showing pathes to the next station looks _much_ cleaner
+
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {
     
     MKPolylineView *polylineView = [[MKPolylineView alloc] initWithPolyline:(MKPolyline *)overlay];
     polylineView.lineWidth = 0;
 	if ([self.purplePolylines containsObject:overlay]) {
-		polylineView.strokeColor = [[UIColor purpleColor] colorWithAlphaComponent:0.7];
+		polylineView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:0.7];
 		DebugLog(@"purple");
 	} else {
 		polylineView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:0.7];

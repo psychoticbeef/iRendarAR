@@ -201,6 +201,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	UITabBarItem *tabBarItem = self.tabBarController.tabBar.items[0];
+	tabBarItem.enabled = YES;
 	[self.tv reloadData];
 }
 

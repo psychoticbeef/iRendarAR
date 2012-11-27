@@ -119,6 +119,16 @@
 		03A0C24E15CC6A0600576EB7 /* MKPolyline+EncodedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolyline+EncodedString.h"; sourceTree = "<group>"; };
 		03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+EncodedString.m"; sourceTree = "<group>"; };
 		03A3954815CFCC4900FE34DE /* gpsrallye.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gpsrallye.proto; sourceTree = "<group>"; };
+		03A8DEDA1664BD29007809B4 /* ARCoordinate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARCoordinate.h; sourceTree = "<group>"; };
+		03A8DEDB1664BD29007809B4 /* ARCoordinate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARCoordinate.m; sourceTree = "<group>"; };
+		03A8DEDC1664BD29007809B4 /* ARGeoCoordinate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARGeoCoordinate.h; sourceTree = "<group>"; };
+		03A8DEDD1664BD29007809B4 /* ARGeoCoordinate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARGeoCoordinate.m; sourceTree = "<group>"; };
+		03A8DEDE1664BD29007809B4 /* ARGeoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARGeoViewController.h; sourceTree = "<group>"; };
+		03A8DEDF1664BD29007809B4 /* ARGeoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARGeoViewController.m; sourceTree = "<group>"; };
+		03A8DEE01664BD29007809B4 /* ARKitDemoAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARKitDemoAppDelegate.h; sourceTree = "<group>"; };
+		03A8DEE11664BD29007809B4 /* ARKitDemoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARKitDemoAppDelegate.m; sourceTree = "<group>"; };
+		03A8DEE21664BD29007809B4 /* ARViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARViewController.h; sourceTree = "<group>"; };
+		03A8DEE31664BD29007809B4 /* ARViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARViewController.m; sourceTree = "<group>"; };
 		03ABD77D15D63D73009F7EC9 /* UACellBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UACellBackgroundView.h; sourceTree = "<group>"; };
 		03ABD77E15D63D73009F7EC9 /* UACellBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UACellBackgroundView.m; sourceTree = "<group>"; };
 		03BDED2A15A2DA8F0045D5B3 /* URLConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLConnection.h; sourceTree = "<group>"; };
@@ -382,6 +392,16 @@
 		03D0D54814D0404300D1D2F7 /* ARlol */ = {
 			isa = PBXGroup;
 			children = (
+				03A8DEDA1664BD29007809B4 /* ARCoordinate.h */,
+				03A8DEDB1664BD29007809B4 /* ARCoordinate.m */,
+				03A8DEDC1664BD29007809B4 /* ARGeoCoordinate.h */,
+				03A8DEDD1664BD29007809B4 /* ARGeoCoordinate.m */,
+				03A8DEDE1664BD29007809B4 /* ARGeoViewController.h */,
+				03A8DEDF1664BD29007809B4 /* ARGeoViewController.m */,
+				03A8DEE01664BD29007809B4 /* ARKitDemoAppDelegate.h */,
+				03A8DEE11664BD29007809B4 /* ARKitDemoAppDelegate.m */,
+				03A8DEE21664BD29007809B4 /* ARViewController.h */,
+				03A8DEE31664BD29007809B4 /* ARViewController.m */,
 				03D0D54114D0392500D1D2F7 /* ARDemoViewController.h */,
 				03D0D54214D0392500D1D2F7 /* ARDemoViewController.m */,
 				03D0D54614D0403A00D1D2F7 /* ARView.h */,

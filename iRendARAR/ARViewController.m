@@ -69,6 +69,41 @@
 	
 	return self;
 }
+- (void)lol {
+	
+	ar_debugView = nil;
+	ar_overlayView = nil;
+	
+	ar_debugMode = NO;
+	
+	ar_coordinates = [[NSMutableArray alloc] init];
+	ar_coordinateViews = [[NSMutableArray alloc] init];
+	
+	_updateTimer = nil;
+	self.updateFrequency = 1 / 20.0;
+	
+#if !TARGET_IPHONE_SIMULATOR
+	
+	self.cameraController = [[UIImagePickerController alloc] init];
+	NSLog(@"%@", self.cameraController);
+	self.cameraController.sourceType = UIImagePickerControllerSourceTypeCamera;
+	
+	self.cameraController.cameraViewTransform = CGAffineTransformScale(self.cameraController.cameraViewTransform,
+																	   1.13f,
+																	   1.13f);
+	
+	self.cameraController.showsCameraControls = NO;
+	self.cameraController.navigationBarHidden = YES;
+#endif
+	self.scaleViewsBasedOnDistance = NO;
+	self.maximumScaleDistance = 0.0;
+	self.minimumScaleFactor = 1.0;
+	
+	self.rotateViewsBasedOnPerspective = NO;
+	self.maximumRotationAngle = M_PI / 6.0;
+	
+	self.wantsFullScreenLayout = YES;
+}
 
 - (id)initWithLocationManager:(CLLocationManager *)manager {
 	

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2829" systemVersion="12A269" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DwL-Qb-O5r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DwL-Qb-O5r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1914"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
     <scenes>
         <!--Summary View Controller - Übersicht-->
@@ -47,10 +47,10 @@
             </objects>
             <point key="canvasLocation" x="2557" y="-394"/>
         </scene>
-        <!--View Controller-->
+        <!--Summary View Map Controller-->
         <scene sceneID="hTK-qh-hta">
             <objects>
-                <viewController id="dmm-nD-Eqo" sceneMemberID="viewController">
+                <viewController id="dmm-nD-Eqo" customClass="SummaryViewMapController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Nlv-Y6-5L4">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -63,6 +63,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="slr-yo-vnK"/>
+                    <connections>
+                        <outlet property="mapView" destination="Rgy-E6-IKH" id="9it-Pg-cCc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bcj-gQ-RPc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -108,12 +111,12 @@
                                         <rect key="frame" x="105" y="49" width="37" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </activityIndicatorView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" text="Lade die Route herunter..." textAlignment="center" autoshrinkMode="minimumScaleFactor" id="ZIx-H6-2rw">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Lade die Route herunter..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="ZIx-H6-2rw">
                                         <rect key="frame" x="20" y="20" width="207" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GBY-Po-MML">
                                         <rect key="frame" x="0.0" y="111" width="247" height="37"/>
@@ -177,30 +180,25 @@
             </objects>
             <point key="canvasLocation" x="2947" y="-959"/>
         </scene>
-        <!--Demo View Controller-->
+        <!--Geo View Controller-->
         <scene sceneID="HXP-9w-4M3">
             <objects>
-                <viewController storyboardIdentifier="arview" id="7aO-Js-ezi" customClass="ARDemoViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="arview" id="7aO-Js-ezi" customClass="ARGeoViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tCS-3W-XAk">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="zVw-iv-3G1">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <view opaque="NO" contentMode="scaleToFill" id="XVu-7v-SVZ" customClass="ARView">
+                            <view opaque="NO" contentMode="scaleToFill" id="XVu-7v-SVZ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" text="0 Punkte" textAlignment="center" autoshrinkMode="minimumScaleFactor" id="7Af-lD-MbO">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0 Punkte" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="7Af-lD-MbO">
                                 <rect key="frame" x="20" y="173" width="101" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="highlightedColor"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -209,7 +207,6 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="arView" destination="XVu-7v-SVZ" id="bm7-9V-EqQ"/>
-                        <outlet property="previewView" destination="zVw-iv-3G1" id="Z5W-pI-xNY"/>
                         <outlet property="scoreLabel" destination="7Af-lD-MbO" id="s1b-G6-GTX"/>
                     </connections>
                 </viewController>
@@ -237,19 +234,19 @@
                                 <rect key="frame" x="36" y="108" width="247" height="152"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" text="✓" textAlignment="center" autoshrinkMode="minimumScaleFactor" id="tjz-H7-mk2">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="✓" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tjz-H7-mk2">
                                         <rect key="frame" x="20" y="20" width="207" height="87"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="90"/>
+                                        <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="+100 Punkte" textAlignment="center" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="CVc-aa-lH6">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="+100 Punkte" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CVc-aa-lH6">
                                         <rect key="frame" x="20" y="89" width="207" height="63"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                        <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -291,10 +288,10 @@
                                 <rect key="frame" x="20" y="20" width="280" height="154"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="NLK-Vm-ksy">
                                 <rect key="frame" x="20" y="182" width="280" height="141"/>
@@ -316,12 +313,12 @@
                                 <rect key="frame" x="36" y="108" width="247" height="152"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="17" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" text="Alle Fragen wurden beantwortet. Du hast nun %i Punkte. Drücke auf &quot;Karte&quot; um fortzufahren." textAlignment="center" autoshrinkMode="minimumScaleFactor" preferredMaxLayoutWidth="247" id="nUE-8t-8QR">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Alle Fragen wurden beantwortet. Du hast nun %i Punkte. Drücke auf &quot;Karte&quot; um fortzufahren." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="17" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="nUE-8t-8QR">
                                         <rect key="frame" x="0.0" y="0.0" width="247" height="152"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="highlightedColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="highlightedColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -410,16 +407,11 @@
         <image name="73-radar.png" width="27" height="27"/>
     </resources>
     <classes>
-        <class className="ARDemoViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ARDemoViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="arView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="previewView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="scoreLabel" candidateClass="UILabel"/>
-            </relationships>
+        <class className="ARGeoViewController" superclassName="ARViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ARGeoViewController.h"/>
         </class>
-        <class className="ARView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ARView.h"/>
+        <class className="ARViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ARViewController.h"/>
         </class>
         <class className="CurrentRouteViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CurrentRouteViewController.h"/>
@@ -449,8 +441,6 @@
         <class className="StationViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StationViewController.h"/>
             <relationships>
-                <relationship kind="action" name="changePage:"/>
-                <relationship kind="action" name="multipleChoiceAction:"/>
                 <relationship kind="outlet" name="animatedHint" candidateClass="UIView"/>
                 <relationship kind="outlet" name="animatedHintText" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="pageControl" candidateClass="UIPageControl"/>
@@ -463,6 +453,12 @@
             <relationships>
                 <relationship kind="outlet" name="scoreLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SummaryViewMapController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SummaryViewMapController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
             </relationships>
         </class>
     </classes>

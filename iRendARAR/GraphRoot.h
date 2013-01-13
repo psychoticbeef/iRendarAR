@@ -15,9 +15,11 @@
 @property (readonly, retain) NSString *name;
 @property (readonly, retain) GraphNode* currentNode;
 @property (readonly, copy) NSMutableArray* visitedNodes;
+@property (readonly, copy) NSMutableArray* visitedNodesWithoutTriggers;
 @property (readwrite, retain) NSMutableArray* allNodes;
 
 -(id)initWithName:(NSString *)name version:(NSString *)schemaVersion;
 -(void)setNodeAsCurrentNode:(GraphNode*)node;
++(NSArray*)getFollowupStationsIgnoringTriggers:(GraphNode*)node;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ARDemoViewController.h"
+#import "ARViewController.h"
 #import "Graph.h"
 #import <MapKit/MapKit.h>
 #import "Annotation.h"
@@ -17,7 +17,7 @@
 
 
 
-@interface CurrentRouteViewController : UIViewController <UIAccelerometerDelegate, MKMapViewDelegate, GPSManagerNotificationDelegate, UIAlertViewDelegate, MultipleChoiceDelegate>
+@interface CurrentRouteViewController : UIViewController <UIAccelerometerDelegate, MKMapViewDelegate, GPSManagerNotificationDelegate, UIAlertViewDelegate, MultipleChoiceDelegate, ARViewDelegate>
 
 typedef NS_ENUM (NSUInteger, AppState) { NONE, CAMERA, MAP };
 

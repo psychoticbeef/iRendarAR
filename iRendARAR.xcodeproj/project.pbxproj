@@ -10,6 +10,7 @@
 		03022FCC14D46A20006CBF8E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03022FCB14D46A20006CBF8E /* CoreLocation.framework */; };
 		031B111E15C29B8300F5BC54 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = 031B111D15C29B8200F5BC54 /* Question.m */; };
 		031B112215C2AA7E00F5BC54 /* Answer.m in Sources */ = {isa = PBXBuildFile; fileRef = 031B112115C2AA7E00F5BC54 /* Answer.m */; };
+		032EE31E1680623700D7F7D3 /* SummaryViewMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 032EE31D1680623700D7F7D3 /* SummaryViewMapController.m */; };
 		03381A9315FA0ACF00783C6F /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 03381A9115F9FE3400783C6F /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		033826E315D400DA005D96F2 /* DirtyHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 033826E215D400DA005D96F2 /* DirtyHack.m */; };
 		0341CE5614D4640900DD6350 /* GPSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0341CE5514D4640900DD6350 /* GPSManager.m */; };
@@ -41,6 +42,11 @@
 		03889CEB14D019FA008C0343 /* CurrentRouteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03889CEA14D019FA008C0343 /* CurrentRouteViewController.m */; };
 		038D5E861646BE5B00BC7288 /* BSEPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 038D5E851646BE5B00BC7288 /* BSEPolyline.m */; };
 		03A0C25015CC6A0600576EB7 /* MKPolyline+EncodedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C24F15CC6A0600576EB7 /* MKPolyline+EncodedString.m */; };
+		03A8DEE51664BFB6007809B4 /* ARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A8DEDB1664BD29007809B4 /* ARCoordinate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		03A8DEE61664BFB6007809B4 /* ARGeoCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A8DEDD1664BD29007809B4 /* ARGeoCoordinate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		03A8DEE71664BFB6007809B4 /* ARGeoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A8DEDF1664BD29007809B4 /* ARGeoViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		03A8DEE81664BFB6007809B4 /* ARViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A8DEE31664BD29007809B4 /* ARViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		03A8DEEA1664BFE8007809B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03A8DEE91664BFE8007809B4 /* QuartzCore.framework */; };
 		03ABD77F15D63D73009F7EC9 /* UACellBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03ABD77E15D63D73009F7EC9 /* UACellBackgroundView.m */; };
 		03BDED2C15A2DAE80045D5B3 /* URLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED2B15A2DA8F0045D5B3 /* URLConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		03BDED3115A2FCBE0045D5B3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BDED3015A2F6510045D5B3 /* Reachability.m */; };
@@ -49,9 +55,6 @@
 		03D072F8159B008A0028701F /* GraphRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D072F7159B008A0028701F /* GraphRoot.m */; };
 		03D0D54C14D0420C00D1D2F7 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D0D54B14D0420C00D1D2F7 /* CoreVideo.framework */; };
 		03D0D54E14D0421100D1D2F7 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D0D54D14D0421000D1D2F7 /* CoreMedia.framework */; };
-		03D0D54F14D0435600D1D2F7 /* ARDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D0D54214D0392500D1D2F7 /* ARDemoViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		03D0D55014D0435600D1D2F7 /* ARView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D0D54714D0403A00D1D2F7 /* ARView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		03D0D55114D0435600D1D2F7 /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D0D54514D03C6800D1D2F7 /* ImageUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		03DAE30E15D5942B004774D7 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DAE30D15D5935B004774D7 /* SSZipArchive.m */; };
 		03DAE30F15D59451004774D7 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 03DAE30415D5935B004774D7 /* ioapi.c */; };
 		03DAE31015D59451004774D7 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 03DAE30615D5935B004774D7 /* mztools.c */; };
@@ -71,6 +74,8 @@
 		031B111D15C29B8200F5BC54 /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
 		031B112015C2AA7E00F5BC54 /* Answer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Answer.h; sourceTree = "<group>"; };
 		031B112115C2AA7E00F5BC54 /* Answer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Answer.m; sourceTree = "<group>"; };
+		032EE31C1680623700D7F7D3 /* SummaryViewMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryViewMapController.h; sourceTree = "<group>"; };
+		032EE31D1680623700D7F7D3 /* SummaryViewMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SummaryViewMapController.m; sourceTree = "<group>"; };
 		03381A9015F9FE3400783C6F /* NSData+Base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		03381A9115F9FE3400783C6F /* NSData+Base64.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		033826E115D400D9005D96F2 /* DirtyHack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirtyHack.h; sourceTree = "<group>"; };
@@ -125,10 +130,9 @@
 		03A8DEDD1664BD29007809B4 /* ARGeoCoordinate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARGeoCoordinate.m; sourceTree = "<group>"; };
 		03A8DEDE1664BD29007809B4 /* ARGeoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARGeoViewController.h; sourceTree = "<group>"; };
 		03A8DEDF1664BD29007809B4 /* ARGeoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARGeoViewController.m; sourceTree = "<group>"; };
-		03A8DEE01664BD29007809B4 /* ARKitDemoAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARKitDemoAppDelegate.h; sourceTree = "<group>"; };
-		03A8DEE11664BD29007809B4 /* ARKitDemoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARKitDemoAppDelegate.m; sourceTree = "<group>"; };
 		03A8DEE21664BD29007809B4 /* ARViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARViewController.h; sourceTree = "<group>"; };
 		03A8DEE31664BD29007809B4 /* ARViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARViewController.m; sourceTree = "<group>"; };
+		03A8DEE91664BFE8007809B4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		03ABD77D15D63D73009F7EC9 /* UACellBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UACellBackgroundView.h; sourceTree = "<group>"; };
 		03ABD77E15D63D73009F7EC9 /* UACellBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UACellBackgroundView.m; sourceTree = "<group>"; };
 		03BDED2A15A2DA8F0045D5B3 /* URLConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLConnection.h; sourceTree = "<group>"; };
@@ -141,12 +145,6 @@
 		03C4157715177319004B2AE7 /* GraphNode.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GraphNode.mm; sourceTree = "<group>"; };
 		03D072F6159B008A0028701F /* GraphRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphRoot.h; sourceTree = "<group>"; };
 		03D072F7159B008A0028701F /* GraphRoot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphRoot.m; sourceTree = "<group>"; };
-		03D0D54114D0392500D1D2F7 /* ARDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARDemoViewController.h; sourceTree = "<group>"; };
-		03D0D54214D0392500D1D2F7 /* ARDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARDemoViewController.m; sourceTree = "<group>"; };
-		03D0D54414D03C6800D1D2F7 /* ImageUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
-		03D0D54514D03C6800D1D2F7 /* ImageUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageUtils.m; sourceTree = "<group>"; };
-		03D0D54614D0403A00D1D2F7 /* ARView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARView.h; sourceTree = "<group>"; };
-		03D0D54714D0403A00D1D2F7 /* ARView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARView.m; sourceTree = "<group>"; };
 		03D0D54914D0420400D1D2F7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		03D0D54B14D0420C00D1D2F7 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		03D0D54D14D0421000D1D2F7 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -176,10 +174,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				037A58CF14CFFC3B00C358BC /* CoreGraphics.framework in Frameworks */,
+				03A8DEEA1664BFE8007809B4 /* QuartzCore.framework in Frameworks */,
 				03F0627C15DE3ACB004E0C9A /* AVFoundation.framework in Frameworks */,
 				03F0627B15DE3ABA004E0C9A /* AudioToolbox.framework in Frameworks */,
 				0374415F150DFECD00189C4C /* libz.dylib in Frameworks */,
-				037A58CF14CFFC3B00C358BC /* CoreGraphics.framework in Frameworks */,
 				0374415D150DFEC300189C4C /* MobileCoreServices.framework in Frameworks */,
 				0374415B150DFEBD00189C4C /* SystemConfiguration.framework in Frameworks */,
 				03744159150DFEB600189C4C /* CFNetwork.framework in Frameworks */,
@@ -214,6 +213,8 @@
 			children = (
 				0341CE5414D4640900DD6350 /* GPSManager.h */,
 				0341CE5514D4640900DD6350 /* GPSManager.m */,
+				032EE31C1680623700D7F7D3 /* SummaryViewMapController.h */,
+				032EE31D1680623700D7F7D3 /* SummaryViewMapController.m */,
 			);
 			name = GPS;
 			sourceTree = "<group>";
@@ -221,6 +222,7 @@
 		037A58BB14CFFC3A00C358BC = {
 			isa = PBXGroup;
 			children = (
+				03A8DEE91664BFE8007809B4 /* QuartzCore.framework */,
 				03F0627A15DE3ABA004E0C9A /* AudioToolbox.framework */,
 				037A58D014CFFC3B00C358BC /* iRendARAR */,
 				037A58C914CFFC3B00C358BC /* Frameworks */,
@@ -398,16 +400,8 @@
 				03A8DEDD1664BD29007809B4 /* ARGeoCoordinate.m */,
 				03A8DEDE1664BD29007809B4 /* ARGeoViewController.h */,
 				03A8DEDF1664BD29007809B4 /* ARGeoViewController.m */,
-				03A8DEE01664BD29007809B4 /* ARKitDemoAppDelegate.h */,
-				03A8DEE11664BD29007809B4 /* ARKitDemoAppDelegate.m */,
 				03A8DEE21664BD29007809B4 /* ARViewController.h */,
 				03A8DEE31664BD29007809B4 /* ARViewController.m */,
-				03D0D54114D0392500D1D2F7 /* ARDemoViewController.h */,
-				03D0D54214D0392500D1D2F7 /* ARDemoViewController.m */,
-				03D0D54614D0403A00D1D2F7 /* ARView.h */,
-				03D0D54714D0403A00D1D2F7 /* ARView.m */,
-				03D0D54414D03C6800D1D2F7 /* ImageUtils.h */,
-				03D0D54514D03C6800D1D2F7 /* ImageUtils.m */,
 			);
 			name = ARlol;
 			sourceTree = "<group>";
@@ -520,6 +514,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03A8DEE51664BFB6007809B4 /* ARCoordinate.m in Sources */,
+				03A8DEE61664BFB6007809B4 /* ARGeoCoordinate.m in Sources */,
+				03A8DEE71664BFB6007809B4 /* ARGeoViewController.m in Sources */,
+				03A8DEE81664BFB6007809B4 /* ARViewController.m in Sources */,
 				03381A9315FA0ACF00783C6F /* NSData+Base64.m in Sources */,
 				03DAE30F15D59451004774D7 /* ioapi.c in Sources */,
 				03DAE31015D59451004774D7 /* mztools.c in Sources */,
@@ -533,9 +531,6 @@
 				03889CE314D00FB6008C0343 /* RouteSelectionController.m in Sources */,
 				03889CE614D014E8008C0343 /* SummaryViewController.m in Sources */,
 				03889CEB14D019FA008C0343 /* CurrentRouteViewController.m in Sources */,
-				03D0D54F14D0435600D1D2F7 /* ARDemoViewController.m in Sources */,
-				03D0D55014D0435600D1D2F7 /* ARView.m in Sources */,
-				03D0D55114D0435600D1D2F7 /* ImageUtils.m in Sources */,
 				037EEC6414D2BEF400CC2BDF /* RouteLoader.m in Sources */,
 				037EEC6814D2D0E700CC2BDF /* Route.m in Sources */,
 				0341CE5614D4640900DD6350 /* GPSManager.m in Sources */,
@@ -553,6 +548,7 @@
 				03ABD77F15D63D73009F7EC9 /* UACellBackgroundView.m in Sources */,
 				0383157E15DA919E0064DF0E /* Media.m in Sources */,
 				038D5E861646BE5B00BC7288 /* BSEPolyline.m in Sources */,
+				032EE31E1680623700D7F7D3 /* SummaryViewMapController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

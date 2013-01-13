@@ -113,10 +113,11 @@
 
 	switch (section) {
 		case 0:
-			return [DirtyHack sharedInstance].visitedStations.count + modifier;
+			return [DirtyHack sharedInstance].visitedStationsWithoutTriggers.count + modifier;
 
 		case 1:
-			return [DirtyHack sharedInstance].currentStation.outputNode.count;
+			return [GraphRoot getFollowupStationsIgnoringTriggers:[DirtyHack sharedInstance].currentStation].count;
+//			return [DirtyHack sharedInstance].currentStation.outputNode.count;
 
 		default:
 			return 0;
@@ -139,19 +140,23 @@
 	int indexPathSection = indexPath.section;
 	if ([DirtyHack sharedInstance].currentStation.type == DUMMY) indexPathSection++;
 	
+	NSArray* followups = [GraphRoot getFollowupStationsIgnoringTriggers:[DirtyHack sharedInstance].currentStation];
+
+	
 	switch (indexPathSection) {
 		case 0:
-			if (indexPath.row < [DirtyHack sharedInstance].visitedStations.count) {
-				node = [DirtyHack sharedInstance].visitedStations[(NSUInteger) indexPath.row];
+			if (indexPath.row < [DirtyHack sharedInstance].visitedStationsWithoutTriggers.count) {
+				node = [DirtyHack sharedInstance].visitedStationsWithoutTriggers[(NSUInteger) indexPath.row];
 				cell.accessoryType = UITableViewCellAccessoryCheckmark;
-			} else if (indexPath.row == [DirtyHack sharedInstance].visitedStations.count) {
+			} else if (indexPath.row == [DirtyHack sharedInstance].visitedStationsWithoutTriggers.count) {
 				node = [DirtyHack sharedInstance].currentStation;
 				cell.accessoryType = UITableViewCellAccessoryCheckmark;
 			}
 			break;
 			
 		case 1:
-			node = [DirtyHack sharedInstance].currentStation.outputNode[(NSUInteger) indexPath.row];
+			node = followups[(NSUInteger) indexPath.row];
+//			node = [DirtyHack sharedInstance].currentStation.outputNode[(NSUInteger) indexPath.row];
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			break;
 			
@@ -166,6 +171,33 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+	GraphNode* node;
+	
+	int indexPathSection = indexPath.section;
+	if ([DirtyHack sharedInstance].currentStation.type == DUMMY) indexPathSection++;
+	
+	NSArray* followups = [GraphRoot getFollowupStationsIgnoringTriggers:[DirtyHack sharedInstance].currentStation];
+	
+	switch (indexPathSection) {
+		case 0:
+			if (indexPath.row < [DirtyHack sharedInstance].visitedStationsWithoutTriggers.count) {
+				node = [DirtyHack sharedInstance].visitedStationsWithoutTriggers[(NSUInteger) indexPath.row];
+			} else if (indexPath.row == [DirtyHack sharedInstance].visitedStationsWithoutTriggers.count) {
+				node = [DirtyHack sharedInstance].currentStation;
+			}
+			break;
+			
+		case 1:
+			node = followups[(NSUInteger) indexPath.row];
+//			node = [DirtyHack sharedInstance].currentStation.outputNode[(NSUInteger) indexPath.row];
+			break;
+			
+		default:
+			break;
+	}
+	
+	[DirtyHack sharedInstance].location = node.location;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

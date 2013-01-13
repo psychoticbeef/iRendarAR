@@ -81,6 +81,7 @@
 - (void)removeCoordinates:(NSArray *)coordinates;
 
 - (id)initWithLocationManager:(CLLocationManager *)manager;
+- (void)lol;
 
 - (void)startListening;
 - (void)updateLocations:(NSTimer *)timer;

@@ -10,11 +10,18 @@
 #import "MKPolyline+EncodedString.h"
 #import <AudioToolbox/AudioServices.h>
 #import "BSEPolyline.h"
+#import "ARGeoCoordinate.h"
+#import "ARViewController.h"
+#import "ARCoordinate.h"
+#import "ARGeoViewController.h"
+#import "DirtyHack.h"
 
 	// dat is for while sitting in der bude, debugging
 //#define TESTMODE
 
 //#define DRAW_ALL_ROUTES_TEST
+
+//#define AR_ENABLED
 
 @interface CurrentRouteViewController ()
 
@@ -22,7 +29,7 @@
 
 @property (strong, nonatomic) UIAccelerometer* accelerometer;
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
-@property (strong, nonatomic) ARDemoViewController* arViewController;
+@property (strong, nonatomic) ARGeoViewController* arViewController;
 @property (strong, nonatomic) Graph* graph;
 @property (strong, nonatomic) StationViewController* stationDetailViewController;
 @property (nonatomic) MKMapRect flyTo;
@@ -96,6 +103,37 @@
     self.appState = NONE;
     
     self.arViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"arview"];
+	[self.arViewController lol];
+	self.arViewController.debugMode = NO;
+	self.arViewController.delegate = self;
+	self.arViewController.scaleViewsBasedOnDistance = YES;
+	self.arViewController.minimumScaleFactor = .5;
+	self.arViewController.rotateViewsBasedOnPerspective = NO;
+	
+	NSMutableArray *tempLocationArray = [[NSMutableArray alloc] init];
+	
+	for (GraphNode* node in self.graph.annotationStations) {
+		CLLocation *tempLocation;
+		ARGeoCoordinate *tempCoordinate;
+		
+		tempLocation = [[CLLocation alloc] initWithCoordinate:node.location altitude:1609.0 horizontalAccuracy:1.0 verticalAccuracy:1.0 timestamp:[NSDate date]];
+		
+		tempCoordinate = [ARGeoCoordinate coordinateWithLocation:tempLocation];
+		tempCoordinate.title = node.name;
+		
+		NSLog(@"%@", node.name);
+		
+		[tempLocationArray addObject:tempCoordinate];
+	}
+
+	[self.arViewController addCoordinates:tempLocationArray];
+//50.446137,7.461777
+	CLLocation *newCenter = [[CLLocation alloc] initWithLatitude:50.446137 longitude:7.461777];
+//	self.arViewController.centerCoordinate = newCenter;
+	self.arViewController.centerLocation = newCenter;
+	[self.arViewController startListening];
+
+
 	
     self.mapView.delegate = self;
 	
@@ -103,8 +141,13 @@
 	
 	self.temporaryAnnotations = [[NSMutableArray alloc] init];
 	self.temporaryOverlays = [[NSMutableArray alloc] init];
-	
+
 	self.canDoAR = YES;
+#ifndef AR_ENABLED
+	self.canDoAR = NO;
+#endif
+	
+	[DirtyHack sharedInstance].mapView = self.mapView;
 }
 
 
@@ -128,12 +171,14 @@
 }
 
 - (void)didArriveAtLocation:(NSString*)identifer {
-	NSLog(@"did arrive! %@", identifer);
+	DebugLog(@"did arrive! %@", identifer);
 	
 	[[GPSManager sharedInstance] clearNotifications];
 
-	if (self.graph.graphRoot.currentNode.isEndStation) {
+	if (self.graph.graphRoot.currentNode.isEndStation || self.graph.graphRoot.currentNode.outputNode.count == 0) {
 		self.gameOver = YES;
+		UIAlertView* lel = [[UIAlertView alloc] initWithTitle:@"Fertig" message:@"Herzlichen Glückwunsch! Du hast das Ziel erreicht!" delegate:self cancelButtonTitle:@"Nein" otherButtonTitles:nil, nil];
+		[lel show];
 		return;
 	}
 	
@@ -226,14 +271,32 @@
 	
 	self.purplePolylines = [[NSMutableArray alloc] init];
 	
-	for (NSString* json in node.outputJSON) {
-		MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
+	for (int i = 0; i < node.outputNode.count; i++) {
+		GraphNode* tmpNode = node.outputNode[i];
+		if (tmpNode.type == TRIGGER) {
+			for (NSString* json in tmpNode.outputJSON) {
+				MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
+				[self.purplePolylines addObject:line];
+				[self.temporaryOverlays addObject:line];
+				[self.mapView addOverlay:line];
+			}
+			
+			NSLog(@"%f %f %f", tmpNode.location.latitude, tmpNode.location.longitude, tmpNode.radius);
+			MKCircle* circle = [MKCircle circleWithCenterCoordinate:tmpNode.location radius:tmpNode.radius];
+			NSLog(@"lel");
+			[self.mapView addOverlay:circle];
+			NSLog(@"lel");
+		}
+		
+		MKPolyline* line = [MKPolyline polylineWithEncodedString:node.outputJSON[i]];
 		[self.purplePolylines addObject:line];
 		[self.temporaryOverlays addObject:line];
 		[self.mapView addOverlay:line];
+		
+		[self.mapView removeAnnotations:self.mapView.annotations];
 	}
 #else
-	NSLog(@"allonodes count %i", self.graph.graphRoot.allNodes.count);
+	NSLog(@"allnodes count %i", self.graph.graphRoot.allNodes.count);
 	for (GraphNode* node in self.graph.graphRoot.allNodes) {
 		for (NSString* json in node.outputJSON) {
 			MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
@@ -266,13 +329,30 @@
 	// add all possible follow-up nodes as box
 	AnnotationType type = self.isRestoringSavedState ? VISITED : CURRENT;
 	
-	for (unsigned int i = 0; i < node.outputNode.count; i++) {
-		GraphNode* successorNode = node.outputNode[i];
-		
-		Annotation* annotation = [self addAnnotation:successorNode addToRect:YES annotationType:type];
+	NSArray* outputNodes = [GraphRoot getFollowupStationsIgnoringTriggers:node];
+	for (GraphNode* node in outputNodes) {
+		assert(node.type != TRIGGER);
+		Annotation* annotation = [self addAnnotation:node addToRect:YES annotationType:type];
 		[self.temporaryAnnotations addObject:annotation];
 		[self.mapView addAnnotation:annotation];
 	}
+
+	// @todo: check if this is OK. went from "what if the next station is a trigger?" to "omg check all sub stations captain"
+//	for (unsigned int i = 0; i < node.outputNode.count; i++) {
+//		GraphNode* successorNode = node.outputNode[i];
+//		
+//		if (successorNode.type == TRIGGER) {
+//			for (GraphNode* node in successorNode.outputNode) {
+//				Annotation* annotation = [self addAnnotation:node addToRect:YES annotationType:type];
+//				[self.temporaryAnnotations addObject:annotation];
+//				[self.mapView addAnnotation:annotation];
+//			}
+//		} else {
+//			Annotation* annotation = [self addAnnotation:successorNode addToRect:YES annotationType:type];
+//			[self.temporaryAnnotations addObject:annotation];
+//			[self.mapView addAnnotation:annotation];
+//		}
+//	}
 	
 	// when we're done, we're done.
 	if (!self.gameOver) [self.mapView setVisibleMapRect:self.flyTo edgePadding:UIEdgeInsetsMake(50, 100, 50, 50) animated:YES];
@@ -393,6 +473,9 @@
 	}
 //	[self.mapView setNeedsDisplayInRect:MKMapRectWorld];
 	self.canDoAR = YES;
+#ifndef AR_ENABLED
+	self.canDoAR = NO;
+#endif
 }
 
 //- (void)viewDidUnload
@@ -522,6 +605,14 @@
 // different coloring has been disabled. only showing pathes to the next station looks _much_ cleaner
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {
+	
+	if ([overlay isKindOfClass:[MKCircle class]]) {
+	
+		MKCircleView *circleView = [[MKCircleView alloc] initWithCircle:(MKCircle *)overlay];
+		circleView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:1.0];
+		
+		return circleView;
+	}
     
     MKPolylineView *polylineView = [[MKPolylineView alloc] initWithPolyline:(MKPolyline *)overlay];
     polylineView.lineWidth = 0;
@@ -536,5 +627,37 @@
     return polylineView;
     
 }
+
+
+
+#define BOX_WIDTH 150
+#define BOX_HEIGHT 100
+
+- (UIView *)viewForCoordinate:(ARCoordinate *)coordinate {
+	
+	CGRect theFrame = CGRectMake(0, 0, BOX_WIDTH, BOX_HEIGHT);
+	UIView *tempView = [[UIView alloc] initWithFrame:theFrame];
+	
+	//tempView.backgroundColor = [UIColor colorWithWhite:.5 alpha:.3];
+	
+	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, BOX_WIDTH, 20.0)];
+	titleLabel.backgroundColor = [UIColor colorWithWhite:.3 alpha:.8];
+	titleLabel.textColor = [UIColor whiteColor];
+	titleLabel.textAlignment = UITextAlignmentCenter;
+	titleLabel.text = coordinate.title;
+	[titleLabel sizeToFit];
+	
+	titleLabel.frame = CGRectMake(BOX_WIDTH / 2.0 - titleLabel.frame.size.width / 2.0 - 4.0, 0, titleLabel.frame.size.width + 8.0, titleLabel.frame.size.height + 8.0);
+	
+	UIImageView *pointView = [[UIImageView alloc] initWithFrame:CGRectZero];
+	pointView.image = [UIImage imageNamed:@"location.png"];
+	pointView.frame = CGRectMake((int)(BOX_WIDTH / 2.0 - pointView.image.size.width / 2.0), (int)(BOX_HEIGHT / 2.0 - pointView.image.size.height / 2.0), pointView.image.size.width, pointView.image.size.height);
+	
+	[tempView addSubview:titleLabel];
+	[tempView addSubview:pointView];
+	
+	return tempView;
+}
+
 
 @end

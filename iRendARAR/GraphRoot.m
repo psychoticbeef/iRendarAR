@@ -14,6 +14,7 @@
 @property (readwrite, retain) NSString *name;
 @property (readwrite, retain) GraphNode* currentNode;
 @property (readwrite, copy) NSMutableArray* visitedNodes;
+@property (readwrite, copy) NSMutableArray* visitedNodesWithoutTriggers;
 @end
 
 
@@ -111,6 +112,8 @@ static bool path_exists = NO;
 -(void)setNodeAsCurrentNode:(GraphNode*)node {
 	if (self.currentNode && self.currentNode.type != DUMMY && [_visitedNodes indexOfObject:node] == NSNotFound) {
 		[_visitedNodes addObject:self.currentNode];
+		if (self.currentNode.type != TRIGGER)
+			[_visitedNodesWithoutTriggers addObject:self.currentNode];
 
 		[self cleanupGraph:node oldNode:self.currentNode];
 		[self removeDeadends:node];
@@ -127,17 +130,34 @@ static bool path_exists = NO;
     self = [super init];
 
     if (self) {
-        
 		_name = name;
 		_schemaVersion = schemaVersion;
 		_visitedNodes = [[NSMutableArray alloc] init];
+		_visitedNodesWithoutTriggers = [[NSMutableArray alloc] init];
 		
 		[DirtyHack sharedInstance].visitedStations = _visitedNodes;
+		[DirtyHack sharedInstance].visitedStationsWithoutTriggers = _visitedNodesWithoutTriggers;
 		[DirtyHack sharedInstance].routeName = name;
-
     }
     
     return self;
+}
+
+
++(void)reCurseYou:(GraphNode*)node result:(NSMutableArray*)stations {
+	for (GraphNode* successor in node.outputNode) {
+		if (successor.type != TRIGGER)
+			[stations addObject:successor];
+		else
+			[self reCurseYou:successor result:stations];
+	}
+}
+
+
++(NSArray*)getFollowupStationsIgnoringTriggers:(GraphNode*)node {
+	NSMutableArray* result = [[NSMutableArray alloc] init];
+	[self reCurseYou:node result:result];
+	return [result copy];
 }
 
 

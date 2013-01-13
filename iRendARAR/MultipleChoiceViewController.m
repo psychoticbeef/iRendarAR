@@ -17,6 +17,7 @@
 @property (weak) IBOutlet UILabel* answerViewSymbol;
 @property (weak) IBOutlet UILabel* answerViewPoints;
 @property (nonatomic) BOOL pageControlUsed;
+@property (nonatomic) BOOL answeredAllQuestions;
 
 @end
 
@@ -35,24 +36,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	self.answeredAllQuestions = FALSE;
+	
 	// shadow!!1
 	self.answerView.layer.masksToBounds = NO;
 	self.answerView.layer.cornerRadius = 8;
 	self.answerView.layer.shadowOffset = CGSizeMake(-15, 20);
 	self.answerView.layer.shadowRadius = 5;
 	self.answerView.layer.shadowOpacity = 0.5;
-
+	
 	CGRect scrollViewFrame = self.scrollView.frame;
 	CGRect tableViewFrame = self.scrollView.frame;
 	tableViewFrame.origin.y = 0;
-
+	
 	for (unsigned int i = 0; i < self.questions.count; i++) {
 		CGFloat xOrigin = i * scrollViewFrame.size.width;
 		tableViewFrame.origin.x = xOrigin;
 		UITableView* tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStyleGrouped];
-//		tableView.backgroundColor = [UIColor clearColor];
-//		tableView.opaque = NO;
-//		tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard - iPhone.png"]];
+		//		tableView.backgroundColor = [UIColor clearColor];
+		//		tableView.opaque = NO;
+		//		tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard - iPhone.png"]];
 		Question* q = self.questions[i];
 		q.number = i+1;
 		q.delegate = self;
@@ -76,7 +79,7 @@
 
 - (void)questionAnswered:(BOOL)correctly forPoints:(NSInteger)points sender:(Question*)sender {
 	self.answerViewPoints.text = [NSString stringWithFormat:@"%i Punkte", points];
-
+	
 	if (correctly) {
 		self.answerViewSymbol.text = @"✓";
 		self.answerViewSymbol.textColor = [UIColor greenColor];
@@ -89,7 +92,7 @@
 	
 	CGRect centerFrame = self.answerView.frame;
 	CGRect outsideViewFrame = centerFrame;
-
+	
 	outsideViewFrame.origin.y = -(centerFrame.size.height);
 	self.answerView.frame = outsideViewFrame;
 	self.answerView.alpha = 0.8;
@@ -134,10 +137,11 @@
 					[self changePage:nil];
 				} else {
 					[self.delegate answeredQuestions];
+					self.answeredAllQuestions = true;
 					[self.navigationController popViewControllerAnimated:YES];
 				}
 				
-
+				
 			}];
 		}];
 	}];
@@ -165,6 +169,10 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+	if (!self.answeredAllQuestions) {
+		UIAlertView* savedSession = [[UIAlertView alloc] initWithTitle:@"Achtung" message:@"Noch wurden nicht alle Fragen beantwortet. Erst dann geht es weiter..." delegate:self cancelButtonTitle:@"Ok!" otherButtonTitles:nil, nil];
+		[savedSession show];
+	}
 	[super viewWillDisappear:animated];
 }
 

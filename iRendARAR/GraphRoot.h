@@ -21,5 +21,6 @@
 -(id)initWithName:(NSString *)name version:(NSString *)schemaVersion;
 -(void)setNodeAsCurrentNode:(GraphNode*)node;
 +(NSArray*)getFollowupStationsIgnoringTriggers:(GraphNode*)node;
++(NSArray*)getFollowupStationsIncludingTriggers:(GraphNode*)node;
 
 @end

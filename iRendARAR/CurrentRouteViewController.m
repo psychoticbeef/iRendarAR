@@ -270,31 +270,29 @@
 	GraphNode* node = self.graph.graphRoot.currentNode;
 	
 	self.purplePolylines = [[NSMutableArray alloc] init];
+
+	NSArray* followupNodes = [GraphRoot getFollowupStationsIgnoringTriggers:node];
 	
-	for (int i = 0; i < node.outputNode.count; i++) {
-		GraphNode* tmpNode = node.outputNode[i];
-		if (tmpNode.type == TRIGGER) {
-			for (NSString* json in tmpNode.outputJSON) {
-				MKPolyline* line = [MKPolyline polylineWithEncodedString:json];
-				[self.purplePolylines addObject:line];
-				[self.temporaryOverlays addObject:line];
-				[self.mapView addOverlay:line];
-			}
-			
-			NSLog(@"%f %f %f", tmpNode.location.latitude, tmpNode.location.longitude, tmpNode.radius);
-			MKCircle* circle = [MKCircle circleWithCenterCoordinate:tmpNode.location radius:tmpNode.radius];
-			NSLog(@"lel");
-			[self.mapView addOverlay:circle];
-			NSLog(@"lel");
-		}
+	for (GraphNode* tmpNode in node.outputNode) {
+		MKCircle* circle = [MKCircle circleWithCenterCoordinate:tmpNode.location radius:tmpNode.radius];
+		[self.mapView addOverlay:circle];
+	}
+		// move back inside if (tmp.type == TRIGGER) to only draw circles around triggers
 		
-		MKPolyline* line = [MKPolyline polylineWithEncodedString:node.outputJSON[i]];
+	NSMutableSet* json = [[NSMutableSet alloc] init];
+	for (GraphNode* tmpNode in followupNodes) {
+		for (NSString* encString in tmpNode.outputJSON)
+			[json addObject:encString];
+	}
+	
+	for (NSString* routeline in json) {
+		MKPolyline* line = [MKPolyline polylineWithEncodedString:routeline];
 		[self.purplePolylines addObject:line];
 		[self.temporaryOverlays addObject:line];
 		[self.mapView addOverlay:line];
-		
-		[self.mapView removeAnnotations:self.mapView.annotations];
 	}
+	
+	[self.mapView removeAnnotations:self.mapView.annotations];
 #else
 	NSLog(@"allnodes count %i", self.graph.graphRoot.allNodes.count);
 	for (GraphNode* node in self.graph.graphRoot.allNodes) {

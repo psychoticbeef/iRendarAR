@@ -157,6 +157,42 @@ static bool path_exists = NO;
 +(NSArray*)getFollowupStationsIgnoringTriggers:(GraphNode*)node {
 	NSMutableArray* result = [[NSMutableArray alloc] init];
 	[self reCurseYou:node result:result];
+
+	NSArray *copy = [result copy];
+	NSInteger index = [copy count] - 1;
+	for (id object in [copy reverseObjectEnumerator]) {
+		if ([result indexOfObject:object inRange:NSMakeRange(0, index)] != NSNotFound) {
+			[result removeObjectAtIndex:index];
+		}
+		index--;
+	}
+	
+	return [result copy];
+}
+
+
++(void)reCurseYouToo:(GraphNode*)node result:(NSMutableArray*)stations {
+	for (GraphNode* successor in node.outputNode) {
+		[stations addObject:successor];
+
+		if (successor.type == TRIGGER)
+			[self reCurseYou:successor result:stations];
+	}
+}
+
++(NSArray*)getFollowupStationsIncludingTriggers:(GraphNode*)node {
+	NSMutableArray* result = [[NSMutableArray alloc] init];
+	[self reCurseYou:node result:result];
+
+	NSArray *copy = [result copy];
+	NSInteger index = [copy count] - 1;
+	for (id object in [copy reverseObjectEnumerator]) {
+		if ([result indexOfObject:object inRange:NSMakeRange(0, index)] != NSNotFound) {
+			[result removeObjectAtIndex:index];
+		}
+		index--;
+	}
+	
 	return [result copy];
 }
 

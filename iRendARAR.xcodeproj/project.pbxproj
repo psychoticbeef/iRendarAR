@@ -62,7 +62,6 @@
 		03DAE31215D59451004774D7 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 03DAE30A15D5935B004774D7 /* zip.c */; };
 		03F0627B15DE3ABA004E0C9A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03F0627A15DE3ABA004E0C9A /* AudioToolbox.framework */; };
 		03F0627C15DE3ACB004E0C9A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D0D54914D0420400D1D2F7 /* AVFoundation.framework */; };
-		03F0627D15DE3CDC004E0C9A /* out.caf in Resources */ = {isa = PBXBuildFile; fileRef = 03F0627915DE36DE004E0C9A /* out.caf */; };
 		03F7428315628DF800498962 /* MultipleChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F7428215628DF800498962 /* MultipleChoiceViewController.m */; };
 		03FD87F715625B96001DE1C6 /* Score.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FD87F615625B96001DE1C6 /* Score.m */; };
 		03FD87FE15626668001DE1C6 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FD87FD15626668001DE1C6 /* Annotation.m */; };
@@ -70,6 +69,7 @@
 
 /* Begin PBXFileReference section */
 		03022FCB14D46A20006CBF8E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		0302BEBB16A33349007A7F42 /* out.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = out.caf; sourceTree = "<group>"; };
 		031B111C15C29B8200F5BC54 /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
 		031B111D15C29B8200F5BC54 /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
 		031B112015C2AA7E00F5BC54 /* Answer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Answer.h; sourceTree = "<group>"; };
@@ -159,7 +159,6 @@
 		03DAE30B15D5935B004774D7 /* zip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		03DAE30C15D5935B004774D7 /* SSZipArchive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
 		03DAE30D15D5935B004774D7 /* SSZipArchive.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
-		03F0627915DE36DE004E0C9A /* out.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = out.caf; sourceTree = "<group>"; };
 		03F0627A15DE3ABA004E0C9A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		03F7428115628DF800498962 /* MultipleChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleChoiceViewController.h; sourceTree = "<group>"; };
 		03F7428215628DF800498962 /* MultipleChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleChoiceViewController.m; sourceTree = "<group>"; };
@@ -299,7 +298,7 @@
 		037A58FE14CFFE9D00C358BC /* ressources */ = {
 			isa = PBXGroup;
 			children = (
-				03F0627915DE36DE004E0C9A /* out.caf */,
+				0302BEBB16A33349007A7F42 /* out.caf */,
 				03C8940515AD6D31003E05A1 /* backgrounds */,
 				037A58DC14CFFC3B00C358BC /* MainStoryboard_iPhone.storyboard */,
 				037A58FF14CFFF0100C358BC /* 73-radar.png */,
@@ -494,7 +493,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03F0627D15DE3CDC004E0C9A /* out.caf in Resources */,
 				037A58D514CFFC3B00C358BC /* InfoPlist.strings in Resources */,
 				037A58DE14CFFC3B00C358BC /* MainStoryboard_iPhone.storyboard in Resources */,
 				037A58F914CFFDFD00C358BC /* url_settings.plist in Resources */,
